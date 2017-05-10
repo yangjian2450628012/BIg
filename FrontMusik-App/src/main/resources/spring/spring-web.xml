@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    
+    <!-- 简化配置：
+     1.自动注册defaultAnnotationHandlerMapping,AnnotationMenthodHandlerAdapter 
+     2.默认提供一系列功能:数据绑定，数字和日期format @numberFormat @DateTimeFormat xml和json默认读写支持-->   
+     <mvc:annotation-driven/>  
+     <!-- 加载静态配置 -->
+     <mvc:default-servlet-handler/>
+     
+     <context:component-scan base-package="tech.yobbo.*.web"/>
+    
+    <!-- 视图模式配置,velocity配置文件-->
+	<bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">  
+	    <property name="resourceLoaderPath" value="/WEB-INF/views" />  
+	    <property name="configLocation" value="classpath:conf/velocity.properties" />  
+	</bean>  
+	<!-- 配置后缀 -->
+	<bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">  
+		<property name="suffix" value=".html" />
+		<property name="contentType"><value>text/html;charset=UTF-8</value></property>
+	</bean>
+
+</beans>        
