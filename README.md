@@ -9,6 +9,8 @@
 <li>前端技术: bootstrap + html5 + css3 + Jquery + Ves.js</li>
 <li>资源获取：phpsplider爬虫技术</li>
 <li>数据库技术：mysql分表分库存储，分区表等技术</li>
+<li>前端模板技术：velocity模板引擎技术，使用动静态分离，<#parse("../comm/comm.html") =》 包含静态文件
+    #include("../comm/comm.html") => 可以包含业务逻辑代码 </li>
 </ol>
 
 </div>
