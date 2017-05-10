@@ -1,6 +1,5 @@
 package tech.yobbo.index.web;
 
-import tech.yobbo.index.dao.IndexDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import tech.yobbo.index.dao.IndexDao;
 
 import java.util.List;
 import java.util.Map;
@@ -24,9 +24,9 @@ public class IndexController {
 	 */
 	@RequestMapping
 	public ModelAndView toIndex(){
-		ModelAndView indexView = new ModelAndView("index");
+		ModelAndView indexView = new ModelAndView("home/index");
 		//查询列表数据
-		indexView.addObject("name","xiaoyang");
+//		indexView.addObject("name","xiaoyang");
 		return indexView;
 	}
 
