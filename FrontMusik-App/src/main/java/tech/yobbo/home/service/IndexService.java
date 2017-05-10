@@ -1,4 +1,4 @@
-package tech.yobbo.index.service;
+package tech.yobbo.home.service;
 
 /**
  * Created by xiaoJ on 2017/4/27.

@@ -1,4 +1,4 @@
-package tech.yobbo.index.dao;
+package tech.yobbo.home.dao;
 
 import java.util.List;
 import java.util.Map;

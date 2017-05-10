@@ -1,4 +1,4 @@
-package tech.yobbo.index.web;
+package tech.yobbo.home.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import tech.yobbo.index.dao.IndexDao;
+import tech.yobbo.home.dao.IndexDao;
 
 import java.util.List;
 import java.util.Map;
