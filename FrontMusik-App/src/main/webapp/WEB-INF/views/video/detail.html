@@ -5,17 +5,18 @@
   <title>Musik | Web Application</title>
   <meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <link rel="stylesheet" href="js/jPlayer/jplayer.flat.css" type="text/css" />
-  <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
-  <link rel="stylesheet" href="css/animate.css" type="text/css" />
-  <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
-  <link rel="stylesheet" href="css/simple-line-icons.css" type="text/css" />
-  <link rel="stylesheet" href="css/font.css" type="text/css" />
-  <link rel="stylesheet" href="css/app.css" type="text/css" />  
-    <!--[if lt IE 9]>
-    <script src="js/ie/html5shiv.js"></script>
-    <script src="js/ie/respond.min.js"></script>
-    <script src="js/ie/excanvas.js"></script>
+  <link rel="stylesheet" href="/resources/js/jPlayer/jplayer.flat.css" type="text/css" />
+  <link rel="stylesheet" href="/resources/css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="/resources/css/animate.css" type="text/css" />
+  <link rel="stylesheet" href="/resources/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="/resources/css/simple-line-icons.css" type="text/css" />
+  <link rel="stylesheet" href="/resources/css/font.css" type="text/css" />
+  <link rel="stylesheet" href="/resources/css/app.css" type="text/css" />
+  
+  <!--[if lt IE 9]>
+    <script src="/resources/js/ie/html5shiv.js"></script>
+    <script src="/resources/js/ie/respond.min.js"></script>
+    <script src="/resources/js/ie/excanvas.js"></script>
   <![endif]-->
 </head>
 <body class="">
@@ -27,7 +28,7 @@
         </a>
         <a href="index.html" class="navbar-brand text-lt">
           <i class="icon-earphones"></i>
-          <img src="images/logo.png" alt="." class="hide">
+          <img src="/resources/images/logo.png" alt="." class="hide">
           <span class="hidden-nav-xs m-l-sm">Musik</span>
         </a>
         <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".user">
@@ -66,7 +67,7 @@
                 <div class="list-group list-group-alt">
                   <a href="#" class="media list-group-item">
                     <span class="pull-left thumb-sm">
-                      <img src="images/a0.png" alt="..." class="img-circle">
+                      <img src="/resources/images/a0.png" alt="..." class="img-circle">
                     </span>
                     <span class="media-body block m-b-none">
                       Use awesome animate.css<br>
@@ -90,7 +91,7 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown">
               <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
-                <img src="images/a0.png" alt="...">
+                <img src="/resources/images/a0.png" alt="...">
               </span>
               John.Smith <b class="caret"></b>
             </a>
@@ -162,7 +163,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="video.html" data-target="#content" data-el="#bjax-el" data-replace="true">
+                      <a href="index.html" data-target="#content" data-el="#bjax-el" data-replace="true">
                         <i class="icon-social-youtube icon  text-primary"></i>
                         <span class="font-bold">Video</span>
                       </a>
@@ -447,7 +448,7 @@
                   <div class="dropdown dropup wrapper-sm clearfix">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                       <span class="thumb-sm avatar pull-left m-l-xs">                        
-                        <img src="images/a3.png" class="dker" alt="...">
+                        <img src="/resources/images/a3.png" class="dker" alt="...">
                         <i class="on b-black"></i>
                       </span>
                       <span class="hidden-nav-xs clear">
@@ -486,272 +487,213 @@
         </aside>
         <!-- /.aside -->
         <section id="content">
-          <section class="vbox" id="bjax-el">
-            <section class="scrollable padder-lg">
-              <h2 class="font-thin m-b">Video</h2>
-              <div class="row row-sm">
-                <div class="col-xs-12 col-sm-4">
-                  <div class="item">
-                    <div class="pos-rlt">
-                      <div class="item-overlay opacity r r-2x bg-black">
-                        <div class="center text-center m-t-n">
-                          <a href="video-detail.html"><i class="fa fa-play-circle i-2x"></i></a>
+          <section class="vbox">
+            <section class="scrollable wrapper-lg">
+              <div class="row">
+                <div class="col-sm-8">
+                  <div class="panel">
+                    <!-- video player -->
+                    <div id="jp_container_1">
+                      <div class="jp-type-single pos-rlt">
+                        <div id="jplayer_1" class="jp-jplayer jp-video"></div>
+                        <div class="jp-gui">
+                          <div class="jp-video-play">
+                            <a class="fa fa-5x text-white fa-play-circle"></a>
+                          </div>
+                          <div class="jp-interface bg-info padder">
+                            <div class="jp-controls">
+                              <div>
+                                <a class="jp-play"><i class="icon-control-play i-2x"></i></a>
+                                <a class="jp-pause hid"><i class="icon-control-pause i-2x"></i></a>
+                              </div>
+                              <div class="jp-progress">
+                                <div class="jp-seek-bar dker">
+                                  <div class="jp-play-bar dk">
+                                  </div>
+                                  <div class="jp-title text-lt">
+                                    <ul>
+                                      <li></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="hidden-xs hidden-sm jp-current-time text-xs text-muted"></div>
+                              <div class="hidden-xs hidden-sm jp-duration text-xs text-muted"></div>
+                              <div class="hidden-xs hidden-sm">
+                                <a class="jp-mute" title="mute"><i class="icon-volume-2"></i></a>
+                                <a class="jp-unmute hid" title="unmute"><i class="icon-volume-off"></i></a>
+                              </div>
+                              <div class="hidden-xs hidden-sm jp-volume">
+                                <div class="jp-volume-bar dk">
+                                  <div class="jp-volume-bar-value lter"></div>
+                                </div>
+                              </div>
+                              <div>
+                                <a class="jp-full-screen" title="full screen"><i class="fa fa-expand"></i></a>
+                                <a class="jp-restore-screen" title="restore screen"><i class="fa fa-compress text-lt"></i></a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="jp-no-solution hide">
+                          <span>Update Required</span>
+                          To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
                         </div>
                       </div>
-                      <div class="top">
-                        <span class="badge bg-dark m-l-sm m-t-sm">03:20</span>
-                      </div>
-                      <a href="video-detail.html"><img src="images/m40.jpg" alt="" class="r r-2x img-full"></a>
                     </div>
-                    <div class="padder-v">
-                      <a href="video-detail.html" class="text-ellipsis">Tempered Song</a>
-                      <a href="video-detail.html" class="text-ellipsis text-xs text-muted">Miaow</a>
+                    <!-- / video player -->
+                    <div class="wrapper-lg">
+                      <h2 class="m-t-none text-black">Big Buck Bunny Trailer</h2>
+                      <div class="post-sum">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Vestibulum ullamcorper sodales nisi nec condimentum. Mauris convallis mauris at pellentesque volutpat. 
+                        <br><br>
+                        Phasellus at ultricies neque, quis malesuada augue. Donec eleifend condimentum nisl eu consectetur. Integer eleifend, nisl venenatis consequat iaculis, lectus arcu malesuada sem, dapibus porta quam lacus eu neque.</p>
+                      </div>
+                      <div class="line b-b"></div>
+                      <div class="text-muted">
+                        <i class="fa fa-user icon-muted"></i> by <a href="#" class="m-r-sm">Admin</a>
+                        <i class="fa fa-clock-o icon-muted"></i> Feb 20, 2013
+                        <a href="#" class="m-l-sm"><i class="fa fa-comment-o icon-muted"></i> 3 comments</a>
+                      </div>
                     </div>
                   </div>
+                  <h4 class="m-t-lg m-b">3 Comments</h4>
+                  <section class="comment-list block">
+                    <article id="comment-id-1" class="comment-item">
+                      <a class="pull-left thumb-sm">
+                        <img src="/resources/images/a0.png" class="img-circle">
+                      </a>
+                      <section class="comment-body m-b">
+                        <header>
+                          <a href="#"><strong>John smith</strong></a>
+                          <label class="label bg-info m-l-xs">Editor</label> 
+                          <span class="text-muted text-xs block m-t-xs">
+                            24 minutes ago
+                          </span>
+                        </header>
+                        <div class="m-t-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Vestibulum.</div>
+                      </section>
+                    </article>
+                    <!-- .comment-reply -->
+                    <article id="comment-id-2" class="comment-item comment-reply">
+                      <a class="pull-left thumb-sm">
+                        <img src="/resources/images/a1.png" class="img-circle">
+                      </a>
+                      <section class="comment-body m-b">
+                        <header>
+                          <a href="#"><strong>John smith</strong></a>
+                          <label class="label bg-dark m-l-xs">Admin</label> 
+                          <span class="text-muted text-xs block m-t-xs">
+                            26 minutes ago
+                          </span>
+                        </header>
+                        <div class="m-t-sm">Lorem ipsum dolor sit amet, consecteter adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet.</div>
+                      </section>
+                    </article>
+                    <!-- / .comment-reply -->
+                    <article id="comment-id-2" class="comment-item">
+                      <a class="pull-left thumb-sm">
+                        <img src="/resources/images/a2.png" class="img-circle">
+                      </a>
+                      <section class="comment-body m-b">
+                        <header>
+                          <a href="#"><strong>John smith</strong></a>
+                          <label class="label bg-dark m-l-xs">Admin</label> 
+                          <span class="text-muted text-xs block m-t-xs">
+                            26 minutes ago
+                          </span>
+                        </header>
+                        <blockquote class="m-t">
+                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                          <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
+                        </blockquote>
+                        <div class="m-t-sm">Lorem ipsum dolor sit amet, consecteter adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet.</div>
+                      </section>
+                    </article>
+                  </section>
+                  <h4 class="m-t-lg m-b">Leave a comment</h4>
+                  <form>
+                    <div class="form-group pull-in clearfix">
+                      <div class="col-sm-6">
+                        <label>Your name</label>
+                        <input type="text" class="form-control" placeholder="Name">
+                      </div>
+                      <div class="col-sm-6">
+                        <label >Email</label>
+                        <input type="email" class="form-control" placeholder="Enter email">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Comment</label>
+                      <textarea class="form-control" rows="5" placeholder="Type your comment"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-success">Submit comment</button>
+                    </div>
+                  </form>
                 </div>
-                <div class="col-xs-12 col-sm-4">
-                  <div class="item">
-                    <div class="pos-rlt">
-                      <div class="item-overlay opacity r r-2x bg-black">
-                        <div class="center text-center m-t-n">
-                          <a href="video-detail.html"><i class="fa fa-play-circle i-2x"></i></a>
+                <div class="col-sm-4">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">Suggestions</div>
+                    <div class="panel-body">
+                      <article class="media">
+                        <a href="#" class="pull-left thumb-lg m-t-xs">
+                          <img src="/resources/images/m40.jpg">
+                        </a>
+                        <div class="media-body">                        
+                          <a href="#" class="font-semibold">Bootstrap 3: What you need to know</a>
+                          <div class="text-xs block m-t-xs"><a href="#">Travel</a> 2 minutes ago</div>
                         </div>
-                      </div>
-                      <div class="top">
-                        <span class="badge bg-dark m-l-sm m-t-sm">02:10</span>
-                      </div>
-                      <a href="video-detail.html"><img src="images/m41.jpg" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v">
-                      <a href="video-detail.html" class="text-ellipsis">Morbi id neque quam</a>
-                      <a href="video-detail.html" class="text-ellipsis text-xs text-muted">Phasellus</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-12 col-sm-4">
-                  <div class="item">
-                    <div class="pos-rlt">
-                      <div class="item-overlay opacity r r-2x bg-black">
-                        <div class="center text-center m-t-n">
-                          <a href="video-detail.html"><i class="fa fa-play-circle i-2x"></i></a>
+                      </article>
+                      <article class="media">
+                        <a href="#" class="pull-left thumb-lg m-t-xs">
+                          <img src="/resources/images/m41.jpg">
+                        </a>
+                        <div class="media-body">                        
+                          <a href="#" class="font-semibold">Lorem ipsum dolor sit amet it.</a>
+                          <div class="text-xs block m-t-xs"><a href="#">Design</a> 2 hours ago</div>
                         </div>
-                      </div>
-                      <div class="top">
-                        <span class="badge bg-dark m-l-sm m-t-sm">05:40</span>
-                      </div>
-                      <a href="video-detail.html"><img src="images/m42.jpg" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v">
-                      <a href="video-detail.html" class="text-ellipsis">Aliquam sollicitudin venenatis ipsum</a>
-                      <a href="video-detail.html" class="text-ellipsis text-xs text-muted">Malesuada</a>
+                      </article>
+                      <article class="media">
+                        <a href="#" class="pull-left thumb-lg m-t-xs">
+                          <img src="/resources/images/m42.jpg">
+                        </a>
+                        <div class="media-body">                        
+                          <a href="#" class="font-semibold">Sed diam nonummy tincidunt ut laoreet</a>
+                          <div class="text-xs block m-t-xs"><a href="#">MFC</a> 1 week ago</div>
+                        </div>
+                      </article>
+                      <article class="media">
+                        <a href="#" class="pull-left thumb-lg m-t-xs">
+                          <img src="/resources/images/m43.jpg">
+                        </a>
+                        <div class="media-body">                        
+                          <a href="#" class="font-semibold">Lonummy nibh euismod sed laoreet</a>
+                          <div class="text-xs block m-t-xs"><a href="#">MFC</a> 1 week ago</div>
+                        </div>
+                      </article>
+                      <article class="media">
+                        <a href="#" class="pull-left thumb-lg m-t-xs">
+                          <img src="/resources/images/m44.jpg">
+                        </a>
+                        <div class="media-body">                        
+                          <a href="#" class="font-semibold">Mibh euismod tincidunt ut laoreet</a>
+                          <div class="text-xs block m-t-xs"><a href="#">MFC</a> 1 week ago</div>
+                        </div>
+                      </article>
+                      <article class="media">
+                        <a href="#" class="pull-left thumb-lg m-t-xs">
+                          <img src="/resources/images/m45.jpg">
+                        </a>
+                        <div class="media-body">                        
+                          <a href="#" class="font-semibold">Siam nonummy nibh oreet</a>
+                          <div class="text-xs block m-t-xs"><a href="#">MFC</a> 1 week ago</div>
+                        </div>
+                      </article>
                     </div>
                   </div>
                 </div>
               </div>
-              <h3 class="font-thin m-b">Video List</h3>
-              <div class="row row-sm">
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                  <div class="item">
-                    <div class="pos-rlt">
-                      <div class="item-overlay opacity r r-2x bg-black">
-                        <div class="center text-center m-t-n">
-                          <a href="video-detail.html"><i class="fa fa-play-circle i-2x"></i></a>
-                        </div>
-                      </div>
-                      <a href="video-detail.html"><img src="images/m40.jpg" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v">
-                      <a href="video-detail.html" class="text-ellipsis">Tempered Song</a>
-                      <a href="video-detail.html" class="text-ellipsis text-xs text-muted">Miaow</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                  <div class="item">
-                    <div class="pos-rlt">
-                      <div class="item-overlay opacity r r-2x bg-black">
-                        <div class="center text-center m-t-n">
-                          <a href="video-detail.html"><i class="fa fa-play-circle i-2x"></i></a>
-                        </div>
-                      </div>
-                      <a href="video-detail.html"><img src="images/m41.jpg" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v">
-                      <a href="video-detail.html" class="text-ellipsis">Morbi id neque quam</a>
-                      <a href="video-detail.html" class="text-ellipsis text-xs text-muted">Phasellus</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                  <div class="item">
-                    <div class="pos-rlt">
-                      <div class="item-overlay opacity r r-2x bg-black">
-                        <div class="center text-center m-t-n">
-                          <a href="video-detail.html"><i class="fa fa-play-circle i-2x"></i></a>
-                        </div>
-                      </div>
-                      <a href="video-detail.html"><img src="images/m42.jpg" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v">
-                      <a href="video-detail.html" class="text-ellipsis">Aliquam sollicitudin venenatis ipsum</a>
-                      <a href="video-detail.html" class="text-ellipsis text-xs text-muted">Malesuada</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                  <div class="item">
-                    <div class="pos-rlt">
-                      <div class="item-overlay opacity r r-2x bg-black">
-                        <div class="center text-center m-t-n">
-                          <a href="video-detail.html"><i class="fa fa-play-circle i-2x"></i></a>
-                        </div>
-                      </div>
-                      <a href="video-detail.html"><img src="images/m43.jpg" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v">
-                      <a href="video-detail.html" class="text-ellipsis">Citudin venenatis ipsum ac</a>
-                      <a href="video-detail.html" class="text-ellipsis text-xs text-muted">Volutpat</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                  <div class="item">
-                    <div class="pos-rlt">
-                      <div class="item-overlay opacity r r-2x bg-black">
-                        <div class="center text-center m-t-n">
-                          <a href="video-detail.html"><i class="fa fa-play-circle i-2x"></i></a>
-                        </div>
-                      </div>
-                      <a href="video-detail.html"><img src="images/m44.jpg" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v">
-                      <a href="video-detail.html" class="text-ellipsis">Vestibulum ullamcorper sodales nisi</a>
-                      <a href="video-detail.html" class="text-ellipsis text-xs text-muted">Mauris Qiaos</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                  <div class="item">
-                    <div class="pos-rlt">
-                      <div class="item-overlay opacity r r-2x bg-black">
-                        <div class="center text-center m-t-n">
-                          <a href="video-detail.html"><i class="fa fa-play-circle i-2x"></i></a>
-                        </div>
-                      </div>
-                      <a href="video-detail.html"><img src="images/m40.jpg" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v">
-                      <a href="video-detail.html" class="text-ellipsis">Mauris convallis mauris at</a>
-                      <a href="video-detail.html" class="text-ellipsis text-xs text-muted">Neque</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                  <div class="item">
-                    <div class="pos-rlt">
-                      <div class="item-overlay opacity r r-2x bg-black">
-                        <div class="center text-center m-t-n">
-                          <a href="video-detail.html"><i class="fa fa-play-circle i-2x"></i></a>
-                        </div>
-                      </div>
-                      <a href="video-detail.html"><img src="images/m45.jpg" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v">
-                      <a href="video-detail.html" class="text-ellipsis">Sodales nisi nec condimentum</a>
-                      <a href="video-detail.html" class="text-ellipsis text-xs text-muted">Augue</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                  <div class="item">
-                    <div class="pos-rlt">
-                      <div class="item-overlay opacity r r-2x bg-black">
-                        <div class="center text-center m-t-n">
-                          <a href="video-detail.html"><i class="fa fa-play-circle i-2x"></i></a>
-                        </div>
-                      </div>
-                      <a href="video-detail.html"><img src="images/m44.jpg" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v">
-                      <a href="video-detail.html" class="text-ellipsis">Nisi nec condimentum</a>
-                      <a href="video-detail.html" class="text-ellipsis text-xs text-muted">Miaow</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                  <div class="item">
-                    <div class="pos-rlt">
-                      <div class="item-overlay opacity r r-2x bg-black">
-                        <div class="center text-center m-t-n">
-                          <a href="video-detail.html"><i class="fa fa-play-circle i-2x"></i></a>
-                        </div>
-                      </div>
-                      <a href="video-detail.html"><img src="images/m43.jpg" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v">
-                      <a href="video-detail.html" class="text-ellipsis">Phasellus at ultricies nequ</a>
-                      <a href="video-detail.html" class="text-ellipsis text-xs text-muted">Volutpat</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                  <div class="item">
-                    <div class="pos-rlt">
-                      <div class="item-overlay opacity r r-2x bg-black">
-                        <div class="center text-center m-t-n">
-                          <a href="video-detail.html"><i class="fa fa-play-circle i-2x"></i></a>
-                        </div>
-                      </div>
-                      <a href="video-detail.html"><img src="images/m42.jpg" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v">
-                      <a href="video-detail.html" class="text-ellipsis">Quis malesuada augue</a>
-                      <a href="video-detail.html" class="text-ellipsis text-xs text-muted">Feugiat</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                  <div class="item">
-                    <div class="pos-rlt">
-                      <div class="item-overlay opacity r r-2x bg-black">
-                        <div class="center text-center m-t-n">
-                          <a href="video-detail.html"><i class="fa fa-play-circle i-2x"></i></a>
-                        </div>
-                      </div>
-                      <a href="video-detail.html"><img src="images/m41.jpg" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v">
-                      <a href="video-detail.html" class="text-ellipsis">Ipsum ac feugiat</a>
-                      <a href="video-detail.html" class="text-ellipsis text-xs text-muted">Quam AC</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 col-md-3">
-                  <div class="item">
-                    <div class="pos-rlt">
-                      <div class="item-overlay opacity r r-2x bg-black">
-                        <div class="center text-center m-t-n">
-                          <a href="video-detail.html"><i class="fa fa-play-circle i-2x"></i></a>
-                        </div>
-                      </div>
-                      <a href="video-detail.html"><img src="images/m40.jpg" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v">
-                      <a href="video-detail.html" class="text-ellipsis">Ullamcorper sodales nisi nec condimentu</a>
-                      <a href="video-detail.html" class="text-ellipsis text-xs text-muted">Convallis</a>
-                    </div>
-                  </div>
-                </div>                
-              </div>
-              <ul class="pagination pagination">
-                <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-                <li class="active"><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-              </ul>
             </section>
           </section>
           <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open" data-target="#nav,html"></a>
@@ -759,16 +701,17 @@
       </section>
     </section>    
   </section>
-  <script src="js/jquery.min.js"></script>
+  <script src="/resources/js/jquery.min.js"></script>
   <!-- Bootstrap -->
-  <script src="js/bootstrap.js"></script>
+  <script src="/resources/js/bootstrap.js"></script>
   <!-- App -->
-  <script src="js/app.js"></script>  
-  <script src="js/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="js/app.plugin.js"></script>
-  <script type="text/javascript" src="js/jPlayer/jquery.jplayer.min.js"></script>
-  <script type="text/javascript" src="js/jPlayer/add-on/jplayer.playlist.min.js"></script>
-  <script type="text/javascript" src="js/jPlayer/demo.js"></script>
+  <script src="/resources/js/app.js"></script>
+  <script src="/resources/js/slimscroll/jquery.slimscroll.min.js"></script>
+  
+  <script src="/resources/js/app.plugin.js"></script>
+  <script type="text/javascript" src="/resources/js/jPlayer/jquery.jplayer.min.js"></script>
+  <script type="text/javascript" src="/resources/js/jPlayer/add-on/jplayer.playlist.min.js"></script>
+  <script type="text/javascript" src="/resources/js/jPlayer/demo.js"></script>
 
 </body>
 </html>
