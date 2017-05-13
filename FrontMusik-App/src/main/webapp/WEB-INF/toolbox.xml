@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tools>
+    <toolbox scope="application">
+        <!-- <tool key="map" class="java.util.HashMap"/> -->
+       <!-- <tool key="env" class="com.tanbao.common.EnvContext"/>-->
+    </toolbox>
+</tools>

@@ -29,6 +29,10 @@
     </script>
 </head>
 <body class="">
+#set($projectContext = "$!link.getContextPath()")
+<h1>项目路径:$!link.getContextPath()</h1>
+${rc.contextPath}
+
   <section class="vbox">
     <header class="bg-white-only header header-md navbar navbar-fixed-top-xs">
       <div class="navbar-header aside bg-info nav-xs">
