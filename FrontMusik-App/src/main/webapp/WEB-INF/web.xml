@@ -37,7 +37,11 @@
 	</servlet-mapping>
 
 	<!-- 自定义过滤器 -->
-	
+
+	<!-- 定义监听器，统计在线用户人数 -->
+	<listener>
+		<listener-class>tech.yobbo.common.listener.SessionListener</listener-class>
+	</listener>
 	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

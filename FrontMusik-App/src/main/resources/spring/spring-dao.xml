@@ -9,13 +9,13 @@
     <!-- 配置数据库相关参数
     	1.propertise的属性:${}
      -->
-    <context:property-placeholder location="classpath:conf/jdbc.properties"/>
+    <context:property-placeholder location="classpath:conf/config.properties"/>
     <!-- 数据库连接池 -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-    	<property name="driverClass" value="${driver}"/>
-    	<property name="jdbcUrl" value="${url}"/>
-    	<property name="user" value="${uid}"/>
-    	<property name="password" value="${pwd}"/>
+    	<property name="driverClass" value="${jdbc.driver}"/>
+    	<property name="jdbcUrl" value="${jdbc.url}"/>
+    	<property name="user" value="${jdbc.uid}"/>
+    	<property name="password" value="${jdbc.pwd}"/>
     	
     	<!-- c3p0连接池私有属性 -->
     	<property name="maxPoolSize" value="30"/>
