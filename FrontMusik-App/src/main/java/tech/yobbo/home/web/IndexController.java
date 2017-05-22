@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import tech.yobbo.home.dao.IndexDao;
+import tech.yobbo.util.ContextManager;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -23,10 +25,13 @@ public class IndexController {
 	 * @return
 	 */
 	@RequestMapping
-	public ModelAndView toIndex(){
+	public ModelAndView toIndex(HttpSession session){
 		ModelAndView indexView = new ModelAndView("home/index");
+		session.setAttribute("name","xiaoyang");
 		//查询列表数据
 //		indexView.addObject("name","xiaoyang");
+		String name = (String)ContextManager.currentSession().get("name");
+		System.out.print("session name is :" + name);
 		return indexView;
 	}
 

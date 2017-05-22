@@ -1,7 +1,12 @@
 package tech.yobbo.util;
 
-import org.apache.struts.chain.contexts.ActionContext;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -17,13 +22,24 @@ public class ContextManager {
     public static final String KEY_ROLE_LIST = "KEY_ROLE_LIST";
     public static final String KEY_EMP_ID = "KEY_EMP_ID";
 
-    @SuppressWarnings("rawtypes")
+
+    /**
+     * 把session防到map中
+     * @return
+     */
     public static Map currentSession() {
-//        return ActionContext.getContext().getServletContextssion();
-        return null;
+        Map<String ,Object> map = new HashMap<String, Object>();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession sessions = request.getSession();
+        Enumeration<String> sessionKeys = sessions.getAttributeNames();
+        if (sessionKeys.hasMoreElements()) {
+            String key = sessionKeys.nextElement();
+            map.put(key,sessions.getAttribute(key));
+        }
+        return map;
     }
 
-    @SuppressWarnings("rawtypes")
+
     public static Map getApplication() {
 //        return ActionContext.getContext().getApplication();
         return null;
