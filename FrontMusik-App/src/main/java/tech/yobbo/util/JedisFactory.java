@@ -2,7 +2,7 @@ package tech.yobbo.util;
 
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
-import tech.yobbo.commom.config.SystemConstant;
+import tech.yobbo.config.common.SystemConstant;
 
 import java.io.IOException;
 

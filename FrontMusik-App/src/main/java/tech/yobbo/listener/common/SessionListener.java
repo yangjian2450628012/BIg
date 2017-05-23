@@ -1,4 +1,4 @@
-package tech.yobbo.common.listener;
+package tech.yobbo.listener.common;
 
 import tech.yobbo.util.ContextManager;
 

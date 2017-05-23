@@ -33,7 +33,7 @@
 		<!--<property name="typeAliasesPackage" value="tech.yobbo.*.entity"/> 使用模板时使用 -->
     	<property name="mapperLocations" value="classpath:daoMapper/*/*.xml"/>
     </bean>   
-    
+
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
     	<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     	<property name="basePackage" value="tech.yobbo.*.dao"/>
