@@ -14,7 +14,7 @@ http://www.springframework.org/schema/context/spring-context-4.0.xsd
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations">
             <list>
-                <value>classpath:jdbc.properties</value>
+                <value>classpath:database.properties</value>
             </list>
         </property>
     </bean>
@@ -24,20 +24,40 @@ http://www.springframework.org/schema/context/spring-context-4.0.xsd
     </bean>
 
     <!-- 数据库连接池 -->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="${jdbc.driverClassName}"/>
         <property name="jdbcUrl" value="${jdbc.url}"/>
         <property name="user" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
-
-        <!-- c3p0连接池私有属性 -->
         <property name="maxPoolSize" value="30"/>
         <property name="minPoolSize" value="10"/>
-        <!-- 关闭连接后不自动提交 -->
         <property name="autoCommitOnClose" value="false"/>
-        <property name="checkoutTimeout" value="1000"/><!-- 超时等待 -->
-        <property name="acquireRetryAttempts" value="2"/><!-- 连接失败重试次数 -->
-    </bean>
+        <property name="checkoutTimeout" value="1000"/>
+        <property name="acquireRetryAttempts" value="2"/>
+    </bean>-->
+
+    <!-- 阿里 druid 数据库连接池 -->
+    <bean id = "dataSource" class = "com.alibaba.druid.pool.DruidDataSource" destroy-method = "close" >
+        <property name = "driverClassName" value = "${jdbc.driverClassName}" />
+        <property name = "url" value = "${jdbc.url}" />
+        <property name = "username" value = "${jdbc.username}" />
+        <property name = "password" value = "${jdbc.password}" />
+        <property name = "filters" value = "${filters}" />
+        <property name = "maxActive" value = "${maxActive}" />
+        <property name = "initialSize" value = "${initialSize}" />
+        <property name = "maxWait" value = "${maxWait}" />
+        <property name = "minIdle" value = "${minIdle}" />
+        <property name = "timeBetweenEvictionRunsMillis" value ="${timeBetweenEvictionRunsMillis}" />
+        <property name = "minEvictableIdleTimeMillis" value ="${minEvictableIdleTimeMillis}" />
+        <property name = "validationQuery" value = "${validationQuery}" />
+        <property name = "testWhileIdle" value = "${testWhileIdle}" />
+        <property name = "testOnBorrow" value = "${testOnBorrow}" />
+        <property name = "testOnReturn" value = "${testOnReturn}" />
+        <property name = "maxOpenPreparedStatements" value ="${maxOpenPreparedStatements}" />
+        <property name = "removeAbandoned" value = "${removeAbandoned}" />
+        <property name = "removeAbandonedTimeout" value ="${removeAbandonedTimeout}" />
+        <property name = "logAbandoned" value = "${logAbandoned}" />
+    </bean >
 
     <!-- myBatis文件 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

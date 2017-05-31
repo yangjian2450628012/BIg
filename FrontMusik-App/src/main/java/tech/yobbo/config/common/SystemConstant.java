@@ -11,7 +11,7 @@ import java.util.Properties;
  */
 public class SystemConstant {
     private static final Logger log = LoggerFactory.getLogger(SystemConstant.class);
-    private static final String CONFIG_FILE = "conf/config.properties"; // 配置文件
+    private static final String CONFIG_FILE = "database.properties"; // 配置文件
     private static Properties config;
 
     /**

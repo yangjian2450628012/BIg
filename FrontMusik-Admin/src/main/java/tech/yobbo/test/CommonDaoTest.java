@@ -51,6 +51,10 @@ public class CommonDaoTest<Users> extends BaseDao<Users> {
      * 2.  12.042秒(s)
      * 3.  12.409秒(s)
      * 平均 : 12.39秒
+     * 用阿里巴巴的druid来连接数据库，查询38.5万条数据,同时遍历一遍数据，测试速度如下
+     * 11.556秒(s)
+     * 用c3p0来连接数据库，查询38.5万条数据,同时遍历所有数据，测试速度如下
+     * 12.372秒(s)
      */
     @Test
     public void testU(){

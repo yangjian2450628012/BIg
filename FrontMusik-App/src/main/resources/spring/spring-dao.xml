@@ -9,7 +9,7 @@
     <!-- 配置数据库相关参数
     	1.propertise的属性:${}
      -->
-    <context:property-placeholder location="classpath:conf/config.properties"/>
+    <context:property-placeholder location="classpath:database.properties"/>
     <!-- 数据库连接池 -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
     	<property name="driverClass" value="${jdbc.driver}"/>
@@ -29,7 +29,7 @@
     <!-- 配置sqlsessionFactory 约定大于配置-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
     	<property name="dataSource" ref="dataSource"/>
-    	<property name="configLocation" value="classpath:conf/mybatis-config.xml"/>
+    	<property name="configLocation" value="classpath:mybatis-config.xml"/>
 		<!--<property name="typeAliasesPackage" value="tech.yobbo.*.entity"/> 使用模板时使用 -->
     	<property name="mapperLocations" value="classpath:daoMapper/*/*.xml"/>
     </bean>   

@@ -57,6 +57,11 @@
             <artifactId>c3p0</artifactId>
             <version>0.9.1.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.31</version>
+        </dependency>
         <!-- 之前没写单元测试，开发环境都是部署在tomcat下测试的，由于这个jar包的scope是provider，意味着servlet-api不会部署到tomcat低下(打war包也不会打进去)，而是用tomcat自身的servlet-api -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -135,7 +140,7 @@
             </properties>
             <build>
                 <filters>
-                    <filter>src/main/resources/jdbc.properties</filter>
+                    <filter>src/main/resources/database.properties</filter>
                 </filters>
             </build>
         </profile>
@@ -149,7 +154,7 @@
             </properties>
             <build>
                 <filters>
-                    <filter>src/main/resources/jdbc.properties</filter>
+                    <filter>src/main/resources/database.properties</filter>
                 </filters>
             </build>
         </profile>
