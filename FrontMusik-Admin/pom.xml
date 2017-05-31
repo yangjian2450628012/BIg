@@ -17,7 +17,21 @@
             <version>4.11</version>
         </dependency>
     </dependencies>
+
     <build>
         <finalName>FrontMusik-Admin</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <filtering>true</filtering>
+                <!--在resource目录下，有很多文件，但用些文件不希望替换,比如 application-text.xml-->
+                <!--<excludes>
+                    <exclude>application-text.xml</exclude>
+                </excludes>-->
+            </resource>
+        </resources>
     </build>
 </project>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="gbk"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -7,9 +7,9 @@ http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-4.0.xsd
 ">
-    <!-- è‡ªåŠ¨æ‰«æ(è‡ªåŠ¨æ³¨å…¥) -->
+    <!-- ×Ô¶¯É¨Ãè(×Ô¶¯×¢Èë) -->
     <context:component-scan base-package="tech.yobbo.*" />
-    <!-- å¼•å…¥å±žæ€§æ–‡ä»¶ -->
+    <!-- ÒýÈëÊôÐÔÎÄ¼þ -->
     <bean id="configProperties"
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations">
@@ -23,26 +23,26 @@ http://www.springframework.org/schema/context/spring-context-4.0.xsd
         <property name="properties" ref="configProperties" />
     </bean>
 
-    <!-- æ•°æ®åº“è¿žæŽ¥æ±  -->
+    <!-- Êý¾Ý¿âÁ¬½Ó³Ø -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="${jdbc.driverClassName}"/>
         <property name="jdbcUrl" value="${jdbc.url}"/>
         <property name="user" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
 
-        <!-- c3p0è¿žæŽ¥æ± ç§æœ‰å±žæ€§ -->
+        <!-- c3p0Á¬½Ó³ØË½ÓÐÊôÐÔ -->
         <property name="maxPoolSize" value="30"/>
         <property name="minPoolSize" value="10"/>
-        <!-- å…³é—­è¿žæŽ¥åŽä¸è‡ªåŠ¨æäº¤ -->
+        <!-- ¹Ø±ÕÁ¬½Óºó²»×Ô¶¯Ìá½» -->
         <property name="autoCommitOnClose" value="false"/>
-        <property name="checkoutTimeout" value="1000"/><!-- è¶…æ—¶ç­‰å¾… -->
-        <property name="acquireRetryAttempts" value="2"/><!-- è¿žæŽ¥å¤±è´¥é‡è¯•æ¬¡æ•° -->
+        <property name="checkoutTimeout" value="1000"/><!-- ³¬Ê±µÈ´ý -->
+        <property name="acquireRetryAttempts" value="2"/><!-- Á¬½ÓÊ§°ÜÖØÊÔ´ÎÊý -->
     </bean>
 
-    <!-- myBatisæ–‡ä»¶ -->
+    <!-- myBatisÎÄ¼þ -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <!-- è‡ªåŠ¨æ‰«æentityç›®å½•, çœæŽ‰Configuration.xmlé‡Œçš„æ‰‹å·¥é…ç½® -->
+        <!-- ×Ô¶¯É¨ÃèentityÄ¿Â¼, Ê¡µôConfiguration.xmlÀïµÄÊÖ¹¤ÅäÖÃ -->
         <property name="mapperLocations" value="classpath*:conf/*.xml" />
     </bean>
 

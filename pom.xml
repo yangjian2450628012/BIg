@@ -3,7 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>tech.yobbo</groupId>
     <artifactId>FrontMusik</artifactId>
     <packaging>pom</packaging>
@@ -120,4 +119,41 @@
         </dependency>
 
     </dependencies>
+
+    <!-- start 配置数据库多环境 -->
+    <profiles>
+        <profile>
+            <id>mysql-local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+                <jdbc.url>jdbc:mysql://127.0.0.1:3306/movie?characterEncoding=utf8</jdbc.url>
+                <jdbc.username>movie</jdbc.username>
+                <jdbc.password>452D29A6639B42C8896C6660E97E6E47</jdbc.password >
+            </properties>
+            <build>
+                <filters>
+                    <filter>src/main/resources/jdbc.properties</filter>
+                </filters>
+            </build>
+        </profile>
+        <profile>
+            <id>linux-200</id>
+            <properties>
+                <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+                <jdbc.url>jdbc:mysql://192.168.1.200:3306/test</jdbc.url>
+                <jdbc.username>test</jdbc.username>
+                <jdbc.password >test2011</jdbc.password >
+            </properties>
+            <build>
+                <filters>
+                    <filter>src/main/resources/jdbc.properties</filter>
+                </filters>
+            </build>
+        </profile>
+    </profiles>
+    <!-- end 配置数据多环境 -->
+
 </project>
