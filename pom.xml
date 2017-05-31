@@ -52,11 +52,11 @@
             <version>5.1.32</version>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>c3p0</groupId>
             <artifactId>c3p0</artifactId>
             <version>0.9.1.2</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
@@ -133,10 +133,10 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
-                <jdbc.url>jdbc:mysql://127.0.0.1:3306/movie?characterEncoding=utf8</jdbc.url>
-                <jdbc.username>movie</jdbc.username>
-                <jdbc.password>452D29A6639B42C8896C6660E97E6E47</jdbc.password >
+                <db.driverClassName>com.mysql.jdbc.Driver</db.driverClassName>
+                <db.url>jdbc:mysql://127.0.0.1:3306/movie?characterEncoding=utf8</db.url>
+                <db.username>movie</db.username>
+                <db.password>452D29A6639B42C8896C6660E97E6E47</db.password>
             </properties>
             <build>
                 <filters>
@@ -147,10 +147,10 @@
         <profile>
             <id>linux-200</id>
             <properties>
-                <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
-                <jdbc.url>jdbc:mysql://192.168.1.200:3306/test</jdbc.url>
-                <jdbc.username>test</jdbc.username>
-                <jdbc.password >test2011</jdbc.password >
+                <db.driverClassName>com.mysql.jdbc.Driver</db.driverClassName>
+                <db.url>jdbc:mysql://192.168.1.200:3306/test</db.url>
+                <db.username>test</db.username>
+                <db.password >test2011</db.password >
             </properties>
             <build>
                 <filters>

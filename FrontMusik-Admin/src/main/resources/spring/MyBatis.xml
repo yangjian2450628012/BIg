@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="gbk"?>
+<?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -7,9 +7,9 @@ http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-4.0.xsd
 ">
-    <!-- 自动扫描(自动注入) -->
+    <!-- 鑷姩鎵弿(鑷姩娉ㄥ叆) -->
     <context:component-scan base-package="tech.yobbo.*" />
-    <!-- 引入属性文件 -->
+    <!-- 寮曞叆灞炴�ф枃浠� -->
     <bean id="configProperties"
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations">
@@ -23,7 +23,7 @@ http://www.springframework.org/schema/context/spring-context-4.0.xsd
         <property name="properties" ref="configProperties" />
     </bean>
 
-    <!-- 数据库连接池 -->
+    <!-- 鏁版嵁搴撹繛鎺ユ睜 -->
     <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="${jdbc.driverClassName}"/>
         <property name="jdbcUrl" value="${jdbc.url}"/>
@@ -36,12 +36,12 @@ http://www.springframework.org/schema/context/spring-context-4.0.xsd
         <property name="acquireRetryAttempts" value="2"/>
     </bean>-->
 
-    <!-- 阿里 druid 数据库连接池 -->
+    <!-- 闃块噷 druid 鏁版嵁搴撹繛鎺ユ睜 -->
     <bean id = "dataSource" class = "com.alibaba.druid.pool.DruidDataSource" destroy-method = "close" >
-        <property name = "driverClassName" value = "${jdbc.driverClassName}" />
-        <property name = "url" value = "${jdbc.url}" />
-        <property name = "username" value = "${jdbc.username}" />
-        <property name = "password" value = "${jdbc.password}" />
+        <property name = "driverClassName" value = "${db.driverClassName}" />
+        <property name = "url" value = "${db.url}" />
+        <property name = "username" value = "${db.username}" />
+        <property name = "password" value = "${db.password}" />
         <property name = "filters" value = "${filters}" />
         <property name = "maxActive" value = "${maxActive}" />
         <property name = "initialSize" value = "${initialSize}" />
@@ -59,10 +59,10 @@ http://www.springframework.org/schema/context/spring-context-4.0.xsd
         <property name = "logAbandoned" value = "${logAbandoned}" />
     </bean >
 
-    <!-- myBatis文件 -->
+    <!-- myBatis鏂囦欢 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
+        <!-- 鑷姩鎵弿entity鐩綍, 鐪佹帀Configuration.xml閲岀殑鎵嬪伐閰嶇疆 -->
         <property name="mapperLocations" value="classpath*:conf/*.xml" />
     </bean>
 
