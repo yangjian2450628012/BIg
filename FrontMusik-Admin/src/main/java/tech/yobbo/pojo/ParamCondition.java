@@ -1,4 +1,4 @@
-package com.beijingserver.pojo;
+package tech.yobbo.pojo;
 
 /**
  * Created by xiaoJ on 5/23/2017.

@@ -1,6 +1,7 @@
-package com.beijingserver.mapper;
+package tech.yobbo.mapper;
 
-import com.beijingserver.pojo.Params;
+import tech.yobbo.bean.Order;
+import tech.yobbo.pojo.Params;
 
 import java.util.List;
 import java.util.Map;
@@ -80,5 +81,7 @@ public interface  CommonMapper {
      * @return
      */
     public Object findOneValue(String sql);
+
+    public List<Order> findByU();
 
 }

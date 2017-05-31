@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.beijingserver.mapper.CommonMapper">
+<mapper namespace="tech.yobbo.mapper.CommonMapper">
     <insert id="executeAction" parameterType="String">
         ${value}
     </insert>
@@ -22,7 +22,7 @@
     </select>
 
 
-    <insert id="addEntity" parameterType="com.beijingserver.pojo.Params"
+    <insert id="addEntity" parameterType="tech.yobbo.pojo.Params"
             useGeneratedKeys="true" keyProperty="id">
         insert into ${tables}
         <foreach collection="insertMap.keys" item="k" index="index" open="(" separator="," close=")">
@@ -36,7 +36,7 @@
     </insert>
 
 
-    <insert id="batchAdd" parameterType="com.beijingserver.pojo.Params">
+    <insert id="batchAdd" parameterType="tech.yobbo.pojo.Params">
         insert into ${tables}
         <foreach collection="insertMap.keys" item="k" open="("
                  separator="," close=")">
@@ -51,12 +51,16 @@
         </foreach>
     </insert>
 
-    <delete id="batchDelete" parameterType="com.beijingserver.pojo.Params">
+    <delete id="batchDelete" parameterType="tech.yobbo.pojo.Params">
         DELETE FROM ${tables} WHERE ${deleteCoulumnName}
         <foreach collection="deleteList" item="id" index="index"
                  open="IN(" close=")" separator=",">
             #{id}
         </foreach>
     </delete>
+
+    <select id="findByU" resultType="tech.yobbo.bean.Order">
+       select id,pid,price,num,uid,atime,utime,isdel from my_orders limit 0,385000;
+    </select>
 
 </mapper>

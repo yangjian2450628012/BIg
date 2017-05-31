@@ -3,6 +3,7 @@ package tech.yobbo.util;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
@@ -24,7 +25,7 @@ public class ContextManager {
 
 
     /**
-     * 把session防到map中
+     * 把session放到map中
      * @return
      */
     public static Map currentSession() {
@@ -39,6 +40,20 @@ public class ContextManager {
         return map;
     }
 
+    /**
+     * 把session放到map中
+     * @return
+     */
+    public static Map currentCookie(){
+        Map<String,Object> map = new HashMap<String, Object>();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Cookie[] cookies = request.getCookies();
+        for (int i=0;i<cookies.length;i++) {
+            Cookie cookie = cookies[i];
+            map.put(cookie.getName(),cookie.getValue());
+        }
+        return map;
+    }
 
     public static Map getApplication() {
 //        return ActionContext.getContext().getApplication();

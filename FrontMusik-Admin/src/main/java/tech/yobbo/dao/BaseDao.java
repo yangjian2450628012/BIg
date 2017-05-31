@@ -1,7 +1,8 @@
-package com.beijingserver.dao;
+package tech.yobbo.dao;
 
-import com.beijingserver.mapper.CommonMapper;
-import com.beijingserver.pojo.Params;
+import tech.yobbo.bean.Order;
+import tech.yobbo.mapper.CommonMapper;
+import tech.yobbo.pojo.Params;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,8 +18,8 @@ import java.util.Map;
  * 数据库操作公共类
  * Created by xiaoJ on 5/23/2017.
  */
-@Repository("commonDao")
-public class CommonDao<T> {
+@Repository("baseDao")
+public class BaseDao<T> implements CommonMapper{
     private CommonMapper commonMapper;
 
     /**
@@ -51,6 +52,10 @@ public class CommonDao<T> {
         return commonMapper.findManyData(sql);
     }
 
+    public int addEntity(Params params) {
+        return 0;
+    }
+
     /**
      * 查找数量
      *
@@ -62,6 +67,14 @@ public class CommonDao<T> {
         return commonMapper.findCount(sql);
     }
 
+    public int batchAdd(Params params) {
+        return 0;
+    }
+
+    public int batchDelete(Params params) {
+        return 0;
+    }
+
     /**
      * 查询单个
      *
@@ -71,6 +84,10 @@ public class CommonDao<T> {
      */
     public Object findOneValue(String sql) {
         return commonMapper.findOneValue(sql);
+    }
+
+    public List<Order> findByU() {
+        return this.commonMapper.findByU();
     }
 
     /**

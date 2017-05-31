@@ -1,12 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<configuration>   
-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">   
-    <encoder>   
-      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>   
-    </encoder>   
-  </appender>   
-   
-  <root level="debug">   
-    <appender-ref ref="STDOUT" />   
-  </root>   
-</configuration>  
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <springProfile name="production">
+        <appender name="dailyRollingFileAppender"
+                  class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <File>${catalina.base}/logs/sim-kpi.log</File>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!-- daily rollover -->
+                <FileNamePattern>${catalina.base}/logs/sim-kpi.%d{yyyy-MM-dd}.%i.log
+                </FileNamePattern>
+                <!-- keep 30 days' worth of history -->
+                <maxHistory>1</maxHistory>
+                <timeBasedFileNamingAndTriggeringPolicy
+                        class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <!-- or whenever the file size reaches 100MB -->
+                    <maxFileSize>20KB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+            </rollingPolicy>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <Pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%thread] %-5level
+                    %logger{80}-%msg%n</Pattern>
+            </layout>
+        </appender>
+    </springProfile>
+    <springProfile name="embedded">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE" />
+        </root>
+    </springProfile>
+    <springProfile name="production">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="dailyRollingFileAppender" />
+        </root>
+    </springProfile>
+</configuration>

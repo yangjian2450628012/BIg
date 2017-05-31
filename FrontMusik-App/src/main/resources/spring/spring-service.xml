@@ -19,5 +19,5 @@
       <!-- 配置基于注解的声明式事物，默认使用注解管理事物行为 -->  
       <tx:annotation-driven transaction-manager="transactionManager"/>
           
-    
+    <import resource="spring-dao.xml" />
 </beans>        

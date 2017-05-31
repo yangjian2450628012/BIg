@@ -1,4 +1,4 @@
-package com.beijingserver.pojo;
+package tech.yobbo.pojo;
 
 import java.util.List;
 import java.util.Map;
