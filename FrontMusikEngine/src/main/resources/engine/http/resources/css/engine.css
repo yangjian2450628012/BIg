@@ -1,0 +1,37 @@
+@charset "utf-8";
+.header{
+    height: 64px;
+    width: 100%;
+    background-color: #393D49;
+    border-bottom: 1px solid #404553;
+    position: fixed;
+    top: 0;
+}
+.trans_3{
+    transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear; /* Firefox 4 */
+    -webkit-transition: all 0.3s linear; /* Safari 和 Chrome */
+    -o-transition: all 0.3s linear; /* Opera */
+}
+.trans_5{
+    transition: all 0.5s linear;
+    -moz-transition: all 0.5s linear; /* Firefox 4 */
+    -webkit-transition: all 0.5s linear; /* Safari 和 Chrome */
+    -o-transition: all 0.5s linear; /* Opera */
+}
+.main{
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+.layout-top{
+    position: relative;
+    top: 65px;
+}
+.index-body{
+    width: 100%;
+    position: absolute;
+    top: 80px;
+    bottom: 10px;
+    overflow-y: auto;
+}

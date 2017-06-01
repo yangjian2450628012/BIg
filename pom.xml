@@ -10,6 +10,7 @@
     <modules>
         <module>FrontMusik-Admin</module>
         <module>FrontMusik-App</module>
+        <module>FrontMusikEngine</module>
     </modules>
 
     <!-- 公共依赖包 -->

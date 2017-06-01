@@ -6,10 +6,10 @@
   <display-name>Archetype Created Web Application</display-name>
   <!-- start 连接池启用web监控统计功能 -->
   <filter>
-    <filter-name>DruidWebStatFilter </filter-name >
+    <filter-name>DruidWebStatFilter</filter-name >
     <filter-class>com.alibaba.druid.support.http.WebStatFilter </filter-class >
     <init-param>
-      <param-name>exclusions </param-name >
+      <param-name>exclusions</param-name >
       <param-value>*. js ,*. gif ,*. jpg ,*. png ,*. css ,*. ico ,/ druid /* </param-value >
     </init-param>
   </filter>
@@ -18,12 +18,13 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
   <servlet>
-    <servlet-name>DruidStatView </servlet-name>
-    <servlet-class>com.alibaba.druid.support.http.StatViewServlet </servlet-class>
+    <servlet-name>DruidStatView</servlet-name>
+    <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name> DruidStatView </servlet-name>
+    <servlet-name> DruidStatView</servlet-name>
     <url-pattern>/druid/*</url-pattern>
   </servlet-mapping>
   <!-- end 连接池启用web监控统计功能 -->
+
 </web-app>
