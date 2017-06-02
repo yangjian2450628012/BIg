@@ -1,6 +1,6 @@
-package tech.yobbo.engine.support.utils;
+package tech.yobbo.engine.support.util;
 
-import tech.yobbo.engine.support.http.StatViewServlet;
+import tech.yobbo.engine.support.http.EngineViewServlet;
 
 import java.io.*;
 
@@ -42,7 +42,7 @@ public class Utils {
         try {
             in = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
             if (in == null) {
-                in = StatViewServlet.class.getResourceAsStream(resource);
+                in = EngineViewServlet.class.getResourceAsStream(resource);
             }
 
             if (in == null) {

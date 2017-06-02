@@ -7,11 +7,37 @@
   <!-- start 自动化引擎，自动生成代码 servlet-->
   <servlet>
     <servlet-name>EngineStatView</servlet-name>
-    <servlet-class>tech.yobbo.engine.support.http.StatViewServlet</servlet-class>
+    <servlet-class>tech.yobbo.engine.support.http.EngineViewServlet</servlet-class>
+    <init-param>
+      <param-name>dataSource_class</param-name>
+      <param-value>com.alibaba.druid.pool.DruidDataSource</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name> EngineStatView</servlet-name>
     <url-pattern>/engines/*</url-pattern>
   </servlet-mapping>
   <!-- end 自动化引擎，自动生成代码 servlet-->
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:spring/spring-service.xml</param-value>
+  </context-param>
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <servlet>
+    <servlet-name>FrontMusik-app-Dispath</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:spring/spring-web.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FrontMusik-app-Dispath</servlet-name>
+    <url-pattern>*.html</url-pattern>
+  </servlet-mapping>
 </web-app>

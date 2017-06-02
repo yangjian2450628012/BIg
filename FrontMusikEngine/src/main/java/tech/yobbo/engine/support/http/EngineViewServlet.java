@@ -1,23 +1,35 @@
 package tech.yobbo.engine.support.http;
 
 
-import tech.yobbo.engine.support.utils.Utils;
+import tech.yobbo.engine.support.util.Utils;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by xiaoJ on 5/31/2017.
+ * 自动化引擎-自动生成JAVA代码类
  */
-public class StatViewServlet extends HttpServlet{
+public class EngineViewServlet extends HttpServlet{
+    private static final Logger LOG = Logger.getLogger(EngineViewServlet.class.getName());
+
     private String resourcePath                    = "engine/http/resources";
+    private static String dataSource;
+    public static String getDataSource() {
+        return dataSource;
+    }
 
     @Override
-    public void init() throws ServletException {
-        super.init();
+    public void init(ServletConfig config) throws ServletException {
+        dataSource = config.getInitParameter("dataSource_class");
+        LOG.log(Level.INFO,"engineViewServlet初始化成功!");
+//        super.init(config);
     }
 
     /**
@@ -89,6 +101,15 @@ public class StatViewServlet extends HttpServlet{
             return;
         }
 
+        if (path.contains(".json")) {
+            String fullUrl = path;
+            if (request.getQueryString() != null && request.getQueryString().length() > 0) {
+                fullUrl += "?" + request.getQueryString();
+            }
+            response.getWriter().print(EngineDataService.getInstance().process(fullUrl,request));
+            return;
+        }
+
         if ("/".equals(path)) {
             response.sendRedirect("index.html");
             return;
@@ -96,5 +117,6 @@ public class StatViewServlet extends HttpServlet{
 
         returnResourceFile(path, uri, response);
     }
+
 
 }

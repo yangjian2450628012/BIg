@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+   <!-- 配置整合mybatis -->
+    <!-- 配置数据库相关参数
+    	1.propertise的属性:${}
+     -->
+    <context:property-placeholder location="classpath:database.properties"/>
+    <!-- 数据库连接池 -->
+    <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    	<property name="driverClass" value="${db.driverClassName}"/>
+    	<property name="jdbcUrl" value="${db.url}"/>
+    	<property name="user" value="${db.username}"/>
+    	<property name="password" value="${db.password}"/>
+    	<property name="maxPoolSize" value="30"/>
+    	<property name="minPoolSize" value="10"/>
+    	<property name="autoCommitOnClose" value="false"/>
+    	<property name="checkoutTimeout" value="1000"/>
+    	<property name="acquireRetryAttempts" value="2"/>
+    </bean>  -->
+
+	<!-- 阿里 druid 数据库连接池 -->
+	<bean id = "dataSource" class = "com.alibaba.druid.pool.DruidDataSource" destroy-method = "close" >
+		<property name = "driverClassName" value = "${db.driverClassName}" />
+		<property name = "url" value = "${db.url}" />
+		<property name = "username" value = "${db.username}" />
+		<property name = "password" value = "${db.password}" />
+		<property name = "filters" value = "${filters}" />
+		<property name = "maxActive" value = "${maxActive}" />
+		<property name = "initialSize" value = "${initialSize}" />
+		<property name = "maxWait" value = "${maxWait}" />
+		<property name = "minIdle" value = "${minIdle}" />
+		<property name = "timeBetweenEvictionRunsMillis" value ="${timeBetweenEvictionRunsMillis}" />
+		<property name = "minEvictableIdleTimeMillis" value ="${minEvictableIdleTimeMillis}" />
+		<property name = "validationQuery" value = "${validationQuery}" />
+		<property name = "testWhileIdle" value = "${testWhileIdle}" />
+		<property name = "testOnBorrow" value = "${testOnBorrow}" />
+		<property name = "testOnReturn" value = "${testOnReturn}" />
+		<property name = "maxOpenPreparedStatements" value ="${maxOpenPreparedStatements}" />
+		<property name = "removeAbandoned" value = "${removeAbandoned}" />
+		<property name = "removeAbandonedTimeout" value ="${removeAbandonedTimeout}" />
+		<property name = "logAbandoned" value = "${logAbandoned}" />
+	</bean >
+
+    <!-- 配置sqlsessionFactory 约定大于配置-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    	<property name="dataSource" ref="dataSource"/>
+    	<property name="configLocation" value="classpath:mybatis-config.xml"/>
+		<!--<property name="typeAliasesPackage" value="tech.yobbo.*.entity"/> 使用模板时使用 -->
+    	<property name="mapperLocations" value="classpath:daoMapper/*/*.xml"/>
+    </bean>   
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    	<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    	<property name="basePackage" value="tech.yobbo.*.dao"/>
+    </bean>
+    
+</beans>

@@ -139,11 +139,6 @@
                 <db.username>movie</db.username>
                 <db.password>452D29A6639B42C8896C6660E97E6E47</db.password>
             </properties>
-            <build>
-                <filters>
-                    <filter>src/main/resources/database.properties</filter>
-                </filters>
-            </build>
         </profile>
         <profile>
             <id>linux-200</id>
@@ -153,11 +148,6 @@
                 <db.username>test</db.username>
                 <db.password >test2011</db.password >
             </properties>
-            <build>
-                <filters>
-                    <filter>src/main/resources/database.properties</filter>
-                </filters>
-            </build>
         </profile>
     </profiles>
     <!-- end 配置数据多环境 -->
