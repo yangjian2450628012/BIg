@@ -1,7 +1,6 @@
 "use strict"
 var engine = layui.use(['layer','element','form','laytpl','tree'], function() {
     var $ = layui.jquery, layer = layui.layer;
-
     //触发事件
     var active = {
         setTop: function () {
@@ -34,5 +33,6 @@ var engine = layui.use(['layer','element','form','laytpl','tree'], function() {
         var othis = $(this), method = othis.data('method');
         active[method] ? active[method].call(this, othis) : '';
     });
+    
 });
 

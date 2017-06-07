@@ -12,6 +12,14 @@
       <param-name>dataSource_class</param-name>
       <param-value>com.alibaba.druid.pool.DruidDataSource</param-value>
     </init-param>
+    <init-param>
+    	<param-name>base_path</param-name>
+    	<param-value>E:/JAVA/eclipse-Tool/workspaces/front-musik/FrontMusikEngine/src/main/java/tech/yobbo</param-value>
+    </init-param>
+    <init-param>
+    	<param-name>package_name</param-name>
+    	<param-value>tech.yobbo</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name> EngineStatView</servlet-name>

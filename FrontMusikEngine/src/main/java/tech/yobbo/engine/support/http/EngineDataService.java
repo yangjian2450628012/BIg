@@ -1,14 +1,17 @@
 package tech.yobbo.engine.support.http;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import tech.yobbo.engine.support.util.JdbcUtils;
-import tech.yobbo.engine.support.util.Utils;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.sql.DataSource;
-import java.util.List;
-import java.util.Map;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import tech.yobbo.engine.support.util.JdbcUtils;
+import tech.yobbo.engine.support.util.Utils;
+import tech.yobbo.engine.support.http.EngineDataServiceHelp;
 
 /**
  * Created by xiaoJ on 6/1/2017.
@@ -32,7 +35,7 @@ public class EngineDataService extends EngineDataServiceHelp {
      * @param context 上下文
      * @return
      */
-    public static String process(String url,ServletContext context){
+    public String process(String url,ServletContext context){
         Map<String, String> parameters = getParameters(url);
         // 获取spring中的连接池
         ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);

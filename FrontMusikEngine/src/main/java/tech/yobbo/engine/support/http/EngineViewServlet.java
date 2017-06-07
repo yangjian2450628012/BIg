@@ -1,32 +1,31 @@
 package tech.yobbo.engine.support.http;
 
 
-import tech.yobbo.engine.support.json.JSONUtils;
-import tech.yobbo.engine.support.util.JdbcUtils;
-import tech.yobbo.engine.support.util.Utils;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import tech.yobbo.engine.support.util.Utils;
 
 /**
  * Created by xiaoJ on 5/31/2017.
  * 自动化引擎-自动生成JAVA代码类
  */
 public class EngineViewServlet extends HttpServlet{
-    private static final Logger LOG = Logger.getLogger(EngineViewServlet.class.getName());
+	private static final long serialVersionUID = 1L;
+	private static final Logger LOG = Logger.getLogger(EngineViewServlet.class.getName());
 
-    private String resourcePath                    = "engine/http/resources";
-    private static String dataSource;
+    private String RESOURCE_PATH                    = "engine/http/resources";
+    private String BASE_PATH						= "";
+    private String PACKAGE_NAME 					= "";
+    private static String dataSource 				= null;
+    
     public static String getDataSource() {
         return dataSource;
     }
@@ -34,6 +33,9 @@ public class EngineViewServlet extends HttpServlet{
     @Override
     public void init(ServletConfig config) throws ServletException {
         dataSource = config.getInitParameter("dataSource_class");
+        BASE_PATH = config.getInitParameter("base_path");
+        PACKAGE_NAME = config.getInitParameter("package_name");
+        
         LOG.log(Level.INFO,"engineViewServlet初始化成功!");
 //        super.init(config);
     }
@@ -44,7 +46,7 @@ public class EngineViewServlet extends HttpServlet{
      * @return
      */
     protected String getFilePath(String fileName) {
-        return resourcePath + fileName;
+        return RESOURCE_PATH + fileName;
     }
 
     protected void returnResourceFile(String fileName, String uri, HttpServletResponse response)
