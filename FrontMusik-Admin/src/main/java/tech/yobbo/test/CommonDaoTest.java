@@ -7,6 +7,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import tech.yobbo.bean.Order;
 import tech.yobbo.dao.BaseDao;
 
+import javax.xml.transform.stream.StreamSource;
 import java.util.List;
 import java.util.Map;
 
@@ -67,4 +68,5 @@ public class CommonDaoTest<Users> extends BaseDao<Users> {
        long endTime = System.currentTimeMillis(); //结束时间
         System.out.println("程序运行时间："+(endTime-startTime)+"ms");
     }
+
 }

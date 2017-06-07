@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>自动化引擎 | 创建引擎</title>
+    <link rel="stylesheet" href="./layui/css/layui.css" type="text/css">
+    <link rel="stylesheet" href="./css/engine.css" type="text/css">
+</head>
+<body>
+<div class="layui-header header">
+    <div class="main">
+        <ul class="layui-nav" lay-filter="">
+            <li class="layui-nav-item"><a href="index.html">首页</a></li>
+            <li class="layui-nav-item layui-this"><a href="create.html">创建引擎</a></li>
+            <li class="layui-nav-item"><a href="definition.html">自定义</a></li>
+            <li class="layui-nav-item"><a href="document.html">说明文档</a></li>
+            <li class="layui-nav-item"><a href="community.html">社区</a></li>
+        </ul>
+    </div>
+</div>
+<div class="create-body">
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>业务信息</legend>
+    </fieldset>
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">功能模块名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="" required lay-verify="required" placeholder="功能模块名" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-input-inline">
+                <input type="text" name="password" required lay-verify="required" placeholder="实体表名" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-input-inline">
+                <input type="text" name="password" required lay-verify="required" placeholder="表名前缀" autocomplete="off" class="layui-input">
+            </div>
+            <label class="layui-form-label">数据库类型</label>
+            <div class="layui-input-inline">
+                <select name="quiz3">
+                    <option value="">选择数据库类型</option>
+                    <option value=""></option>
+                    <option value="myBatis">MYSQL</option>
+                    <option value="Hibernate">ORACLE</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="quiz3">
+                    <option value="">选择数据库操作框架</option>
+                    <option value=""></option>
+                    <option value="myBatis">myBatis</option>
+                    <option value="Hibernate">Hibernate</option>
+                    <option value="HibernateJPA">HibernateJPA</option>
+                    <option value="JDBC">JDBC</option>
+                </select>
+            </div>
+
+            <!-- <div class="layui-form-mid layui-word-aux">请输入实体信息</div>-->
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备&emsp;&emsp;&emsp;注</label>
+            <div class="layui-input-block">
+                <textarea name="desc" placeholder="请输入备注" class="layui-textarea" style="min-height: 50px;"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block site-engine-button" style="float: right;">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <button type="reset" data-method="setTop" class="layui-btn layui-btn-primary">生成实体代码</button>
+                <button type="reset" class="layui-btn layui-btn-primary">导出Table.xml</button>
+                <button type="reset" class="layui-btn layui-btn-primary">导入Table.xml</button>
+                <button type="reset" class="layui-btn layui-btn-primary">从数据表导入</button>
+            </div>
+        </div>
+    </form>
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>实体属性信息</legend>
+    </fieldset>
+
+    <table class="layui-table" lay-even="" lay-skin="row">
+        <colgroup>
+            <col width="8%">
+            <col width="8%">
+            <col width="12%">
+            <col width="12%">
+            <col width="5%">
+            <col width="5%">
+            <col width="8%">
+            <col width="18%">
+            <col width="14%">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>属性名称</th>
+            <th>属性长度</th>
+            <th>数据类型</th>
+            <th>默认值</th>
+            <th>允许空</th>
+            <th>主键</th>
+            <th>自动递增</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody class="engine_table_body">
+        <tr>
+            <td>
+                <div class="layui-form">
+                    <div class="layui-input-inline">
+                        <input type="text" value="id" name="password" required lay-verify="required" placeholder="属性名称" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="layui-form">
+                    <div class="layui-input-inline">
+                        <input type="text" name="password" value="32" required lay-verify="required" placeholder="属性长度" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="layui-form">
+                    <select name="quiz3" lay-verify="required" lay-search="">
+                        <option value="">属性值</option>
+                        <option value=""></option>
+                        <option value="myBatis">int 整型</option>
+                        <option value="Hibernate">varchar 字符型</option>
+                        <option value="HibernateJPA">char 短字符型</option>
+                        <option value="JDBC">boolean 布尔型</option>
+                        <option value="myBatis">float 单精度整型</option>
+                        <option value="Hibernate">double 双精度</option>
+                        <option value="HibernateJPA">enum 枚举</option>
+                        <option value="JDBC">text 文本</option>
+                    </select>
+                </div>
+            </td>
+            <td>
+                <div class="layui-form">
+                    <div class="layui-input-inline">
+                        <input type="text" name="password" required lay-verify="required" placeholder="默认值" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="layui-form">
+                    <div class="layui-input-inline">
+                        <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="layui-form">
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="layui-form">
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="layui-form">
+                    <div class="layui-input-inline">
+                        <input type="text" name="password" required lay-verify="required" placeholder="备注" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="layui-btn-group">
+                    <button class="layui-btn layui-btn-small modal-catch">
+                        <i class="layui-icon">&#xe654;</i>添加
+                    </button>
+                    <button class="layui-btn layui-btn-danger layui-btn-small">
+                        <i class="layui-icon">&#xe640;</i>删除
+                    </button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script src="./layui/layui.js" type="application/javascript"></script>
+<script src="./js/engine.js" type="application/javascript"></script>
+</body>
+</html>

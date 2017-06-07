@@ -2,91 +2,129 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>自动化引擎 | 通过sql生成自动JAVA代码</title>
-    <link rel="stylesheet" href="./layui/css/layui.css">
-    <link rel="stylesheet" href="./css/engine.css">
+    <link rel="stylesheet" href="./layui/css/layui.css" type="text/css">
+    <link rel="stylesheet" href="./css/engine.css" type="text/css">
 </head>
 <body>
-    <div class="layui-header header">
-        <div class="main index_main">
-            <ul class="layui-nav" lay-filter="">
-                <li class="layui-nav-item"><a href="/">首页2</a></li>
-                    <li class="layui-nav-item layui-this"><a href="">Pass Type</a></li>
-                    <li class="layui-nav-item"><a href="">Pass SQL</a></li>
-                    <li class="layui-nav-item">
-                        <a href="">使用说明</a>
-                    </li>
-                    <li class="layui-nav-item"><a href="">社区</a></li>
-            </ul>
-        </div>
+<div class="layui-header header">
+    <div class="main">
+        <ul class="layui-nav" lay-filter="">
+            <li class="layui-nav-item layui-this"><a href="index.html">首页</a></li>
+            <li class="layui-nav-item"><a href="create.html">创建引擎</a></li>
+            <li class="layui-nav-item"><a href="definition.html">自定义</a></li>
+            <li class="layui-nav-item"><a href="document.html">说明文档</a></li>
+            <li class="layui-nav-item"><a href="community.html">社区</a></li>
+        </ul>
     </div>
-    <div class="index-body">
-        <form class="layui-form" action="">
-            <div class="layui-form-item">
-                <label class="layui-form-label">输入框</label>
-                <div class="layui-input-block">
-                    <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">密码框</label>
-                <div class="layui-input-inline">
-                    <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">辅助文字</div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">选择框</label>
-                <div class="layui-input-block">
-                    <select name="city" lay-verify="required">
-                        <option value=""></option>
-                        <option value="0">北京</option>
-                        <option value="1">上海</option>
-                        <option value="2">广州</option>
-                        <option value="3">深圳</option>
-                        <option value="4">杭州</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">复选框</label>
-                <div class="layui-input-block">
-                    <input type="checkbox" name="like[write]" title="写作">
-                    <input type="checkbox" name="like[read]" title="阅读" checked>
-                    <input type="checkbox" name="like[dai]" title="发呆">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">开关</label>
-                <div class="layui-input-block">
-                    <input type="checkbox" name="switch" lay-skin="switch">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">单选框</label>
-                <div class="layui-input-block">
-                    <input type="radio" name="sex" value="男" title="男">
-                    <input type="radio" name="sex" value="女" title="女" checked>
-                </div>
-            </div>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">文本域</label>
-                <div class="layui-input-block">
-                    <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                </div>
-            </div>
-        </form>
-    </div>
-
-
-
+</div>
+<div class="layui-body index-body">
+    <h2 class="index-body-h2">开发环境配置</h2>
+    <table class="layui-table" style="margin-bottom: 50px;">
+        <colgroup>
+            <col width="10%">
+            <col width="85%">
+            <col>
+        </colgroup>
+        <tbody>
+            <tr>
+                <td class="td_lable">版本</td>
+                <td>1.0.0</td>
+            </tr>
+            <tr>
+                <td class="td_lable">数据驱动</td>
+                <td>com.alibaba.druid.pool.DruidDataSource</td>
+            </tr>
+            <tr>
+                <td class="td_lable">java版本</td>
+                <td>1.7.0_45</td>
+            </tr>
+            <tr>
+                <td class="td_lable">JVM名称</td>
+                <td>Java HotSpot(TM) Client VM</td>
+            </tr>
+            <tr>
+                <td class="td_lable">公共模板路径</td>
+                <td><a href="#" class="template">engnine-1.0.0.jar\engine\http\resources\template</a>
+                    <span class="layui-form-mid layui-word-aux" style="padding: 0;float: none;">公共模板在JAR包中，建议不要修改</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="td_lable">自定义模板路径</td>
+                <td>自定义模板路径</td>
+            </tr>
+            <tr>
+                <td class="td_lable">JAVA输出路径</td>
+                <td>
+                    <div class="layui-form">
+                        <div class="layui-form-item" style="margin-bottom: 0px !important;">
+                            <div class="layui-input-inline">
+                                <input type="text" name="javaOutput" class="layui-input java-output-input" >
+                            </div>
+                            <button class="layui-btn layui-btn-small" lay-submit lay-filter="formDemo">确认</button>
+                            <div class="layui-form-mid layui-word-aux" style="padding: 0;float: none;">请填写磁盘上绝对路径</div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="td_lable">包名称</td>
+                <td>
+                    <div class="layui-form">
+                        <div class="layui-form-item" style="margin-bottom: 0px !important;">
+                            <div class="layui-input-inline">
+                                <input type="text" name="javaOutput" class="layui-input java-output-input" >
+                            </div>
+                            <button class="layui-btn layui-btn-small" lay-submit lay-filter="formDemo">确认</button>
+                            <div class="layui-form-mid layui-word-aux" style="padding: 0;float: none;">例如：com.baidu</div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="td_lable">启动时间</td>
+                <td>2017-06-07 14:51:06</td>
+            </tr>
+        </tbody>
+    </table>
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>历史版本</legend>
+    </fieldset>
+    <table class="layui-table">
+        <colgroup>
+            <col width="8%">
+            <col width="8%">
+            <col width="8%">
+            <col width="8%">
+            <col width="25%">
+            <col width="25%">
+            <col width="18">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>功能名称</th>
+            <th>实体表名</th>
+            <th>数据库类型</th>
+            <th>数据库框架</th>
+            <th>公共模板路径</th>
+            <th>JAVA代码路径</th>
+            <th>备注</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a class="template" href="#">首页用户管理</a></td>
+            <td>front_music_users</td>
+            <td>MYSQl</td>
+            <td>Hibernate</td>
+            <td><a class="template" href="#">egnine-1.0.0.jar\engine\http\resources\template\myBatis</a></td>
+            <td><a class="template" href="#">E:\电影网站模板\FrontMusik\FrontMusik-Admin\src\main\java\tech\yobbo</a></td>
+            <td>首页用户管理测试</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 <script src="./layui/layui.js" type="application/javascript"></script>
 <script src="./js/engine.js" type="application/javascript"></script>
 </body>

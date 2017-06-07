@@ -2,6 +2,7 @@ package tech.yobbo.engine.support.util;
 
 import tech.yobbo.engine.support.http.EngineViewServlet;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 /**
@@ -52,7 +53,9 @@ public class Utils {
             String text = Utils.read(in);
             return text;
         } finally {
-            in.close();
+            if (in != null) {
+                in.close();
+            }
         }
     }
 
@@ -75,7 +78,9 @@ public class Utils {
 
             return readByteArray(in);
         } finally {
-            in.close();
+            if (in != null) {
+                in.close();
+            }
         }
     }
 
@@ -97,5 +102,18 @@ public class Utils {
             count += n;
         }
         return count;
+    }
+
+    public InputStream readResource(String resource) throws IOException {
+        InputStream in = null;
+        try {
+            in = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
+            if (in == null) {
+                return  null;
+            }
+            return in;
+        } finally {
+            if (in != null)in.close();
+        }
     }
 }

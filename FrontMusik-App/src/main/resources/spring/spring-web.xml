@@ -6,7 +6,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd" >
     
     <!-- 简化配置：
      1.自动注册defaultAnnotationHandlerMapping,AnnotationMenthodHandlerAdapter 
@@ -14,8 +14,11 @@
      <mvc:annotation-driven/>  
      <!-- 加载静态配置 -->
      <mvc:default-servlet-handler/>
-     
-     <context:component-scan base-package="tech.yobbo.*.web"/>
+
+	<!-- 只扫描指定包下面带有Controller -->
+     <context:component-scan base-package="tech.yobbo.*.web" use-default-filters="false">
+		 <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	 </context:component-scan>
     
     <!-- 视图模式配置,velocity配置文件-->
 	<bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">  

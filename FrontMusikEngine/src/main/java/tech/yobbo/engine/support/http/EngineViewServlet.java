@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,7 +51,10 @@ public class EngineViewServlet extends HttpServlet{
         if (filePath.endsWith(".html")) {
             response.setContentType("text/html; charset=utf-8");
         }
-        if (fileName.endsWith(".jpg")) {
+
+        if (fileName.endsWith(".jpg")
+                || fileName.endsWith(".png")
+                || fileName.endsWith(".gif")) {
             byte[] bytes = Utils.readByteArrayFromResource(filePath);
             if (bytes != null) {
                 response.getOutputStream().write(bytes);
@@ -66,6 +71,18 @@ public class EngineViewServlet extends HttpServlet{
             response.setContentType("text/css;charset=utf-8");
         } else if (fileName.endsWith(".js")) {
             response.setContentType("text/javascript;charset=utf-8");
+        }else if (fileName.endsWith(".woff")) {
+            response.setContentType("application/x-font-woff");
+            response.setBufferSize(402800);
+        } else if (fileName.endsWith(".ttf")) {
+            response.setHeader("Content-type","application/octet-stream");
+            response.setBufferSize(402800);
+        } else if (fileName.endsWith(".svg")) {
+            response.setHeader("Content-type","mage/svg+xml");
+            response.setBufferSize(402800);
+        } else if (fileName.endsWith(".eot")) {
+            response.setHeader("Content-type","application/vnd.ms-fontobject");
+            response.setBufferSize(402800);
         }
         response.getWriter().write(text);
     }

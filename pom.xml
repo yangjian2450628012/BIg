@@ -138,6 +138,12 @@
                 <db.url>jdbc:mysql://127.0.0.1:3306/movie?characterEncoding=utf8</db.url>
                 <db.username>movie</db.username>
                 <db.password>452D29A6639B42C8896C6660E97E6E47</db.password>
+                <log.moduleName>FrontMusik</log.moduleName>
+                <log.base>frontMusiKLogs</log.base>
+                <log.other.level>DEBUG</log.other.level>
+                <log.root.level>DEBUG</log.root.level>
+                <log.max.size>10kb</log.max.size>
+                <log.stdout.ref><![CDATA[<appender-ref ref="stdout" />]]></log.stdout.ref>
             </properties>
         </profile>
         <profile>
@@ -147,6 +153,12 @@
                 <db.url>jdbc:mysql://192.168.1.200:3306/test</db.url>
                 <db.username>test</db.username>
                 <db.password >test2011</db.password >
+                <log.moduleName>FrontMusik</log.moduleName>
+                <log.base>FrontMusikLogs</log.base>
+                <log.other.level>DEBUG</log.other.level>
+                <log.root.level>DEBUG</log.root.level>
+                <log.max.size>10kb</log.max.size>
+                <log.stdout.ref><![CDATA[<appender-ref ref="stdout" />]]></log.stdout.ref>
             </properties>
         </profile>
     </profiles>

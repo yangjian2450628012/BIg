@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>自动化引擎 | 说明文档</title>
+    <link rel="stylesheet" href="./layui/css/layui.css" type="text/css">
+    <link rel="stylesheet" href="./css/engine.css" type="text/css">
+</head>
+<body>
+<div class="layui-header header">
+    <div class="main">
+        <ul class="layui-nav" lay-filter="">
+            <li class="layui-nav-item"><a href="index.html">首页</a></li>
+            <li class="layui-nav-item"><a href="create.html">创建引擎</a></li>
+            <li class="layui-nav-item"><a href="definition.html">自定义</a></li>
+            <li class="layui-nav-item layui-this"><a href="document.html">说明文档</a></li>
+            <li class="layui-nav-item"><a href="community.html">社区</a></li>
+        </ul>
+    </div>
+</div>
+<div class="layui-main site-inline document-tree">
+    <div class="site-tree">
+        <ul class="layui-tree">
+            <li><h2>说明文档</h2></li>
+            <li class="site-tree-noicon ">
+                <a href="/doc/"><cite>开始使用</cite></a>
+            </li>
+            <li class="site-tree-noicon ">
+                <a href="/doc/base/infrastructure.html">
+                    <cite>底层方法</cite>
+                </a>
+            </li>
+            <li class="site-tree-noicon ">
+                <a href="/doc/base/element.html">
+                    <cite>页面元素</cite>
+                    <em>规范 / 公共类/属性</em>
+                </a>
+            </li>
+            <li class="site-tree-noicon ">
+                <a href="/doc/base/modules.html">
+                    <cite>模块规范</cite>
+                    <em>使用 / 扩展</em>
+                </a>
+            </li>
+            <li class="site-tree-noicon ">
+                <a href="/doc/base/faq.html">
+                    <cite>常见问题</cite>
+                </a>
+            </li>
+            <li><h2>页面元素</h2></li>
+
+
+            <li class="site-tree-noicon ">
+                <a href="/doc/element/color.html">
+                    <cite>颜色</cite>
+                    <em>内置的色值参考</em>
+                </a>
+            </li>
+
+            <li class="site-tree-noicon ">
+                <a href="/doc/element/icon.html">
+                    <cite>图标</cite>
+                    <em>字体图标</em>
+                </a>
+            </li>
+
+            <li class="site-tree-noicon ">
+                <a href="/doc/element/button.html">
+                    <cite>按钮</cite>
+                    <em>button组</em>
+                </a>
+            </li>
+            <li class="site-tree-noicon ">
+                <a href="/doc/element/form.html">
+                    <cite>表单</cite>
+                    <em>form元素集合</em>
+                </a>
+            </li>
+            <li class="site-tree-noicon ">
+                <a href="/doc/element/nav.html">
+                    <cite>导航</cite>
+                    <em>菜单 / 面包屑</em>
+                </a>
+            </li>
+            <li class="site-tree-noicon ">
+                <a href="/doc/element/tab.html">
+                    <cite>选项卡</cite>
+                    <em>Tab切换</em>
+                </a>
+            </li>
+            <li class="site-tree-noicon ">
+                <a href="/doc/element/table.html">
+                    <cite>表格</cite>
+                    <em>table基本结构</em>
+                </a>
+            </li>
+            <li class="site-tree-noicon ">
+                <a href="/doc/element/progress.html">
+                    <cite>进度条</cite>
+                    <em>progress</em>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</div>
+<div class="layui-body layui-tab-content document-body">
+    <div class="site-inline" style="display:block">
+        <h1 class="site-h1">自动化引擎</h1>
+        <blockquote class="site-tips site-text">
+            Layui
+            是一款采用自身模块规范编写的国产前端UI框架，遵循原生HTML/CSS/JS的书写与组织形式，门槛极低，拿来即用。其外在极简，却又不失饱满的内在，体积轻盈，组件丰盈，从核心代码到API的每一处细节都经过精心雕琢，非常适合界面的快速开发。layui还很年轻，首个版本发布于2016年金秋，她区别于那些基于MVVM底层的UI框架，却并非逆道而行，而是信奉返璞归真之道，准确地说，她更多是为服务端程序员量身定做，你无需涉足各种前端工具的复杂配置，只需面对浏览器本身，让一切你所需要的元素与交互、从这里信手拈来。
+        </blockquote>
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend>引入js文件</legend>
+        </fieldset>
+        <p>首先我们需要在页面中引入Chart.js文件。</p>
+        <pre class="layui-code" lay-title="HTML">&lt;script src="sChart.js">&lt;/script></pre>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>案例演示</legend>
+        </fieldset>
+        <p>为了能让各位农码快速上手，在这提供一份案例演示，此案例仅供参考。</p>
+        <pre class="layui-code" lay-title="HTML"><canvas id="canvas" width="500" height="400"></canvas></pre>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>创建图表</legend>
+        </fieldset>
+        <p>通过实例化sChart对象来生成图表。</p>
+        <pre class="layui-code" lay-title="JavaScript">new sChart(canvasId, type, data, options)</pre>
+        <p>完成实例化之后，就可以在画布上看到生成的图表了。</p>
+    </div>
+    <div class="schart-main">
+        <h2 class="index-title-h2">柱状图（Bar chart）</h2>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>使用案例</legend>
+        </fieldset>
+        <img class="demo-img" src="static/img/bar.png">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>数据结构</legend>
+        </fieldset>
+        <pre class="layui-code" lay-title="JavaScript">
+var data = [
+    {name:'2012', value:1141},
+    {name:'2013', value:1499},
+    {name:'2014', value:2260},
+    {name:'2015', value:1170},
+    {name:'2016', value:970},
+    {name:'2017', value:1450}
+]</pre>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>创建图表</legend>
+        </fieldset>
+        <pre class="layui-code" lay-title="JavaScript">
+new sChart('canvas', 'bar', data, {
+    title: '某商店近年营业总额',
+    bgColor: '#829dda',
+    titleColor: '#ffffff',
+    fillColor: '#72f6ff',
+    axisColor: '#eeeeee',
+    contentColor: '#bbbbbb'
+});</pre>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>图表参数</legend>
+        </fieldset>
+        <pre class="layui-code" lay-title="JavaScript">options = {
+    padding: 50,                    // canvas 内边距
+    yEqual: 5,                      // y轴分成5等分
+    bgColor: '#ffffff',             // 默认背景颜色
+    fillColor: '#1E9FFF',           // 默认填充颜色
+    axisColor: '#666666',           // 坐标轴颜色
+    contentColor: '#eeeeee',        // 内容横线颜色
+    title: '',                      // 图表标题
+    titleColor: '#000000',          // 图表标题颜色
+    titlePosition: 'top'            // 图表标题位置: top / bottom
+}</pre>
+    </div>
+    <div class="schart-main">
+        <h2 class="index-title-h2">折线图（Line chart）</h2>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>使用案例</legend>
+        </fieldset>
+        <img class="demo-img" src="static/img/line.png">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>数据结构</legend>
+        </fieldset>
+        <pre class="layui-code" lay-title="JavaScript">
+var data = [
+    {name:'2012', value:1141},
+    {name:'2013', value:1499},
+    {name:'2014', value:2260},
+    {name:'2015', value:1170},
+    {name:'2016', value:970},
+    {name:'2017', value:1450}
+]</pre>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>创建图表</legend>
+        </fieldset>
+        <pre class="layui-code" lay-title="JavaScript">
+new sChart('canvas', 'line', data, {
+    title: '某商店近年营业总额',
+    bgColor: '#829dba',
+    titleColor: '#ffffff',
+    fillColor: '#72f6ff',
+    axisColor: '#eeeeee',
+    contentColor: '#bbbbbb'
+});</pre>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>图表参数</legend>
+        </fieldset>
+        <pre class="layui-code" lay-title="JavaScript">options = {
+    padding: 50,                    // canvas 内边距
+    yEqual: 5,                      // y轴分成5等分
+    bgColor: '#ffffff',             // 默认背景颜色
+    fillColor: '#1E9FFF',           // 默认填充颜色
+    axisColor: '#666666',           // 坐标轴颜色
+    contentColor: '#eeeeee',        // 内容横线颜色
+    title: '',                      // 图表标题
+    titleColor: '#000000',          // 图表标题颜色
+    titlePosition: 'top'            // 图表标题位置: top / bottom
+}</pre>
+    </div>
+    <div class="schart-main">
+        <h2 class="index-title-h2">饼状图（Pie chart）</h2>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>使用案例</legend>
+        </fieldset>
+        <img class="demo-img" src="static/img/pie.png">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>数据结构</legend>
+        </fieldset>
+        <pre class="layui-code" lay-title="JavaScript">
+var data = [
+    {name:'短袖', value:1200},
+    {name:'休闲裤', value:1222},
+    {name:'连衣裙', value:1283},
+    {name:'外套', value:1314},
+    {name:'羽绒服', value:2314}
+]</pre>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>创建图表</legend>
+        </fieldset>
+        <pre class="layui-code" lay-title="JavaScript">
+new sChart('canvas', 'pie', data, {
+    title: '某商店各商品年度销量',
+    bgColor: '#829dca',
+    titleColor: '#ffffff',
+    legendColor: '#ffffff'
+});</pre>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>图表参数</legend>
+        </fieldset>
+        <pre class="layui-code" lay-title="JavaScript">options = {
+    bgColor: '#ffffff',             // 默认背景颜色
+    title: '',                      // 图表标题
+    titleColor: '#000000',          // 图表标题颜色
+    titlePosition: 'top'            // 图表标题位置: top / bottom
+    legendColor: '#000000',         // 图例文本颜色
+    legendTop: 40,                  // 图例距离顶部的长度
+    colorList: ['#1E9FFF', '#13CE66', '#F7BA2A', '#FF4949', '#72f6ff'],    // 饼图颜色列表
+    radius: 100,                    // 饼图半径
+}</pre>
+    </div>
+    <div class="schart-main">
+        <h2 class="index-title-h2">环形图（Ring chart）</h2>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>使用案例</legend>
+        </fieldset>
+        <img class="demo-img" src="static/img/ring.png">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>数据结构</legend>
+        </fieldset>
+        <pre class="layui-code" lay-title="JavaScript">
+var data = [
+    {name:'短袖', value:1200},
+    {name:'休闲裤', value:1222},
+    {name:'连衣裙', value:1283},
+    {name:'外套', value:1314},
+    {name:'羽绒服', value:2314}
+]</pre>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>创建图表</legend>
+        </fieldset>
+        <pre class="layui-code" lay-title="JavaScript">
+new sChart('canvas', 'ring', data, {
+    title: '某商店各商品年度销量',
+    bgColor: '#829daa',
+    titleColor: '#ffffff',
+    legendColor: '#ffffff'
+});</pre>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>图表参数</legend>
+        </fieldset>
+        <pre class="layui-code" lay-title="JavaScript">options = {
+    bgColor: '#ffffff',             // 默认背景颜色
+    title: '',                      // 图表标题
+    titleColor: '#000000',          // 图表标题颜色
+    titlePosition: 'top'            // 图表标题位置: top / bottom
+    legendColor: '#000000',         // 图例文本颜色
+    legendTop: 40,                  // 图例距离顶部的长度
+    colorList: ['#1E9FFF', '#13CE66', '#F7BA2A', '#FF4949', '#72f6ff'],    // 环形图颜色列表
+    radius: 100,                    // 环形图外圆半径
+    innerRadius: 70                 // 环形图内圆半径
+}</pre>
+    </div>
+</div>
+
+<script src="./layui/layui.js" type="application/javascript"></script>
+<script src="./js/engine.js" type="application/javascript"></script>
+</body>
+</html>
