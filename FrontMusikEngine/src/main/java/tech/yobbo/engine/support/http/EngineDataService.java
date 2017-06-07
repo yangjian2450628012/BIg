@@ -3,9 +3,9 @@ package tech.yobbo.engine.support.http;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import tech.yobbo.engine.support.util.JdbcUtils;
+import tech.yobbo.engine.support.util.Utils;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
@@ -29,13 +29,12 @@ public class EngineDataService extends EngineDataServiceHelp {
     /**
      * 调用服务
      * @param url
-     * @param request
+     * @param context 上下文
      * @return
      */
-    public static String process(String url,HttpServletRequest request){
+    public static String process(String url,ServletContext context){
         Map<String, String> parameters = getParameters(url);
         // 获取spring中的连接池
-        ServletContext context = request.getServletContext();
         ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
         try {
             dataSource = (DataSource) ctx.getBean(Class.forName(EngineViewServlet.getDataSource()));
@@ -45,14 +44,38 @@ public class EngineDataService extends EngineDataServiceHelp {
         if (url.startsWith(INDEX_URL)) {
             return returnJSONResult(RESULT_CODE_SUCCESS, getIndexList(parameters));
         }
+        if (url.startsWith(INDEX_CHANGE_PATH)) {
+            return returnJSONResult(RESULT_CODE_SUCCESS, changePath(parameters));
+        }
         return returnJSONResult(RESULT_CODE_ERROR, "Do not support this request, please contact with administrator.");
+    }
+
+    // 修改路径
+    private static Object changePath(Map<String, String> parameters) {
+        try{
+            // 判断数据表是否已经创建
+            String sqlMsql = Utils.readFromResource(DB_SUPPORT+"/mysql_base.sql");
+            JdbcUtils jdbcUtils = JdbcUtils.getInstance();
+            jdbcUtils.getConnection(dataSource);
+            boolean r = jdbcUtils.execute(sqlMsql);
+            if (!r){
+                String oracleSQl = Utils.readFromResource(DB_SUPPORT + "/oracle_base.sql");
+                jdbcUtils.execute(oracleSQl);
+            }
+            // 保存信息
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+        return null;
     }
 
     // 获取首页列表
     private static List getIndexList(Map<String, String> parameters) {
         JdbcUtils jdbcUtils = JdbcUtils.getInstance();
         try {
-            jdbcUtils.getConnection(dataSource);
             List data = jdbcUtils.getDataBySql(INDEX_SQL,new Object[]{0,100000});
             return data;
         } catch (Exception e) {

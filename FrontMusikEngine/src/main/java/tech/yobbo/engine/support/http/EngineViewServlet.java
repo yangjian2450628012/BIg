@@ -1,6 +1,8 @@
 package tech.yobbo.engine.support.http;
 
 
+import tech.yobbo.engine.support.json.JSONUtils;
+import tech.yobbo.engine.support.util.JdbcUtils;
 import tech.yobbo.engine.support.util.Utils;
 
 import javax.servlet.ServletConfig;
@@ -8,9 +10,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -123,7 +127,7 @@ public class EngineViewServlet extends HttpServlet{
             if (request.getQueryString() != null && request.getQueryString().length() > 0) {
                 fullUrl += "?" + request.getQueryString();
             }
-            response.getWriter().print(EngineDataService.getInstance().process(fullUrl,request));
+            response.getWriter().print(EngineDataService.getInstance().process(fullUrl,request.getServletContext()));
             return;
         }
 
@@ -134,6 +138,5 @@ public class EngineViewServlet extends HttpServlet{
 
         returnResourceFile(path, uri, response);
     }
-
 
 }

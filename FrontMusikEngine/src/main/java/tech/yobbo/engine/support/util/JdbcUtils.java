@@ -51,9 +51,25 @@ public class JdbcUtils {
     }
 
     /********************start 执行提交**************************************************/
+
+    // 创建表
+    public  boolean execute(String sql){
+        if (conn == null) {
+           throw new RuntimeException("没有可用的连接");
+        }
+        try {
+            statement = conn.prepareStatement(sql);
+            return statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     // 执行提交
-    public static Integer execetuUPdate (String sql,Object... params) throws RuntimeException {
-        if (null == null) {
+    public Integer execetuUPdate (String sql,Object... params) throws RuntimeException {
+        if (conn == null) {
             throw new RuntimeException("没有可用的连接");
         }
         try {
