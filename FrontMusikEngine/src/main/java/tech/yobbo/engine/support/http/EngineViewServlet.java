@@ -152,7 +152,6 @@ public class EngineViewServlet extends HttpServlet{
             }
 			params.put("base_path",base_path);
 			params.put("package_name",package_name);
-			params.put("dataSource", dataSource);
             Object data = EngineDataService.getInstance().processTemplate(path,params,servletContext);
             //获取模板
             Template template = configuration.getTemplate(filePath);

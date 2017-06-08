@@ -8,6 +8,7 @@ import javax.servlet.ServletContext;
 import javax.sql.DataSource;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import tech.yobbo.engine.support.util.JdbcUtils;
@@ -21,6 +22,7 @@ import tech.yobbo.engine.support.util.VERSION;
 public class EngineDataService extends EngineDataServiceHelp {
     private static  EngineDataService instance      = null;
     private static DataSource dataSource            = null;
+    private static String dataSource_className      = null;
 
     private EngineDataService(){}
     public static EngineDataService getInstance(){
@@ -64,6 +66,7 @@ public class EngineDataService extends EngineDataServiceHelp {
         ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
         try {
             dataSource = (DataSource) ctx.getBean(Class.forName(EngineViewServlet.getDataSource()));
+            dataSource_className = dataSource.getClass().getName();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -88,7 +91,7 @@ public class EngineDataService extends EngineDataServiceHelp {
         dataMap.put("Version", VERSION.getVersionNumber());
         dataMap.put("base_path",params.get("base_path"));
         dataMap.put("package_name",params.get("package_name"));
-        dataMap.put("dataSource",params.get("dataSource"));
+        dataMap.put("dataSource",dataSource_className);
         dataMap.put("Drivers", params.get("dataSource"));
         dataMap.put("JavaVMName", System.getProperty("java.vm.name"));
         dataMap.put("JavaVersion", System.getProperty("java.version"));

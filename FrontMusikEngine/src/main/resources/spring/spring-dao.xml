@@ -21,7 +21,7 @@
     	<property name="autoCommitOnClose" value="false"/>
     	<property name="checkoutTimeout" value="1000"/>
     	<property name="acquireRetryAttempts" value="2"/>
-    </bean>  -->
+    </bean>-->
 
 	<!-- 阿里 druid 数据库连接池 -->
 	<bean id = "dataSource" class = "com.alibaba.druid.pool.DruidDataSource" destroy-method = "close" >
