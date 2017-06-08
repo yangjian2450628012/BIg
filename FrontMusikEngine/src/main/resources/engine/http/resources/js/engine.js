@@ -13,7 +13,7 @@ var engine = layui.use(['layer','element','form','laytpl','tree'], function() {
                 ,shade: 0
                 ,maxmin: true
                 ,offset: 'auto'
-                ,content: '/engine/engines/code.html'
+                ,content: 'code.html'
                 ,btn: ['确认生成', '全部关闭']
                 ,yes: function(){
                     alert("确认生成");

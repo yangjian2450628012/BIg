@@ -1,5 +1,6 @@
 package tech.yobbo.engine.support.http;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import tech.yobbo.engine.support.util.JdbcUtils;
 import tech.yobbo.engine.support.util.Utils;
-import tech.yobbo.engine.support.http.EngineDataServiceHelp;
+import tech.yobbo.engine.support.util.VERSION;
 
 /**
  * Created by xiaoJ on 6/1/2017.
@@ -29,6 +30,17 @@ public class EngineDataService extends EngineDataServiceHelp {
         return instance;
     }
 
+	// 获取模板中数据
+	public Object processTemplate(String url,Map<String, String> parameters,ServletContext context){
+        if(dataSource == null){
+            setDataSource(context);
+        }
+        if (url.startsWith("/index.html")) { //首页信息
+            return  getBasicInfo(parameters);
+        }
+        return null;
+	}
+	
     /**
      * 调用服务
      * @param url
@@ -37,6 +49,17 @@ public class EngineDataService extends EngineDataServiceHelp {
      */
     public String process(String url,ServletContext context){
         Map<String, String> parameters = getParameters(url);
+        if (dataSource == null) {
+            setDataSource(context);
+        }
+        if (url.startsWith(INDEX_URL)) {
+            return returnJSONResult(RESULT_CODE_SUCCESS, getIndexList(parameters));
+        }
+        return returnJSONResult(RESULT_CODE_ERROR, "Do not support this request, please contact with administrator.");
+    }
+
+    protected void setDataSource(ServletContext context){
+        System.out.println("当前没有数据连接池，要获取连接池");
         // 获取spring中的连接池
         ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
         try {
@@ -44,41 +67,13 @@ public class EngineDataService extends EngineDataServiceHelp {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (url.startsWith(INDEX_URL)) {
-            return returnJSONResult(RESULT_CODE_SUCCESS, getIndexList(parameters));
-        }
-        if (url.startsWith(INDEX_CHANGE_PATH)) {
-            return returnJSONResult(RESULT_CODE_SUCCESS, changePath(parameters));
-        }
-        return returnJSONResult(RESULT_CODE_ERROR, "Do not support this request, please contact with administrator.");
-    }
-
-    // 修改路径
-    private static Object changePath(Map<String, String> parameters) {
-        try{
-            // 判断数据表是否已经创建
-            String sqlMsql = Utils.readFromResource(DB_SUPPORT+"/mysql_base.sql");
-            JdbcUtils jdbcUtils = JdbcUtils.getInstance();
-            jdbcUtils.getConnection(dataSource);
-            boolean r = jdbcUtils.execute(sqlMsql);
-            if (!r){
-                String oracleSQl = Utils.readFromResource(DB_SUPPORT + "/oracle_base.sql");
-                jdbcUtils.execute(oracleSQl);
-            }
-            // 保存信息
-
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-
-
-        return null;
     }
 
     // 获取首页列表
     private static List getIndexList(Map<String, String> parameters) {
-        JdbcUtils jdbcUtils = JdbcUtils.getInstance();
         try {
+            JdbcUtils jdbcUtils = JdbcUtils.getInstance();
+            jdbcUtils.getConnection(dataSource);
             List data = jdbcUtils.getDataBySql(INDEX_SQL,new Object[]{0,100000});
             return data;
         } catch (Exception e) {
@@ -87,4 +82,17 @@ public class EngineDataService extends EngineDataServiceHelp {
         return null;
     }
 
+    // 获取首页基础数据
+    private static Map getBasicInfo(Map<String,String> params){
+        Map<String,Object> dataMap = new LinkedHashMap();
+        dataMap.put("Version", VERSION.getVersionNumber());
+        dataMap.put("base_path",params.get("base_path"));
+        dataMap.put("package_name",params.get("package_name"));
+        dataMap.put("dataSource",params.get("dataSource"));
+        dataMap.put("Drivers", params.get("dataSource"));
+        dataMap.put("JavaVMName", System.getProperty("java.vm.name"));
+        dataMap.put("JavaVersion", System.getProperty("java.version"));
+        dataMap.put("StartTime", Utils.getStartTime());
+        return dataMap;
+    }
 }

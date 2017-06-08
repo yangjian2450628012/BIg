@@ -23,7 +23,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name> EngineStatView</servlet-name>
-    <url-pattern>/engines/*</url-pattern>
+    <url-pattern>/em/*</url-pattern>
   </servlet-mapping>
   <!-- end 自动化引擎，自动生成代码 servlet-->
 

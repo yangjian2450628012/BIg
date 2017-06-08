@@ -30,19 +30,19 @@
         <tbody>
             <tr>
                 <td class="td_lable">版本</td>
-                <td id="version">1.0.0</td>
+                <td >${Version}</td>
             </tr>
             <tr>
                 <td class="td_lable">数据驱动</td>
-                <td id="driver">com.alibaba.druid.pool.DruidDataSource</td>
+                <td >${dataSource}</td>
             </tr>
             <tr>
                 <td class="td_lable">java版本</td>
-                <td id="java_version">1.7.0_45</td>
+                <td >${JavaVersion}</td>
             </tr>
             <tr>
                 <td class="td_lable">JVM名称</td>
-                <td id="java_jvm">Java HotSpot(TM) Client VM</td>
+                <td>${JavaVMName}</td>
             </tr>
             <tr>
                 <td class="td_lable">公共模板路径</td>
@@ -52,39 +52,19 @@
             </tr>
             <tr>
                 <td class="td_lable">自定义模板路径</td>
-                <td id="definition_path">自定义模板路径</td>
+                <td>自定义模板路径</td>
             </tr>
             <tr>
                 <td class="td_lable">JAVA输出路径</td>
-                <td id="base_path">
-                    <div class="layui-form">
-                        <div class="layui-form-item" style="margin-bottom: 0px !important;">
-                            <div class="layui-input-inline">
-                                <input type="text" name="javaOutput" class="layui-input java-output-input" >
-                            </div>
-                            <button class="layui-btn layui-btn-small" lay-submit lay-filter="formDemo">确认</button>
-                            <div class="layui-form-mid layui-word-aux" style="padding: 0;float: none;">请填写磁盘上绝对路径</div>
-                        </div>
-                    </div>
-                </td>
+                <td >${base_path}</td>
             </tr>
             <tr>
                 <td class="td_lable">包名称</td>
-                <td id="package_name">
-                    <div class="layui-form">
-                        <div class="layui-form-item" style="margin-bottom: 0px !important;">
-                            <div class="layui-input-inline">
-                                <input type="text" name="javaOutput" class="layui-input java-output-input" >
-                            </div>
-                            <button class="layui-btn layui-btn-small" lay-submit lay-filter="formDemo">确认</button>
-                            <div class="layui-form-mid layui-word-aux" style="padding: 0;float: none;">例如：com.baidu</div>
-                        </div>
-                    </div>
-                </td>
+                <td >${package_name}</td>
             </tr>
             <tr>
                 <td class="td_lable">启动时间</td>
-                <td id="startTime">2017-06-07 14:51:06</td>
+                <td >${StartTime?string("yyyy-MM-dd HH:mm:ss zzzz")}</td>
             </tr>
         </tbody>
     </table>
@@ -127,38 +107,5 @@
 </div>
 <script src="./layui/layui.js" type="application/javascript"></script>
 <script src="./js/engine.js" type="application/javascript"></script>
-<script type="application/javascript">
-	engine.index = function(){
-		var $ = engine.jquery;
-		return {
-			init : function(){
-				this.getBacisInfo(); // 获取首页数据
-			},
-			getBacisInfo : function(){
-				$.getJSON("bacis.json",function(r){
-					var basic = r.Content.basic;
-					var history = r.Content.history;
-					if(basic){
-						$("#version").text(basic.version);
-						$("#driver").text(basic.driver);
-						$("#java_version").text(basic.java_version);
-						$("#java_jvm").text(basic.java_jvm);
-						$("#temlate_path").text(basic.temlate_path);
-						$("#definition_path").text(basic.definition_path);
-						$("#base_path").text(basic.base_path);
-						$("#package_name").text(basic.package_name);
-						$("#startTime").text(basic.startTime);
-					}
-					if(history){
-						
-					}
-				});
-			} 
-		}
-	}();
-	engine.jquery(document).ready(function() {
-		engine.index.init();
-	});
-</script>
 </body>
 </html>

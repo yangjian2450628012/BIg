@@ -1,17 +1,23 @@
 package tech.yobbo.engine.support.http;
 
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import tech.yobbo.engine.support.util.Utils;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import tech.yobbo.engine.support.util.Utils;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by xiaoJ on 5/31/2017.
@@ -21,10 +27,11 @@ public class EngineViewServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(EngineViewServlet.class.getName());
 
-    private String RESOURCE_PATH                    = "engine/http/resources";
-    private String BASE_PATH						= "";
-    private String PACKAGE_NAME 					= "";
+    private final String RESOURCE_PATH              = "engine/http/resources";
+    private String base_path						= "";
+    private String package_name 					= "";
     private static String dataSource 				= null;
+    private Configuration configuration             = null;
     
     public static String getDataSource() {
         return dataSource;
@@ -33,11 +40,18 @@ public class EngineViewServlet extends HttpServlet{
     @Override
     public void init(ServletConfig config) throws ServletException {
         dataSource = config.getInitParameter("dataSource_class");
-        BASE_PATH = config.getInitParameter("base_path");
-        PACKAGE_NAME = config.getInitParameter("package_name");
-        
+        base_path = config.getInitParameter("base_path");
+        package_name = config.getInitParameter("package_name");
+        configuration = new Configuration(Configuration.getVersion()); // 创建模板
+        try {
+            configuration.setDefaultEncoding("UTF-8");
+            configuration.setClassForTemplateLoading(this.getClass(),"/");
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.log(Level.WARNING,"创建模板失败!");
+        }
+
         LOG.log(Level.INFO,"engineViewServlet初始化成功!");
-//        super.init(config);
     }
 
     /**
@@ -49,14 +63,10 @@ public class EngineViewServlet extends HttpServlet{
         return RESOURCE_PATH + fileName;
     }
 
-    protected void returnResourceFile(String fileName, String uri, HttpServletResponse response)
+    protected void returnResourceFile(String fileName, String uri,HttpServletResponse response)
             throws ServletException, IOException
     {
         String filePath = getFilePath(fileName);
-
-        if (filePath.endsWith(".html")) {
-            response.setContentType("text/html; charset=utf-8");
-        }
 
         if (fileName.endsWith(".jpg")
                 || fileName.endsWith(".png")
@@ -70,61 +80,47 @@ public class EngineViewServlet extends HttpServlet{
 
         String text = Utils.readFromResource(filePath);
         if (text == null) {
-            response.sendRedirect(uri + "/index.html");
+            response.sendRedirect(uri + "/index.html"); // 继续跳转到service方法中，进入returnTemplateHtml中输出模板
             return;
         }
         if (fileName.endsWith(".css")) {
             response.setContentType("text/css;charset=utf-8");
         } else if (fileName.endsWith(".js")) {
             response.setContentType("text/javascript;charset=utf-8");
-        }else if (fileName.endsWith(".woff")) {
-            response.setContentType("application/x-font-woff");
-            response.setBufferSize(402800);
-        } else if (fileName.endsWith(".ttf")) {
-            response.setHeader("Content-type","application/octet-stream");
-            response.setBufferSize(402800);
-        } else if (fileName.endsWith(".svg")) {
-            response.setHeader("Content-type","mage/svg+xml");
-            response.setBufferSize(402800);
-        } else if (fileName.endsWith(".eot")) {
-            response.setHeader("Content-type","application/vnd.ms-fontobject");
-            response.setBufferSize(402800);
         }
         response.getWriter().write(text);
     }
 
-    /**
-     *
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
-    public void service(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-        String contextPath = request.getContextPath();
+	
+	public void service(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException
+	{
+		String contextPath = request.getContextPath();
         String servletPath = request.getServletPath();
-        String requestURI = request.getRequestURI();
-
-        response.setCharacterEncoding("utf-8");
-
-        if (contextPath == null) { // root context
+        String requestURI = request.getRequestURI();	
+		
+		response.setCharacterEncoding("utf-8");
+		if (contextPath == null) { // root context
             contextPath = "";
         }
-        String uri = contextPath + servletPath;
+		String uri = contextPath + servletPath;
         String path = requestURI.substring(contextPath.length() + servletPath.length());
-
-        if ("".equals(path)) {
+		
+		// 这种情况 跳转freeMark模板
+		if ("".equals(path)|| "/".equals(path)) {
             if (contextPath.equals("") || contextPath.equals("/")) {
-                response.sendRedirect("/engine/index.html");
+                response.sendRedirect(uri + "/index.html"); // 继续跳转到service方法中，进入returnTemplateHtml中输出模板
             } else {
-                response.sendRedirect("engine/index.html");
+                response.sendRedirect(uri + "/index.html"); // 继续跳转到service方法中，进入returnTemplateHtml中输出模板
             }
-            return;
-        }
-
-        if (path.contains(".json")) {
+			return;
+		}else if(path.endsWith(".html")){
+            response.setContentType("text/html; charset=utf-8");
+			returnTemplateHtml(path,uri,request.getServletContext(),response);
+			return;
+		}	
+		
+		if (path.contains(".json")) {
             String fullUrl = path;
             if (request.getQueryString() != null && request.getQueryString().length() > 0) {
                 fullUrl += "?" + request.getQueryString();
@@ -132,13 +128,39 @@ public class EngineViewServlet extends HttpServlet{
             response.getWriter().print(EngineDataService.getInstance().process(fullUrl,request.getServletContext()));
             return;
         }
+		
+		// 其他静态文件
+		returnResourceFile(path, uri, response);
+	}
 
-        if ("/".equals(path)) {
-            response.sendRedirect("index.html");
-            return;
+    /**
+     * 静态页面，生成模板并跳转到前台
+     * @param path 静态文件在资源中的路径
+     * @param url 请求的当前路径
+     * @param servletContext
+     * @param response
+     * @throws IOException
+     */
+	public void returnTemplateHtml(String path, String url, ServletContext servletContext, HttpServletResponse response)
+            throws IOException {
+		String filePath = getFilePath(path);
+        try {
+            // 获取相应数据
+			Map<String, String> params = EngineDataService.getInstance().getParameters(url);
+			if (params.size() ==0) {
+			    params = new HashMap<String, String>();
+            }
+			params.put("base_path",base_path);
+			params.put("package_name",package_name);
+			params.put("dataSource", dataSource);
+            Object data = EngineDataService.getInstance().processTemplate(path,params,servletContext);
+            //获取模板
+            Template template = configuration.getTemplate(filePath);
+            Writer writer = response.getWriter();
+            template.process(data,writer);
+        } catch (TemplateException e) {
+            e.printStackTrace();
         }
-
-        returnResourceFile(path, uri, response);
     }
 
 }

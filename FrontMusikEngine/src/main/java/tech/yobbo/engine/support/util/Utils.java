@@ -2,8 +2,8 @@ package tech.yobbo.engine.support.util;
 
 import tech.yobbo.engine.support.http.EngineViewServlet;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Date;
 
 /**
  * Created by xiaoJ on 5/31/2017.
@@ -115,5 +115,11 @@ public class Utils {
         } finally {
             if (in != null)in.close();
         }
+    }
+
+
+    // TODO
+    public static Date getStartTime() {
+        return new Date();
     }
 }

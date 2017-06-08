@@ -12,8 +12,6 @@ import java.util.Map;
  */
 public abstract class EngineDataServiceHelp {
     public static final String INDEX_URL                = "/index.json";
-    public static final String INDEX_CHANGE_PATH        = "/change.json";
-    public static final String DB_SUPPORT               = "engine/http/resources/dbsupport";
     public static final int  RESULT_CODE_SUCCESS        = 1;
     public static final int  RESULT_CODE_ERROR          = -1;
     public static final String INDEX_SQL                = "select * from my_orders limit ?,?";
@@ -55,4 +53,6 @@ public abstract class EngineDataServiceHelp {
         dataMap.put("Content", content);
         return JSONUtils.toJSONString(dataMap);
     }
+	
+	
 }

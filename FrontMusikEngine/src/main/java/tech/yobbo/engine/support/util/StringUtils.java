@@ -15,15 +15,10 @@
  */
 package tech.yobbo.engine.support.util;
 
-import com.alibaba.druid.support.logging.Log;
-import com.alibaba.druid.support.logging.LogFactory;
-
 /**
  * @author sandzhang[sandzhangtoo@gmail.com]
  */
 public class StringUtils {
-
-    private final static Log LOG = LogFactory.getLog(StringUtils.class);
 
     /**
      * Example: subString("12345","1","4")=23
@@ -103,7 +98,7 @@ public class StringUtils {
         try {
             return Integer.parseInt(in);
         } catch (NumberFormatException e) {
-            LOG.warn("stringToInteger fail,string=" + in, e);
+            e.printStackTrace();
             return null;
         }
     }
