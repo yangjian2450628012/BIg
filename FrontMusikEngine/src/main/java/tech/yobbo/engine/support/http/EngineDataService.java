@@ -8,12 +8,12 @@ import javax.servlet.ServletContext;
 import javax.sql.DataSource;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.alibaba.druid.VERSION;
 
 import tech.yobbo.engine.support.util.JdbcUtils;
 import tech.yobbo.engine.support.util.Utils;
-import tech.yobbo.engine.support.util.VERSION;
 
 /**
  * Created by xiaoJ on 6/1/2017.

@@ -72,3 +72,5 @@ body .site-tips p{margin: 0;}
 .template{color: #08c;}
 .template:hover {color: #005580;text-decoration: underline;}
 .java-output-input{height: 30px;}
+/* 模板详情 */
+.code2-layui-top{top: 65px;}

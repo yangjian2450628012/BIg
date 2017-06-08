@@ -26,6 +26,20 @@ var engine = layui.use(['layer','element','form','laytpl','tree'], function() {
                     layer.setTop(layero); //重点2
                 }
             });
+        },
+        op: function(){
+        	layer.open({
+          	  type: 2,
+          	  title: '声明html',
+          	  closeBtn: 0,
+          	shade: 0
+            ,maxmin: true
+            ,offset: 'auto',
+          	  area: ['1000px', '500px'],
+          	  shadeClose: true,
+          	  skin: 'yourclass',
+          	  content: 'code2.html'
+          	});
         }
     }
 
