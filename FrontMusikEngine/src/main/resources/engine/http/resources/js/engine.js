@@ -1,4 +1,3 @@
-"use strict"
 var engine = layui.use(['layer','element','form','laytpl','tree'], function() {
     var $ = layui.jquery, layer = layui.layer;
     //触发事件

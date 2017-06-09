@@ -8,7 +8,7 @@
 .main{max-width: 1200px;margin: 0 auto;position: relative;}
 .layout-top{position: relative;top: 65px;}
 /*.layui-main{top: 80px;  overflow-y: auto;  margin: 0 auto;  position: relative;  }*/
-.create-body{width: 100%;/* position: absolute; */top: 80px;bottom: 10px;overflow-y: auto;max-width: 1250px;margin: 0 auto;position: relative;}
+.create-body{width: 100%;/* position: absolute; */top: 80px;bottom: 10px;/*overflow-y: auto;*/max-width: 1250px;margin: 0 auto;position: relative;}
 .layui-layer-btn-{border-top: 1px solid #eee !important;}
 /* 表格下拉框高度属性 */
 .engine_table_body .layui-form .layui-anim{height: 150px;}

@@ -9,11 +9,11 @@ import tech.yobbo.engine.support.util.Utils;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -87,6 +87,10 @@ public class EngineViewServlet extends HttpServlet{
             response.setContentType("text/css;charset=utf-8");
         } else if (fileName.endsWith(".js")) {
             response.setContentType("text/javascript;charset=utf-8");
+        } else if (fileName.endsWith(".woff")) {
+            response.setContentType("application/x-font-woff;charset=gb2312");
+//            response.setLocale(new java.util.Locale("zh","CN"));
+//            response.setBufferSize(5173109);
         }
         response.getWriter().write(text);
     }

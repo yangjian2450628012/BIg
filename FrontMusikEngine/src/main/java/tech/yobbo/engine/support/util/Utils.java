@@ -2,6 +2,7 @@ package tech.yobbo.engine.support.util;
 
 import tech.yobbo.engine.support.http.EngineViewServlet;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Date;
 
@@ -104,14 +105,17 @@ public class Utils {
         return count;
     }
 
-    public InputStream readResource(String resource) throws IOException {
+    public static byte[] readResourceToByte(String resource) throws IOException {
         InputStream in = null;
         try {
             in = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
             if (in == null) {
                 return  null;
             }
-            return in;
+//            response.setContentLength(in.available());
+            byte[] byt = new byte[in.available()];
+            in.read(byt);
+            return byt;
         } finally {
             if (in != null)in.close();
         }

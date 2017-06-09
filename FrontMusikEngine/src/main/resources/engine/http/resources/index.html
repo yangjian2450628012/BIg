@@ -46,7 +46,7 @@
             </tr>
             <tr>
                 <td class="td_lable">公共模板路径</td>
-                <td id="temlate_path"><a href="code2.html" target="_blank" class="template">engnine-1.0.0.jar\engine\http\resources\template</a>
+                <td id="temlate_path"><a href="javascript:void(0);" data-method="toTemplate" class="template index_a">engnine-1.0.0.jar\engine\http\resources\template</a>
                     <span class="layui-form-mid layui-word-aux" style="padding: 0;float: none;">公共模板在JAR包中，建议不要修改</span>
                 </td>
             </tr>
@@ -106,6 +106,133 @@
     </table>
 </div>
 <script src="./layui/layui.js" type="application/javascript"></script>
-<script src="./js/engine.js" type="application/javascript"></script>
+<script type="application/javascript">
+layui.use(['layer','tree'], function() {
+    var $ = layui.jquery, layer = layui.layer;
+    //触发事件
+    var active = {
+        toTemplate: function () {
+            // var that = this;
+            //多窗口模式，层叠置顶
+            layer.open({
+                type: 2 //此处以iframe举例
+                ,title: '生成代码'
+                ,area: ['1200px', '500px']
+                ,shade: 0
+                ,maxmin: true
+                ,offset: 'auto'
+                ,content: 'code.html'
+                ,btn: ['确认生成', '全部关闭']
+                ,yes: function(){
+                    alert("确认生成");
+                }
+                ,btn2: function(){
+                    layer.closeAll();
+                }
+                ,zIndex: layer.zIndex //重点1
+                ,success: function(layero){
+                    $(layero).find('.layui-layer-content iframe').css({width:'83%'});
+                    $(layero).find('.layui-layer-content').prepend('<div style="display: inline-block;width: 15%;padding: 10px;overflow: auto;float: left;"><ul id="freemarker_ul"></ul></div>');
+                    layui.tree({
+                        elem: '#freemarker_ul'
+                        ,target: '_blank' //是否新选项卡打开（比如节点返回href才有效）
+                        ,click: function(item){ //点击节点回调
+                            layer.msg('当前节名称：'+ item.name + '<br>全部参数：'+ JSON.stringify(item));
+                            console.log(item);
+                        }
+                        ,nodes: [
+                            {
+                                name: 'MYSQL模板'
+                                ,id: 1
+                                ,spread: true
+                                ,children: [
+                                {
+                                    name: 'myBatis框架'
+                                    ,id: 11
+                                    ,spread: true
+                                    ,children: [
+                                    {
+                                        name: 'entity.ftl'
+                                        ,id: 111
+                                    },
+                                    {
+                                        name: 'service.ftl'
+                                        ,id: 112
+                                    },
+                                    {
+                                        name: 'dao.ftl'
+                                        ,id: 113
+                                    }
+                                ]
+                                }, {
+                                    name: 'Hibernate框架'
+                                    ,id: 12
+                                }, {
+                                    name: 'HibernateJPA框架'
+                                    ,id: 13
+                                },{
+                                    name: 'JDBC原生'
+                                    ,id: 14
+                                }
+                            ]
+                            }, {
+                                name: 'ORACLE模板'
+                                ,id: 2
+                                ,spread: true
+                                ,children: [
+                                    {
+                                        name: 'myBatis框架'
+                                        ,id: 21
+                                        ,spread: true
+                                        ,children: [
+                                        {
+                                            name: 'entity.ftl'
+                                            ,id: 111
+                                        },
+                                        {
+                                            name: 'service.ftl'
+                                            ,id: 112
+                                        }
+                                    ]
+                                    }, {
+                                        name: 'Hibernate框架'
+                                        ,id: 12
+                                    }, {
+                                        name: 'HibernateJPA框架'
+                                        ,id: 13
+                                    },{
+                                        name: 'JDBC原生'
+                                        ,id: 14
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                    layer.setTop(layero); //重点2
+                }
+            });
+        },
+        /*op: function(){
+         layer.open({
+         type: 2,
+         title: '声明html',
+         closeBtn: 0,
+         shade: 0
+         ,maxmin: true
+         ,offset: 'auto',
+         area: ['1000px', '500px'],
+         shadeClose: true,
+         skin: 'yourclass',
+         content: 'code2.html'
+         });
+         }*/
+    }
+
+    $('.layui-table .index_a').on('click', function(){
+        var othis = $(this), method = othis.data('method');
+        active[method] ? active[method].call(this, othis) : '';
+    });
+});
+</script>
 </body>
 </html>
