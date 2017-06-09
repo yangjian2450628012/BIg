@@ -1,23 +1,24 @@
 package tech.yobbo.engine.support.http;
 
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import tech.yobbo.engine.support.util.Utils;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import tech.yobbo.engine.support.util.Utils;
 
 /**
  * Created by xiaoJ on 5/31/2017.
@@ -68,16 +69,30 @@ public class EngineViewServlet extends HttpServlet{
     {
         String filePath = getFilePath(fileName);
 
+        if (fileName.endsWith(".woff")) {
+            response.setContentType("application/x-font-woff");
+        } else if (fileName.endsWith(".ttf")){
+        	response.setContentType("application/octet-stream");
+        } else if (fileName.endsWith(".svg")) {
+        	response.setContentType("image/svg+xml");
+        } else if (fileName.endsWith(".eot")) {
+        	response.setContentType("application/vnd.ms-fontobject");
+        }
+        
         if (fileName.endsWith(".jpg")
                 || fileName.endsWith(".png")
-                || fileName.endsWith(".gif")) {
+                || fileName.endsWith(".gif")
+                || fileName.endsWith(".woff")
+                || fileName.endsWith(".ttf")
+                || fileName.endsWith(".svg")
+                || fileName.endsWith(".eot")) {
             byte[] bytes = Utils.readByteArrayFromResource(filePath);
             if (bytes != null) {
                 response.getOutputStream().write(bytes);
             }
             return;
         }
-
+        
         String text = Utils.readFromResource(filePath);
         if (text == null) {
             response.sendRedirect(uri + "/index.html"); // 继续跳转到service方法中，进入returnTemplateHtml中输出模板
@@ -87,10 +102,6 @@ public class EngineViewServlet extends HttpServlet{
             response.setContentType("text/css;charset=utf-8");
         } else if (fileName.endsWith(".js")) {
             response.setContentType("text/javascript;charset=utf-8");
-        } else if (fileName.endsWith(".woff")) {
-            response.setContentType("application/x-font-woff;charset=gb2312");
-//            response.setLocale(new java.util.Locale("zh","CN"));
-//            response.setBufferSize(5173109);
         }
         response.getWriter().write(text);
     }

@@ -17,7 +17,6 @@
             <version>4.11</version>
         </dependency>
     </dependencies>
-
     <build>
         <finalName>FrontMusik-Admin</finalName>
         <resources>

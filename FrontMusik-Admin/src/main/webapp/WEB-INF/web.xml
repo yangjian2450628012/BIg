@@ -26,5 +26,4 @@
     <url-pattern>/druid/*</url-pattern>
   </servlet-mapping>
   <!-- end 连接池启用web监控统计功能 -->
-
 </web-app>

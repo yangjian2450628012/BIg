@@ -1,10 +1,18 @@
 package tech.yobbo.engine.support.util;
 
-import tech.yobbo.engine.support.http.EngineViewServlet;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
+
+import tech.yobbo.engine.support.http.EngineViewServlet;
 
 /**
  * Created by xiaoJ on 5/31/2017.
@@ -44,7 +52,7 @@ public class Utils {
         try {
             in = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
             if (in == null) {
-                in = EngineViewServlet.class.getResourceAsStream(resource);
+                in = Utils.class.getResourceAsStream(resource);
             }
 
             if (in == null) {
@@ -57,15 +65,6 @@ public class Utils {
             if (in != null) {
                 in.close();
             }
-        }
-    }
-
-    public static void main(String[] args){
-        try {
-            String r = readFromResource("engine/http/resources/index.html");
-            System.out.println(r);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -105,14 +104,10 @@ public class Utils {
         return count;
     }
 
-    public static byte[] readResourceToByte(String resource) throws IOException {
+    public static byte[] readResourceFontToByte(String resource) throws IOException {
         InputStream in = null;
         try {
-            in = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
-            if (in == null) {
-                return  null;
-            }
-//            response.setContentLength(in.available());
+        	in = new FileInputStream(new File(Utils.class.getResource("/"+resource).getFile())); //用文件流的形式读取字体文件，解决字体文件内容不一致问题
             byte[] byt = new byte[in.available()];
             in.read(byt);
             return byt;

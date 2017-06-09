@@ -21,7 +21,7 @@ public abstract class EngineDataServiceHelp {
      * @param url
      * @return
      */
-    public static Map<String, String> getParameters(String url) {
+    public Map<String, String> getParameters(String url) {
         if (url == null || (url = url.trim()).length() == 0) {
             return Collections.<String, String> emptyMap();
         }
