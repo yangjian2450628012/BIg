@@ -1,19 +1,21 @@
 package tech.yobbo.engine.support.http;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import tech.yobbo.engine.support.util.JdbcUtils;
+import tech.yobbo.engine.support.util.Utils;
+import tech.yobbo.engine.support.util.VERSION;
 
 import javax.servlet.ServletContext;
 import javax.sql.DataSource;
-
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import com.alibaba.druid.VERSION;
-
-import tech.yobbo.engine.support.util.JdbcUtils;
-import tech.yobbo.engine.support.util.Utils;
+import java.io.File;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * Created by xiaoJ on 6/1/2017.
@@ -61,7 +63,7 @@ public class EngineDataService extends EngineDataServiceHelp {
     }
 
     protected void setDataSource(ServletContext context){
-        System.out.println("当前没有数据连接池，要获取连接池");
+        System.out.println("初始化数据库连接池！");
         // 获取spring中的连接池
         ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
         try {
@@ -89,6 +91,12 @@ public class EngineDataService extends EngineDataServiceHelp {
     private static Map getBasicInfo(Map<String,String> params){
         Map<String,Object> dataMap = new LinkedHashMap();
         dataMap.put("Version", VERSION.getVersionNumber());
+//  jar       file:/E:/公司项目源码/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/das/WEB-INF/lib/engine-1.0.0.jar!/engine/http/resources/template
+//  类        /E:/电影网站模板/FrontMusik/FrontMusikEngine/target/FrontMusik-Engine/WEB-INF/classes/engine/http/resources/template/
+        dataMap.put("temlate_path", Thread.currentThread().getContextClassLoader().getResource(EngineViewServlet.RESOURCE_PATH +"/template").getPath());
+//  jar       jar:file:/E:/公司项目源码/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/das/WEB-INF/lib/engine-1.0.0.jar!/engine/http/resources/template
+//  类        file:/E:/电影网站模板/FrontMusik/FrontMusikEngine/target/FrontMusik-Engine/WEB-INF/classes/engine/http/resources/template/
+        dataMap.put("common_path", Thread.currentThread().getContextClassLoader().getResource(EngineViewServlet.RESOURCE_PATH +"/template"));
         dataMap.put("base_path",params.get("base_path"));
         dataMap.put("package_name",params.get("package_name"));
         dataMap.put("dataSource",dataSource_className);
@@ -97,5 +105,35 @@ public class EngineDataService extends EngineDataServiceHelp {
         dataMap.put("JavaVersion", System.getProperty("java.version"));
         dataMap.put("StartTime", Utils.getStartTime());
         return dataMap;
+    }
+
+    public static void  main(String[] arg){
+        String path = "file:E:\\公司项目源码\\das\\WebContent\\WEB-INF\\lib\\engine-1.0.0.jar!/engine/http/resources/template";
+        //path = "/E:/电影网站模板/FrontMusik/FrontMusikEngine/target/FrontMusik-Engine/WEB-INF/classes/engine/http/resources/template/";
+        if (path.startsWith("file:") && path.indexOf("file:") != -1) {
+            path = path.substring(5,path.length());
+        }
+        if (path.indexOf(".jar!") != -1) {
+            path = path.substring(0,path.indexOf(".jar")+4);
+        }
+        System.out.println("path:   "+path);
+        File file = new File(path);
+
+        System.out.println(file.exists());
+        try {
+            JarFile jar = new JarFile(path);
+            Enumeration enums = jar.entries();
+            while(enums.hasMoreElements()){
+                JarEntry entry = (JarEntry) enums.nextElement();
+                if(entry.getName().startsWith("engine/http/resources/template")){
+                    jar.getInputStream(entry); //获取流
+                    System.out.println("enti:  "+ entry.getName()+",是否是目录: "+entry.isDirectory());
+                }
+            }
+            System.out.println(jar.size());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -26,20 +26,21 @@
     <build>
         <finalName>FrontMusik-Engine</finalName>
         <resources>
+            <!-- 资源文件内容中可能要与pom.xml中的properties有冲突的，避免这种情况，先过滤出要替换的，再复制剩余不替换的资源文件 -->
             <resource>
                 <directory>src/main/resources</directory>
-                <!-- 只替换需要的配置 -->
+                <filtering>true</filtering>
                 <includes>
                     <include>database.properties</include>
                 </includes>
-                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
                 <!--在resource目录下，有很多文件，但用些文件不希望替换,比如 application-text.xml-->
-                <!-- <excludes>
-                    <exclude>engine/http/resources/layui/font/iconfont.woff</exclude>
-                    <exclude>engine/http/resources/layui/font/iconfont.eot</exclude>
-                    <exclude>engine/http/resources/layui/font/iconfont.svg</exclude>
-                    <exclude>engine/http/resources/layui/font/iconfont.ttf</exclude>
-                </excludes> -->
+                <excludes>
+                    <exclude>database.properties</exclude>
+                </excludes>
             </resource>
         </resources>
         <plugins>  

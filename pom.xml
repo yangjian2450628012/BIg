@@ -149,6 +149,11 @@
                 <log.max.size>10kb</log.max.size>
                 <log.stdout.ref><![CDATA[<appender-ref ref="stdout" />]]></log.stdout.ref>
             </properties>
+            <!--<build>
+                <filters>
+                    <filter>src/main/resources/database.properties</filter>
+                </filters>
+            </build>-->
         </profile>
         <profile>
             <id>linux-200</id>
@@ -164,6 +169,11 @@
                 <log.max.size>10kb</log.max.size>
                 <log.stdout.ref><![CDATA[<appender-ref ref="stdout" />]]></log.stdout.ref>
             </properties>
+           <!-- <build>
+                <filters>
+                    <filter>src/main/resources/database.properties</filter>
+                </filters>
+            </build>-->
         </profile>
     </profiles>
     <!-- end 配置数据多环境 -->

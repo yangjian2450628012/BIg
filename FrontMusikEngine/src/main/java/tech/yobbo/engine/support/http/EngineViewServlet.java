@@ -28,7 +28,7 @@ public class EngineViewServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(EngineViewServlet.class.getName());
 
-    private final String RESOURCE_PATH              = "engine/http/resources";
+    protected static final String RESOURCE_PATH              = "engine/http/resources";
     private String base_path						= "";
     private String package_name 					= "";
     private static String dataSource 				= null;

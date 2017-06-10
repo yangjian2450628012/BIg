@@ -33,8 +33,14 @@
                 <td >${Version}</td>
             </tr>
             <tr>
-                <td class="td_lable">数据驱动</td>
-                <td >${dataSource}</td>
+                <td class="td_lable">数据库连接池</td>
+                <td>
+                    <#if dataSource ??>
+                        ${dataSource}
+                        <#else>
+                        <span style="color:red;">请在web.xml中配置Spring数据库连接池</span>
+                    </#if>
+                </td>
             </tr>
             <tr>
                 <td class="td_lable">java版本</td>
@@ -46,21 +52,33 @@
             </tr>
             <tr>
                 <td class="td_lable">公共模板路径</td>
-                <td id="temlate_path"><a href="javascript:void(0);" data-method="toTemplate" class="template index_a">engnine-1.0.0.jar\engine\http\resources\template</a>
-                    <span class="layui-form-mid layui-word-aux" style="padding: 0;float: none;">公共模板在JAR包中，建议不要修改</span>
+                <td id="temlate_path">
+                    <a href="javascript:void(0);" data-method="toTemplate" class="template index_a">${temlate_path}</a>
+                    <!--<span class="layui-form-mid layui-word-aux" style="padding: 0;float: none;">公共模板在JAR包中，建议不要修改</span>-->
                 </td>
             </tr>
             <tr>
                 <td class="td_lable">自定义模板路径</td>
-                <td>自定义模板路径</td>
+                <td>${common_path}</td>
             </tr>
             <tr>
                 <td class="td_lable">JAVA输出路径</td>
-                <td >${base_path}</td>
+                <td>
+                    <#if base_path ??>
+                        ${base_path}
+                        <#else>
+                       <span style="color:red;">请在web.xml中配置java输出路径</span>
+                    </#if>
+                </td>
             </tr>
             <tr>
                 <td class="td_lable">包名称</td>
-                <td >${package_name}</td>
+                <td ><#if package_name ??>
+                        ${package_name}
+                        <#else>
+                       <span style="color:red;">请在web.xml中配置java输出包名称</span>
+                    </#if>
+                </td>
             </tr>
             <tr>
                 <td class="td_lable">启动时间</td>
