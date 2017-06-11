@@ -74,8 +74,6 @@ public class EngineDataService extends EngineDataServiceHelp {
         	
         	Method m = ccc.getMethod("getStartupDate", null);
         	
-        	
-        	
         	m.invoke(m.getReturnType(), null);
         	
 			/*Class<?> _class = Class.forName("org.springframework.web.context.support.WebApplicationContextUtils");
