@@ -68,6 +68,8 @@ body .site-tips p{margin: 0;}
 .index-body{top: 80px;left: 90px;padding: 10px;}
 .td_lable{font-weight: bold;background-color: #f2f2f2;}
 .index-body-h2{font-size: 24px;line-height: 40px;}
+.logo-a{padding:0 20px 0 0 !important;}
+.logo-img{width:200px;height:45px;}
 /* 公共模板 */
 .template{color: #08c;}
 .template:hover {color: #005580;text-decoration: underline;}

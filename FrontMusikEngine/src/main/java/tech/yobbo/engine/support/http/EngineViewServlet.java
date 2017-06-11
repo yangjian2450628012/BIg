@@ -28,7 +28,8 @@ public class EngineViewServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(EngineViewServlet.class.getName());
 
-    protected static final String RESOURCE_PATH              = "engine/http/resources";
+    protected static final String RESOURCE_PATH     = "engine/http/resources";
+    protected static String webappPath				= "";
     private String base_path						= "";
     private String package_name 					= "";
     private static String dataSource 				= null;
@@ -44,6 +45,7 @@ public class EngineViewServlet extends HttpServlet{
         base_path = config.getInitParameter("base_path");
         package_name = config.getInitParameter("package_name");
         configuration = new Configuration(Configuration.getVersion()); // 创建模板
+        webappPath = config.getServletContext().getRealPath("/");
         try {
             configuration.setDefaultEncoding("UTF-8");
             configuration.setClassForTemplateLoading(this.getClass(),"/");
@@ -170,6 +172,11 @@ public class EngineViewServlet extends HttpServlet{
             Object data = EngineDataService.getInstance().processTemplate(path,params,servletContext);
             //获取模板
             Template template = configuration.getTemplate(filePath);
+            /*StringWriter outData = new StringWriter();
+            template.process(data, outData);
+            String text = outData.toString();
+            System.out.println("text: " + text);
+            response.getWriter().write(text);*/
             Writer writer = response.getWriter();
             template.process(data,writer);
         } catch (TemplateException e) {

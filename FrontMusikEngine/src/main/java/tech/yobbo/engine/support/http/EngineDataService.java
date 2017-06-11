@@ -1,21 +1,20 @@
 package tech.yobbo.engine.support.http;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import tech.yobbo.engine.support.util.JdbcUtils;
-import tech.yobbo.engine.support.util.Utils;
-import tech.yobbo.engine.support.util.VERSION;
-
-import javax.servlet.ServletContext;
-import javax.sql.DataSource;
-import java.io.File;
-import java.io.IOException;
-import java.util.Enumeration;
+import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
+
+import javax.servlet.ServletContext;
+import javax.sql.DataSource;
+
+import org.springframework.web.context.WebApplicationContext;
+
+import com.alibaba.druid.pool.DruidDataSource;
+
+import tech.yobbo.engine.support.util.JdbcUtils;
+import tech.yobbo.engine.support.util.Utils;
+import tech.yobbo.engine.support.util.VERSION;
 
 /**
  * Created by xiaoJ on 6/1/2017.
@@ -63,12 +62,45 @@ public class EngineDataService extends EngineDataServiceHelp {
     }
 
     protected void setDataSource(ServletContext context){
+    	if(EngineViewServlet.getDataSource() == null) return;
         System.out.println("初始化数据库连接池！");
-        // 获取spring中的连接池
-        ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
         try {
+        	// 获取spring中的连接池
+        	/*org.springframework.context.ApplicationContext ctx = 
+        			org.springframework.web.context.support.WebApplicationContextUtils.getRequiredWebApplicationContext(context);
             dataSource = (DataSource) ctx.getBean(Class.forName(EngineViewServlet.getDataSource()));
-            dataSource_className = dataSource.getClass().getName();
+            dataSource_className = dataSource.getClass().getName();*/
+        	Class<?> ccc = Class.forName("org.springframework.web.context.WebApplicationContext");
+            
+        	for(Method dd : ccc.getMethods()){
+        		System.out.println(dd);
+        	}
+        	
+        	Method m = ccc.getMethod("getStartupDate", null);
+        	
+        	
+        	
+        	m.invoke(m.getReturnType(), null);
+        	
+			/*Class<?> _class = Class.forName("org.springframework.web.context.support.WebApplicationContextUtils");
+			Method method  = _class.getMethod("getRequiredWebApplicationContext", ServletContext.class);
+			
+			Object ctx = method.invoke(method.getReturnType(), context);
+			
+			
+			Method m = ctx.getClass().getMethod("getBean", Class.class);
+			m.invoke(Class.forName(EngineViewServlet.getDataSource()).newInstance()
+					, Class.forName(EngineViewServlet.getDataSource()));*/
+			
+			
+			
+			/*Method _c = method.invoke(method.getReturnType(), context).getClass().getMethod("getBean", Class.class);
+			
+			System.out.println(_c);
+			
+        	_c.invoke(new DruidDataSource(), Class.forName(EngineViewServlet.getDataSource()));*/
+			
+			
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,10 +125,12 @@ public class EngineDataService extends EngineDataServiceHelp {
         dataMap.put("Version", VERSION.getVersionNumber());
 //  jar       file:/E:/公司项目源码/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/das/WEB-INF/lib/engine-1.0.0.jar!/engine/http/resources/template
 //  类        /E:/电影网站模板/FrontMusik/FrontMusikEngine/target/FrontMusik-Engine/WEB-INF/classes/engine/http/resources/template/
-        dataMap.put("temlate_path", Thread.currentThread().getContextClassLoader().getResource(EngineViewServlet.RESOURCE_PATH +"/template").getPath());
+//        dataMap.put("temlate_path", Thread.currentThread().getContextClassLoader().getResource(EngineViewServlet.RESOURCE_PATH +"/template").getPath());
 //  jar       jar:file:/E:/公司项目源码/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/das/WEB-INF/lib/engine-1.0.0.jar!/engine/http/resources/template
 //  类        file:/E:/电影网站模板/FrontMusik/FrontMusikEngine/target/FrontMusik-Engine/WEB-INF/classes/engine/http/resources/template/
-        dataMap.put("common_path", Thread.currentThread().getContextClassLoader().getResource(EngineViewServlet.RESOURCE_PATH +"/template"));
+        dataMap.put("common_path", "");
+       
+        dataMap.put("temlate_path", "D:/engine-1.0.0.jar");
         dataMap.put("base_path",params.get("base_path"));
         dataMap.put("package_name",params.get("package_name"));
         dataMap.put("dataSource",dataSource_className);
@@ -108,17 +142,28 @@ public class EngineDataService extends EngineDataServiceHelp {
     }
 
     public static void  main(String[] arg){
-        String path = "file:E:\\公司项目源码\\das\\WebContent\\WEB-INF\\lib\\engine-1.0.0.jar!/engine/http/resources/template";
+    	try {
+    		Class<?> class_obj = Class.forName("org.springframework.context.ApplicationContext");
+    		class_obj.newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+    	
+       /* String path = "D:/";
         //path = "/E:/电影网站模板/FrontMusik/FrontMusikEngine/target/FrontMusik-Engine/WEB-INF/classes/engine/http/resources/template/";
         if (path.startsWith("file:") && path.indexOf("file:") != -1) {
             path = path.substring(5,path.length());
         }
-        if (path.indexOf(".jar!") != -1) {
+        if (path.indexOf(".jar") != -1) {
             path = path.substring(0,path.indexOf(".jar")+4);
         }
         System.out.println("path:   "+path);
         File file = new File(path);
 
+        int length = file.listFiles().length;
+        
+        System.out.println("fileList为: " + length);
+        
         System.out.println(file.exists());
         try {
             JarFile jar = new JarFile(path);
@@ -134,6 +179,6 @@ public class EngineDataService extends EngineDataServiceHelp {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

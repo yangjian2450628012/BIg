@@ -50,11 +50,6 @@
             <artifactId>velocity-tools</artifactId>
             <version>2.0</version>
         </dependency>
-        <dependency>
-            <groupId>tech.yobbo.engine.support</groupId>
-            <artifactId>engine-v</artifactId>
-            <version>0.0.1</version>
-        </dependency>
     </dependencies>
     <build>
         <finalName>FrontMusik-App</finalName>
