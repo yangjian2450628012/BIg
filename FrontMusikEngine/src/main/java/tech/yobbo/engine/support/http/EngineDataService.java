@@ -8,10 +8,6 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.sql.DataSource;
 
-import org.springframework.web.context.WebApplicationContext;
-
-import com.alibaba.druid.pool.DruidDataSource;
-
 import tech.yobbo.engine.support.util.JdbcUtils;
 import tech.yobbo.engine.support.util.Utils;
 import tech.yobbo.engine.support.util.VERSION;
