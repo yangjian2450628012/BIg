@@ -1,6 +1,6 @@
 /* engine-v1.0.0 MIT License By http://www.yobbo.tech */
 var engine = layui.use('layer',function(){
-	engine.jquery('.opentemplate-a').on('click',function(){
+	engine.jquery('.openTemplate-a').on('click',function(){
 		var othis = engine.jquery(this),options = othis.data(); 
 		engine.commonMethod[options.method] ? engine.commonMethod[options.method].call(this,options) : null;
 	});

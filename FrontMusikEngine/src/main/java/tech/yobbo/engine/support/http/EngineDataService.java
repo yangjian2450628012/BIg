@@ -1,16 +1,15 @@
 package tech.yobbo.engine.support.http;
 
+import tech.yobbo.engine.support.util.JdbcUtils;
+import tech.yobbo.engine.support.util.Utils;
+import tech.yobbo.engine.support.util.VERSION;
+
+import javax.servlet.ServletContext;
+import javax.sql.DataSource;
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.ServletContext;
-import javax.sql.DataSource;
-
-import tech.yobbo.engine.support.util.JdbcUtils;
-import tech.yobbo.engine.support.util.Utils;
-import tech.yobbo.engine.support.util.VERSION;
 
 /**
  * Created by xiaoJ on 6/1/2017.
@@ -57,44 +56,23 @@ public class EngineDataService extends EngineDataServiceHelp {
         return returnJSONResult(RESULT_CODE_ERROR, "Do not support this request, please contact with administrator.");
     }
 
+    /**
+     * 通过反射获取spring中dataSource连接池bean
+     * 避免没导包，导致运行报错
+     * @param context
+     */
     protected void setDataSource(ServletContext context){
     	if(EngineViewServlet.getDataSource() == null) return;
         System.out.println("初始化数据库连接池！");
         try {
-        	// 获取spring中的连接池
-        	/*org.springframework.context.ApplicationContext ctx = 
-        			org.springframework.web.context.support.WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-            dataSource = (DataSource) ctx.getBean(Class.forName(EngineViewServlet.getDataSource()));
-            dataSource_className = dataSource.getClass().getName();*/
-        	Class<?> ccc = Class.forName("org.springframework.web.context.WebApplicationContext");
-            
-        	for(Method dd : ccc.getMethods()){
-        		System.out.println(dd);
-        	}
-        	
-        	Method m = ccc.getMethod("getStartupDate", null);
-        	
-        	m.invoke(m.getReturnType(), null);
-        	
-			/*Class<?> _class = Class.forName("org.springframework.web.context.support.WebApplicationContextUtils");
+        	// 通过反射获取spring中的连接池
+			Class<?> _class = Class.forName("org.springframework.web.context.support.WebApplicationContextUtils");
 			Method method  = _class.getMethod("getRequiredWebApplicationContext", ServletContext.class);
-			
-			Object ctx = method.invoke(method.getReturnType(), context);
-			
-			
+            Object ctx = method.invoke(method.getReturnType(), context);
 			Method m = ctx.getClass().getMethod("getBean", Class.class);
-			m.invoke(Class.forName(EngineViewServlet.getDataSource()).newInstance()
-					, Class.forName(EngineViewServlet.getDataSource()));*/
-			
-			
-			
-			/*Method _c = method.invoke(method.getReturnType(), context).getClass().getMethod("getBean", Class.class);
-			
-			System.out.println(_c);
-			
-        	_c.invoke(new DruidDataSource(), Class.forName(EngineViewServlet.getDataSource()));*/
-			
-			
+			dataSource = (DataSource) m.invoke(ctx
+					, Class.forName(EngineViewServlet.getDataSource()));
+            dataSource_className = EngineViewServlet.getDataSource();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -124,7 +102,7 @@ public class EngineDataService extends EngineDataServiceHelp {
 //  类        file:/E:/电影网站模板/FrontMusik/FrontMusikEngine/target/FrontMusik-Engine/WEB-INF/classes/engine/http/resources/template/
         dataMap.put("common_path", "");
        
-        dataMap.put("temlate_path", "D:/engine-1.0.0.jar");
+        dataMap.put("template_path", "D:/engine-1.0.0.jar");
         dataMap.put("base_path",params.get("base_path"));
         dataMap.put("package_name",params.get("package_name"));
         dataMap.put("dataSource",dataSource_className);
@@ -136,13 +114,7 @@ public class EngineDataService extends EngineDataServiceHelp {
     }
 
     public static void  main(String[] arg){
-    	try {
-    		Class<?> class_obj = Class.forName("org.springframework.context.ApplicationContext");
-    		class_obj.newInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
-    	
+
        /* String path = "D:/";
         //path = "/E:/电影网站模板/FrontMusik/FrontMusikEngine/target/FrontMusik-Engine/WEB-INF/classes/engine/http/resources/template/";
         if (path.startsWith("file:") && path.indexOf("file:") != -1) {
