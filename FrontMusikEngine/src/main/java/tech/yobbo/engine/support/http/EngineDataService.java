@@ -1,15 +1,21 @@
 package tech.yobbo.engine.support.http;
 
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import tech.yobbo.engine.support.json.JSONParser;
+import tech.yobbo.engine.support.json.JSONUtils;
+import tech.yobbo.engine.support.json.JSONWriter;
 import tech.yobbo.engine.support.util.JdbcUtils;
+import tech.yobbo.engine.support.util.StringUtils;
 import tech.yobbo.engine.support.util.Utils;
 import tech.yobbo.engine.support.util.VERSION;
 
 import javax.servlet.ServletContext;
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * Created by xiaoJ on 6/1/2017.
@@ -50,10 +56,30 @@ public class EngineDataService extends EngineDataServiceHelp {
         if (dataSource == null) {
             setDataSource(context);
         }
-        if (url.startsWith(INDEX_URL)) {
+        if (url.startsWith("/index.json")) {
             return returnJSONResult(RESULT_CODE_SUCCESS, getIndexList(parameters));
+        } else if(url.startsWith("/tree.json")){
+            return returnJSONResult(RESULT_CODE_SUCCESS,getTemplateTree(parameters));
         }
         return returnJSONResult(RESULT_CODE_ERROR, "Do not support this request, please contact with administrator.");
+    }
+
+    /**
+     * 获取模板中树形菜单
+     * @param parameters
+     * @return
+     */
+    private Object getTemplateTree(Map<String, String> parameters) {
+        String jar_path = parameters.get("template_path");
+        if (jar_path.startsWith("file:") && jar_path.indexOf("file:") != -1) {
+            jar_path = jar_path.substring(5,jar_path.length());
+        }
+        if (jar_path.indexOf(".jar") != -1) {
+            jar_path = jar_path.substring(0,jar_path.indexOf(".jar")+4);
+        }
+        System.out.println(jar_path);
+
+        return null;
     }
 
     /**
@@ -101,8 +127,9 @@ public class EngineDataService extends EngineDataServiceHelp {
 //  jar       jar:file:/E:/公司项目源码/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/das/WEB-INF/lib/engine-1.0.0.jar!/engine/http/resources/template
 //  类        file:/E:/电影网站模板/FrontMusik/FrontMusikEngine/target/FrontMusik-Engine/WEB-INF/classes/engine/http/resources/template/
         dataMap.put("common_path", "");
-       
-        dataMap.put("template_path", "D:/engine-1.0.0.jar");
+
+        dataMap.put("template_path", "file:/D:/engineJar/engine-1.0.0.jar!/engine/http/resources/template");
+        dataMap.put("treeUrl","tree.json?template_path="+dataMap.get("template_path"));
         dataMap.put("base_path",params.get("base_path"));
         dataMap.put("package_name",params.get("package_name"));
         dataMap.put("dataSource",dataSource_className);
@@ -113,38 +140,70 @@ public class EngineDataService extends EngineDataServiceHelp {
         return dataMap;
     }
 
-    public static void  main(String[] arg){
+    // 递归组织树形菜单
+    private static List<Map<String,Object>> recursionDirectory(List<String> data,String start){
+        if(data == null || data.size() ==0) return null;
+        List<Map<String,Object>> _d = new ArrayList<Map<String, Object>>();
+        for(int i=0;i<data.size();i++){
+            System.out.println(start +" | " + data.get(i));
+            if(start.startsWith(data.get(i))){
+                System.out.println("common in...");
+                Map<String,Object> map = new HashMap<String, Object>();
+                map.put("name",data.get(i).replaceFirst(start,""));
+                if(data.get(i).endsWith(".ftl") || data.get(i).equals("/")) {
+                    map.put("url",data.get(i));
+                }/*else{
+                    String name = map.get("name").toString();
+                    name = name.substring(0,name.length()-1);
+                    map.remove("name");
+                    map.put("name",name);
+                }*/
+                map.put("id",UUID.randomUUID().toString().replaceAll("-",""));
+                data.remove(i);
+                try{
+                    List<Map<String,Object>> list_child = recursionDirectory(data,data.get(i+1));
+                    if(list_child != null && list_child.size() > 0){
+                        map.put("children",list_child);
+                    }
+                } catch (Exception e){
 
-       /* String path = "D:/";
-        //path = "/E:/电影网站模板/FrontMusik/FrontMusikEngine/target/FrontMusik-Engine/WEB-INF/classes/engine/http/resources/template/";
+                }
+                _d.add(map);
+            }
+        }
+        return _d;
+    }
+
+    public static void  main(String[] arg){
+        String prefix = EngineViewServlet.RESOURCE_PATH + "/template";
+        String path = "file:/D:/engineJar/engine-1.0.0.jar!/engine/http/resources/template";
         if (path.startsWith("file:") && path.indexOf("file:") != -1) {
             path = path.substring(5,path.length());
         }
         if (path.indexOf(".jar") != -1) {
             path = path.substring(0,path.indexOf(".jar")+4);
         }
-        System.out.println("path:   "+path);
-        File file = new File(path);
+//        System.out.println("path:   "+path);
 
-        int length = file.listFiles().length;
-        
-        System.out.println("fileList为: " + length);
-        
-        System.out.println(file.exists());
         try {
+            List<String> data = new ArrayList<String>();
             JarFile jar = new JarFile(path);
             Enumeration enums = jar.entries();
             while(enums.hasMoreElements()){
                 JarEntry entry = (JarEntry) enums.nextElement();
-                if(entry.getName().startsWith("engine/http/resources/template")){
-                    jar.getInputStream(entry); //获取流
-                    System.out.println("enti:  "+ entry.getName()+",是否是目录: "+entry.isDirectory());
+                if(entry.getName().startsWith(prefix)){
+                    data.add(entry.getName().replaceAll(prefix,""));
+                    System.out.println(entry.getName().replaceAll(prefix,""));
                 }
             }
-            System.out.println(jar.size());
-
+            List<Map<String,Object>> s = recursionDirectory(data,"/");
+            for(int i=0;i<s.size();i++){
+                System.out.println(s.get(i));
+            }
+            String r = JSONUtils.toJSONString(s);
+            System.out.println(r);
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 }

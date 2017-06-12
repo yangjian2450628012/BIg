@@ -11,7 +11,6 @@ import java.util.Map;
  * Created by xiaoJ on 6/1/2017.
  */
 public abstract class EngineDataServiceHelp {
-    public static final String INDEX_URL                = "/index.json";
     public static final int  RESULT_CODE_SUCCESS        = 1;
     public static final int  RESULT_CODE_ERROR          = -1;
     public static final String INDEX_SQL                = "select * from my_orders limit ?,?";

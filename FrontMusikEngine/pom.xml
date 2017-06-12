@@ -50,7 +50,28 @@
 		        <configuration>  
 		            <encoding>UTF-8</encoding>  
 		        </configuration>  
-		    </plugin>  
+		    </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>class</id>
+                        <goals><goal>jar</goal></goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <classesDirectory>target/classes</classesDirectory>
+                            <outputDirectory>d:/engineJar/</outputDirectory>
+                            <classifier>class</classifier>
+                            <useDefaultManifestFile>false</useDefaultManifestFile>
+                            <includes>
+                                <include>tech/yobbo/engine/*</include>
+                                <include>engine/http/resources/*</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
          </plugins>
+
     </build>
 </project>
