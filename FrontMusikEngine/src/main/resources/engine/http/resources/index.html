@@ -58,9 +58,9 @@
             <tr>
                 <td class="td_lable">公共模板路径</td>
                 <td id="template_path">
-                    <a href="javascript:void(0);" data-windowtitle="公共模板" data-method="openTemplate" 
-                    data-params="${template_path}" data-url="code.html" data-callbackyes="callbackyes" class="template openTemplate-a">${template_path}</a>
-                    <!--<span class="layui-form-mid layui-word-aux" style="padding: 0;float: none;">公共模板在JAR包中，建议不要修改</span>-->
+                    <a href="javascript:void(0);"
+                       data-options="windowTitle:'公共模板',method:'openTemplate',params:'${template_path}',url:'code.html',callback:'callbackTemplateYes'"
+                       class="template openTemplate-a">${template_path}</a>
                 </td>
             </tr>
             <tr>
@@ -261,11 +261,12 @@
 
 </script>
 <script >
-engine.callbackyes = function(options){
-	console.log("回调成功");
-	console.log(this);
-	console.log(options);
-}
+    /*click btnYes callback*/
+    engine.callbackTemplateYes = function(options){
+	    console.log("回调成功");
+	    console.log(this);
+	    console.log(options);
+    }
 </script>
 </body>
 </html>
