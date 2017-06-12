@@ -1,3 +1,4 @@
+git pull
 git add ./pom.xml
 git add FrontMusik-Admin/pom.xml
 git add FrontMusik-Admin/src/*
