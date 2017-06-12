@@ -121,18 +121,22 @@ public class EngineViewServlet extends HttpServlet{
         }
 		String uri = contextPath + servletPath;
         String path = requestURI.substring(contextPath.length() + servletPath.length());
-		
+        
 		// 这种情况 跳转freeMark模板
 		if ("".equals(path)|| "/".equals(path)) {
             if (contextPath.equals("") || contextPath.equals("/")) {
-                response.sendRedirect(uri + "/index.html"); // 继续跳转到service方法中，进入returnTemplateHtml中输出模板
+                response.sendRedirect(path + "/index.html"); // 继续跳转到service方法中，进入returnTemplateHtml中输出模板
             } else {
-                response.sendRedirect(uri + "/index.html"); // 继续跳转到service方法中，进入returnTemplateHtml中输出模板
+                response.sendRedirect(path + "/index.html"); // 继续跳转到service方法中，进入returnTemplateHtml中输出模板
             }
 			return;
 		}else if(path.endsWith(".html")){
+			String fullUrl = path;
+            if (request.getQueryString() != null && request.getQueryString().length() > 0) {
+                fullUrl += "?" + request.getQueryString();
+            }
             response.setContentType("text/html; charset=utf-8");
-			returnTemplateHtml(path,uri,request.getServletContext(),response);
+			returnTemplateHtml(fullUrl,uri,request.getServletContext(),response);
 			return;
 		}	
 		
@@ -162,7 +166,7 @@ public class EngineViewServlet extends HttpServlet{
 		String filePath = getFilePath(path);
         try {
             // 获取相应数据
-			Map<String, String> params = EngineDataService.getInstance().getParameters(url);
+			Map<String, String> params = EngineDataService.getInstance().getParameters(path);
 			if (params.size() ==0) {
 			    params = new HashMap<String, String>();
             }
@@ -170,12 +174,10 @@ public class EngineViewServlet extends HttpServlet{
 			params.put("package_name",package_name);
             Object data = EngineDataService.getInstance().processTemplate(path,params,servletContext);
             //获取模板
+            if(filePath.indexOf("?") != -1){
+            	filePath = filePath.substring(0, filePath.indexOf("?"));
+            }
             Template template = configuration.getTemplate(filePath);
-            /*StringWriter outData = new StringWriter();
-            template.process(data, outData);
-            String text = outData.toString();
-            System.out.println("text: " + text);
-            response.getWriter().write(text);*/
             Writer writer = response.getWriter();
             template.process(data,writer);
         } catch (TemplateException e) {
