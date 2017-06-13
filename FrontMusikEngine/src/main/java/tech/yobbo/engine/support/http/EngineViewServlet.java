@@ -27,7 +27,7 @@ public class EngineViewServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(EngineViewServlet.class.getName());
 
-    protected static final String RESOURCE_PATH     = "engine/http/resources";
+    private static String RESOURCE_PATH     = "engine/http/resources";
     protected static String webappPath				= "";
     private String base_path						= "";
     private String package_name 					= "";
@@ -36,6 +36,10 @@ public class EngineViewServlet extends HttpServlet{
     
     public static String getDataSource() {
         return dataSource;
+    }
+
+    public static String getResourcePath(){
+        return RESOURCE_PATH;
     }
 
     @Override
@@ -113,7 +117,7 @@ public class EngineViewServlet extends HttpServlet{
 	{
 		String contextPath = request.getContextPath();
         String servletPath = request.getServletPath();
-        String requestURI = request.getRequestURI();	
+        String requestURI = request.getRequestURI();
 		
 		response.setCharacterEncoding("utf-8");
 		if (contextPath == null) { // root context
@@ -121,22 +125,29 @@ public class EngineViewServlet extends HttpServlet{
         }
 		String uri = contextPath + servletPath;
         String path = requestURI.substring(contextPath.length() + servletPath.length());
-        
-		// 这种情况 跳转freeMark模板
-		if ("".equals(path)|| "/".equals(path)) {
+
+        // 这种情况 跳转freeMark模板
+        if ("".equals(path)) {
             if (contextPath.equals("") || contextPath.equals("/")) {
-                response.sendRedirect(path + "/index.html"); // 继续跳转到service方法中，进入returnTemplateHtml中输出模板
+                response.sendRedirect(servletPath+"/index.html"); //转发到service中的.html中
             } else {
-                response.sendRedirect(path + "/index.html"); // 继续跳转到service方法中，进入returnTemplateHtml中输出模板
+                response.sendRedirect(servletPath.substring(1)+"/index.html");
             }
-			return;
-		}else if(path.endsWith(".html")){
+            return;
+        }
+        // 这种情况，跳转freeMark模板
+        if ("/".equals(path)) {
+            response.sendRedirect("index.html");
+            return;
+        }
+
+        if(path.endsWith(".html")){
 			String fullUrl = path;
             if (request.getQueryString() != null && request.getQueryString().length() > 0) {
                 fullUrl += "?" + request.getQueryString();
             }
             response.setContentType("text/html; charset=utf-8");
-			returnTemplateHtml(fullUrl,uri,request.getServletContext(),response);
+			returnTemplateHtml(path,fullUrl,request.getServletContext(),response);
 			return;
 		}	
 		
@@ -166,17 +177,14 @@ public class EngineViewServlet extends HttpServlet{
 		String filePath = getFilePath(path);
         try {
             // 获取相应数据
-			Map<String, String> params = EngineDataService.getInstance().getParameters(path);
+			Map<String, String> params = EngineDataService.getInstance().getParameters(url);
 			if (params.size() ==0) {
 			    params = new HashMap<String, String>();
             }
 			params.put("base_path",base_path);
 			params.put("package_name",package_name);
             Object data = EngineDataService.getInstance().processTemplate(path,params,servletContext);
-            //获取模板
-            if(filePath.indexOf("?") != -1){
-            	filePath = filePath.substring(0, filePath.indexOf("?"));
-            }
+
             Template template = configuration.getTemplate(filePath);
             Writer writer = response.getWriter();
             template.process(data,writer);
@@ -184,5 +192,4 @@ public class EngineViewServlet extends HttpServlet{
             e.printStackTrace();
         }
     }
-
 }

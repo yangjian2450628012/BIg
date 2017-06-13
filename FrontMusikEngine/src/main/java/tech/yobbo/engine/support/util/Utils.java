@@ -104,19 +104,6 @@ public class Utils {
         return count;
     }
 
-    public static byte[] readResourceFontToByte(String resource) throws IOException {
-        InputStream in = null;
-        try {
-        	in = new FileInputStream(new File(Utils.class.getResource("/"+resource).getFile())); //用文件流的形式读取字体文件，解决字体文件内容不一致问题
-            byte[] byt = new byte[in.available()];
-            in.read(byt);
-            return byt;
-        } finally {
-            if (in != null)in.close();
-        }
-    }
-
-
     // TODO
     public static Date getStartTime() {
         return new Date();
