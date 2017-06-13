@@ -13,8 +13,9 @@ var engine = layui.use(['layer','tree'],function(){
 	engine.commonMethod = {
 			openTemplate : function(options){
 				options.readOnly?options.url=options.url+"?readOnly=true":null;
-				engine.layer.open({
+				var index = engine.layer.open({
 					type: 2
+					, id: 'templateIfream'
 					, title: options['windowTitle'] ? options['windowTitle'] : '模板窗口'
 					, area: ['1200px', '500px']
 					, shade: 0
@@ -29,13 +30,16 @@ var engine = layui.use(['layer','tree'],function(){
 			            alert("确认生成");
 			        }
 			        , btn2: function(){
-			            layer.closeAll();
+			        	layer.close(index);
 			        }
 			        , zIndex: layer.zIndex
 			        , success: function(layero){
 			        	getTree.call(layero,options);
 			        	// TODO load left tree menu
 			        	console.log("加载成功");
+			        }
+			        , end : function(){
+			        	layer.close(index);
 			        }
 				});
 				/* build template left tree*/
@@ -44,15 +48,20 @@ var engine = layui.use(['layer','tree'],function(){
 					var clazz = this;
 					engine.jquery.getJSON(options.treeUrl,function(r){
 						if(r.ResultCode !=1 )return;
-						engine.jquery(clazz).find('.layui-layer-content iframe').css({width:'83%'});
+						var ifream = engine.jquery(clazz).find('.layui-layer-content iframe');
+						var ifreamId = ifream.attr("id");
+						ifream.css({width:'83%'});
 						engine.jquery(clazz).find('.layui-layer-content')
 						.prepend('<div style="display: inline-block;width: 15%;padding: 10px;overflow: auto;float: left;"><ul id="freemarker_ul"></ul></div>');
 						engine.tree({
                             elem: '#freemarker_ul'
-                            , target: '_blank'
+                            //, target: '_blank'
+                            , skin: 'shihuang' 
                             , click: function (item) {
-                                layer.msg('当前节名称：' + item.name + '<br>全部参数：' + JSON.stringify(item));
-                                console.log(item);
+                            	if(item.children == undefined && typeof item.params == "string"){
+                            		var params = item.params;
+                            		console.log(ifream);
+                            	}
                             }
                             , nodes: JSON.parse(r.Content)
                         });

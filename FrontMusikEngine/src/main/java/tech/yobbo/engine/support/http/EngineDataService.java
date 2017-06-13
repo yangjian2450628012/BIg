@@ -1,13 +1,15 @@
 package tech.yobbo.engine.support.http;
 
-import tech.yobbo.engine.support.data.EngineDataManagerFacade;
-
-import javax.servlet.ServletContext;
-import javax.sql.DataSource;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-/**
+import javax.servlet.ServletContext;
+import javax.sql.DataSource;
+
+import tech.yobbo.engine.support.data.EngineDataManagerFacade;
+
+/** 
+ * engine业务逻辑处理类，主要包括数据库连接池的获取和转发前端发送请求到业务实现类
  * Created by xiaoJ on 6/1/2017.
  *
  */
@@ -25,7 +27,13 @@ public class EngineDataService extends EngineDataServiceHelp {
         return instance;
     }
 
-	// 获取模板中数据
+	/**
+	 * 获取模板中数据
+	 * @param url 前端发送的请求
+	 * @param parameters URL中的参数列表
+	 * @param context ServletContext上下文
+	 * @return 返回模板中需要的数据
+	 */
 	public Object processTemplate(String url,Map<String, String> parameters,ServletContext context){
         if(dataSource == null){
             setDataSource(context);
@@ -78,56 +86,6 @@ public class EngineDataService extends EngineDataServiceHelp {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static void  main(String[] arg){
-    	/*String s1 = "/";
-    	String s2 = "/mysql/";
-    	String s3 = "/mysql/test/";
-    	String s4 = "/mysql/test/tun.ftl";
-    	String pattern = "^"+s2+"[A-Za-z0-9_]+/$";
-    	String ftl = "^"+s3+"([A-Za-z0-9_]+).ftl$";
-    	// 创建 Pattern 对象
-        Pattern r = Pattern.compile(pattern);
-        Matcher matcher = r.matcher(s3);
-        
-        System.out.println(matcher.find());
-        
-        Pattern r2 = Pattern.compile(ftl);
-        Matcher matcher3 = r2.matcher(s4);
-        
-        System.out.println(matcher3.find());*/
-
-        /*String prefix = EngineViewServlet.RESOURCE_PATH + "/template";
-        String path = "file:/D:/engineJar/engine-1.0.0.jar!/engine/http/resources/template";
-        if (path.startsWith("file:") && path.indexOf("file:") != -1) {
-            path = path.substring(5,path.length());
-        }
-        if (path.indexOf(".jar") != -1) {
-            path = path.substring(0,path.indexOf(".jar")+4);
-        }
-//        System.out.println("path:   "+path);
-
-        try {
-            List<String> data = new ArrayList<String>();
-            JarFile jar = new JarFile(path);
-            Enumeration enums = jar.entries();
-            while(enums.hasMoreElements()){
-                JarEntry entry = (JarEntry) enums.nextElement();
-                if(entry.getName().startsWith(prefix)){
-                    data.add(entry.getName().replaceAll(prefix,""));
-                    System.out.println(entry.getName().replaceAll(prefix,""));
-                }
-            }
-            List<Map<String,Object>> s = recursionDirectory(data,"/");
-            *//*for(int i=0;i<s.size();i++){
-                System.out.println(s.get(i));
-            }*//*
-            String r5 = JSONUtils.toJSONString(s);
-            System.out.println(r5);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     public DataSource getDataSource() {

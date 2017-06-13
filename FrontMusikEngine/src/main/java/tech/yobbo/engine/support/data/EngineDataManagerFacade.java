@@ -1,19 +1,28 @@
 package tech.yobbo.engine.support.data;
 
+import static tech.yobbo.engine.support.http.EngineDataServiceHelp.INDEX_SQL;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+
 import tech.yobbo.engine.support.http.EngineDataService;
 import tech.yobbo.engine.support.http.EngineViewServlet;
 import tech.yobbo.engine.support.json.JSONUtils;
 import tech.yobbo.engine.support.util.JdbcUtils;
 import tech.yobbo.engine.support.util.Utils;
 import tech.yobbo.engine.support.util.VERSION;
-
-import java.io.IOException;
-import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.regex.Pattern;
-
-import static tech.yobbo.engine.support.http.EngineDataServiceHelp.INDEX_SQL;
 
 /**
  * Created by xiaoJ on 2017/6/13.
@@ -41,14 +50,14 @@ public class EngineDataManagerFacade {
     public Map getBasicInfo(Map<String,String> params){
         Map<String,Object> dataMap = new LinkedHashMap();
         dataMap.put("Version", VERSION.getVersionNumber());
+        dataMap.put("template_path", "file:/D:/engineJar/engine-1.0.0.jar!/engine/http/resources/template");
 //  jar       file:/E:/公司项目源码/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/das/WEB-INF/lib/engine-1.0.0.jar!/engine/http/resources/template
 //  类        /E:/电影网站模板/FrontMusik/FrontMusikEngine/target/FrontMusik-Engine/WEB-INF/classes/engine/http/resources/template/
-//        dataMap.put("temlate_path", Thread.currentThread().getContextClassLoader().getResource(EngineViewServlet.RESOURCE_PATH +"/template").getPath());
+//        dataMap.put("template_path", Thread.currentThread().getContextClassLoader().getResource(EngineViewServlet.getResourcePath() +"/template").getPath());
 //  jar       jar:file:/E:/公司项目源码/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/das/WEB-INF/lib/engine-1.0.0.jar!/engine/http/resources/template
 //  类        file:/E:/电影网站模板/FrontMusik/FrontMusikEngine/target/FrontMusik-Engine/WEB-INF/classes/engine/http/resources/template/
+        
         dataMap.put("common_path", "");
-
-        dataMap.put("template_path", "file:/D:/engineJar/engine-1.0.0.jar!/engine/http/resources/template");
         dataMap.put("treeUrl","tree.json?template_path="+dataMap.get("template_path"));
         dataMap.put("base_path",params.get("base_path"));
         dataMap.put("package_name",params.get("package_name"));
@@ -141,4 +150,32 @@ public class EngineDataManagerFacade {
         return null;
     }
 
+    public static void main(String[] args) {
+    	//读取内容
+    	String prefix = EngineViewServlet.getResourcePath() + "/template";
+        String path = "file:/D:/engineJar/engine-1.0.0.jar!/engine/http/resources/template";
+        if (path.startsWith("file:") && path.indexOf("file:") != -1) {
+            path = path.substring(5,path.length());
+        }
+        if (path.indexOf(".jar") != -1) {
+            path = path.substring(0,path.indexOf(".jar")+4);
+        }
+        try {
+			JarFile jar = new JarFile(path);
+			ZipEntry entry =  jar.getEntry("engine/http/resources/template/mysql/hibernate/entity.ftl");
+			InputStream in = jar.getInputStream(entry);
+			InputStreamReader reader = new InputStreamReader(in, "utf-8");
+			StringWriter stringW = new StringWriter();
+			char[] b = new char[1024];
+			int i = 0;
+			while((i = reader.read(b)) != -1){
+				stringW.write(b, 0, i);
+			}
+			String text = stringW.toString();
+			System.out.println(text);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        
+	}
 }
