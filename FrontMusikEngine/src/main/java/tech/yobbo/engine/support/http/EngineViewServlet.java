@@ -44,7 +44,7 @@ public class EngineViewServlet extends HttpServlet{
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        dataSource = config.getInitParameter("dataSource_class");
+        dataSource = config.getInitParameter("dataSource");
         base_path = config.getInitParameter("base_path");
         package_name = config.getInitParameter("package_name");
         configuration = new Configuration(Configuration.getVersion()); // 创建模板

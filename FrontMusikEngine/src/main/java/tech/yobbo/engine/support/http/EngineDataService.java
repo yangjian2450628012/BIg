@@ -79,10 +79,17 @@ public class EngineDataService extends EngineDataServiceHelp {
 			Class<?> _class = Class.forName("org.springframework.web.context.support.WebApplicationContextUtils");
 			Method method  = _class.getMethod("getRequiredWebApplicationContext", ServletContext.class);
             Object ctx = method.invoke(method.getReturnType(), context);
-			Method m = ctx.getClass().getMethod("getBean", Class.class);
-			dataSource = (DataSource) m.invoke(ctx
-					, Class.forName(EngineViewServlet.getDataSource()));
-            dataSource_className = EngineViewServlet.getDataSource();
+            Method m;
+            if(EngineViewServlet.getDataSource().contains(".")){
+                m = ctx.getClass().getMethod("getBean", Class.class);
+                dataSource = (DataSource) m.invoke(ctx
+                        , Class.forName(EngineViewServlet.getDataSource()));
+                dataSource_className = EngineViewServlet.getDataSource();
+            }else{
+                m = ctx.getClass().getMethod("getBean",String.class);
+                dataSource = (DataSource) m.invoke(ctx, EngineViewServlet.getDataSource());
+                dataSource_className = dataSource.getClass().getName();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
