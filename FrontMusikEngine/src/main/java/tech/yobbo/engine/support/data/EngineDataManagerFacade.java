@@ -1,28 +1,22 @@
 package tech.yobbo.engine.support.data;
 
-import static tech.yobbo.engine.support.http.EngineDataServiceHelp.INDEX_SQL;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-
 import tech.yobbo.engine.support.http.EngineDataService;
+import tech.yobbo.engine.support.http.EngineDataServiceHelp;
 import tech.yobbo.engine.support.http.EngineViewServlet;
 import tech.yobbo.engine.support.json.JSONUtils;
 import tech.yobbo.engine.support.util.JdbcUtils;
 import tech.yobbo.engine.support.util.Utils;
 import tech.yobbo.engine.support.util.VERSION;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
+import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
 
 /**
  * Created by xiaoJ on 2017/6/13.
@@ -73,7 +67,7 @@ public class EngineDataManagerFacade {
 //        dataMap.put("template_path", Thread.currentThread().getContextClassLoader().getResource(EngineViewServlet.getResourcePath() +"/template").getPath());
 //  jar       jar:file:/E:/公司项目源码/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/das/WEB-INF/lib/engine-1.0.0.jar!/engine/http/resources/template
 //  类        file:/E:/电影网站模板/FrontMusik/FrontMusikEngine/target/FrontMusik-Engine/WEB-INF/classes/engine/http/resources/template/
-        
+
         dataMap.put("common_path", "");
         dataMap.put("treeUrl","tree.json?template_path="+dataMap.get("template_path"));
         dataMap.put("base_path",params.get("base_path"));
@@ -83,6 +77,9 @@ public class EngineDataManagerFacade {
         dataMap.put("JavaVMName", System.getProperty("java.vm.name"));
         dataMap.put("JavaVersion", System.getProperty("java.version"));
         dataMap.put("StartTime", Utils.getStartTime());
+        if(EngineDataService.getInstance().getDataSource() != null){
+            dataMap.put("historyData",this.getIndexList());
+        }
         return dataMap;
     }
 
@@ -164,11 +161,11 @@ public class EngineDataManagerFacade {
     /**
      *  获取首页列表
      */
-    public List getIndexList(Map<String, String> parameters) {
+    public List getIndexList() {
         try {
             JdbcUtils jdbcUtils = JdbcUtils.getInstance();
             jdbcUtils.getConnection(EngineDataService.getInstance().getDataSource());
-            List data = jdbcUtils.getDataBySql(INDEX_SQL,new Object[]{0,100000});
+            List data = jdbcUtils.getDataBySql(EngineDataServiceHelp.INDEX_SQL,new Object[]{0,50});
             return data;
         } catch (Exception e) {
             e.printStackTrace();

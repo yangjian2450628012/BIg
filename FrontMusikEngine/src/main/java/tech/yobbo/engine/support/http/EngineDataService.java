@@ -58,7 +58,7 @@ public class EngineDataService extends EngineDataServiceHelp {
             setDataSource(context);
         }
         if (url.startsWith("/index.json")) {
-            return returnJSONResult(RESULT_CODE_SUCCESS, engineDataManagerFacade.getIndexList(parameters));
+            return returnJSONResult(RESULT_CODE_SUCCESS, engineDataManagerFacade.getIndexList());
         } else if(url.startsWith("/tree.json")){
             return returnJSONResult(RESULT_CODE_SUCCESS,engineDataManagerFacade.getTemplateTree(parameters));
         }
@@ -71,7 +71,7 @@ public class EngineDataService extends EngineDataServiceHelp {
      * 避免没导包，导致运行报错
      * @param context
      */
-    public void setDataSource(ServletContext context){
+    private void setDataSource(ServletContext context){
     	if(EngineViewServlet.getDataSource() == null) return;
         System.out.println("初始化数据库连接池！");
         try {

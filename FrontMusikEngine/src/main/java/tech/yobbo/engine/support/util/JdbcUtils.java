@@ -14,10 +14,9 @@ import java.util.Map;
  * 数据库操作公共类
  */
 public class JdbcUtils {
-//    private static final Properties DRIVER_URL_MAPPING  = new Properties();
-    private static Connection conn                      = null;
-    private static PreparedStatement statement          = null;
-    private static ResultSet resultSet                  = null;
+    private Connection conn                             = null;
+    private PreparedStatement statement                 = null;
+    private  ResultSet resultSet                        = null;
     private JdbcUtils(){}
     private static JdbcUtils instance                   = null;
     public static JdbcUtils getInstance(){
@@ -38,7 +37,7 @@ public class JdbcUtils {
     }
 
     // 关闭数据库
-    public static void closeDb() throws SQLException {
+    public void closeDb() throws SQLException {
         if (conn != null) {
             conn.close();
         }
@@ -101,7 +100,7 @@ public class JdbcUtils {
 
     /*******************start sql查询方法************************************************/
     // 获取查询结果
-    private static ResultSet queryData(String sql,Object ... params) throws Exception {
+    private ResultSet queryData(String sql,Object ... params) throws Exception {
         if (null == conn) {
             throw new Exception("没有可用的连接");
         }
@@ -153,38 +152,11 @@ public class JdbcUtils {
     }
     /*****************************end sql查询方法***************************************/
 
-//    static {
-//        try {
-//            ClassLoader ctxClassLoader = Thread.currentThread().getContextClassLoader();
-//            if (ctxClassLoader != null) {
-//                for (Enumeration<URL> e = ctxClassLoader.getResources("META-INF/engine-driver.properties"); e.hasMoreElements();) {
-//                    URL url = e.nextElement();
-//
-//                    Properties property = new Properties();
-//
-//                    InputStream is = null;
-//                    try {
-//                        is = url.openStream();
-//                        property.load(is);
-//                    } finally {
-//                        JdbcUtils.close(is);
-//                    }
-//
-//                    DRIVER_URL_MAPPING.putAll(property);
-//                }
-//            }
-//        } catch (Exception e) {
-//           e.printStackTrace();
-//        }
-//    }
-
-
-
     /**
      * 关闭数据库流
      * @param x
      */
-    public static void close(Statement x){
+    public void close(Statement x){
         if (x == null) {
             return;
         }
@@ -199,7 +171,7 @@ public class JdbcUtils {
      * 关闭文件流
      * @param x
      */
-    public static void close(Closeable x){
+    public void close(Closeable x){
         if (x == null) {
             return;
         }

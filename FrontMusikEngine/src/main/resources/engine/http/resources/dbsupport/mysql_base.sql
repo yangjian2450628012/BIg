@@ -1,12 +1,9 @@
-CREATE TABLE  If Not Exists `ENGINE_SUPPORT_BASE` (
+CREATE TABLE IF NOT EXISTS `ENGINE_BULID_HISTORY`(
 `id`  int NOT NULL AUTO_INCREMENT COMMENT 'major key' ,
-`java_output_path`  varchar(100) NOT NULL COMMENT 'engine java output path' ,
-`package_path`  varchar(50) NOT NULL COMMENT 'engine package path' ,
-`version`  varchar(20) NOT NULL COMMENT 'engine config version' ,
+`module_name` VARCHAR(50) NOT NULL COMMENT 'module name',
+`table_name` VARCHAR(30) NOT NULL COMMENT 'table name',
+`db_type` VARCHAR(10) NOT NULL COMMENT 'db type',
+`frame_type` VARCHAR(20) NOT NULL COMMENT 'frame type',
+`remark` VARCHAR(50) NOT NULL COMMENT 'remark',
 PRIMARY KEY (`id`)
-)
-;
-
-CREATE TABLE IF NOT TXISTS `ENGINE_BULID_HISTORY`(
-
 );
