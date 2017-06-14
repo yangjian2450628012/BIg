@@ -16,7 +16,6 @@ var engine = layui.use(['layer','tree'],function(){
                 engine.jquery.getJSON(options.treeUrl,function(r){
                     if(r.ResultCode !=1 )return;
                     var data = JSON.parse(r.Content);
-
 					treeDatas = data.tree;
                     contentUrl = options.url + "?v=1.0.0";
                     data.firstTemplate?contentUrl = contentUrl + "&templatePath="+data.firstTemplate : null;
@@ -44,24 +43,26 @@ var engine = layui.use(['layer','tree'],function(){
                         }
                         , zIndex: layer.zIndex
                         , success: function(layero){
+                            // 此success回调方法，每次加载ifream都会执行一次
                             //getTree.call(layero,options);
                             engine.jquery(layero).find('#templateIfream iframe').css({width:'83%'});
-                            engine.jquery(layero).find('#templateIfream')
-                                .prepend('<div style="display: inline-block;width: 15%;padding: 10px;overflow: auto;float: left;">' +
-									'<ul id="freemarker_ul"></ul></div>');
-                            engine.tree({
-                                elem: '#freemarker_ul'
-                                //, target: '_blank'
-                                , skin: 'templateTree'
-                                , click: function (item) {
-                                    if(item.children == undefined && typeof item.params == "string"){
-                                        var params = item.params;
-                                        console.log(ifream);
+                            if(engine.jquery("#freemarker_ul").html() == undefined){
+                                engine.jquery(layero).find('#templateIfream')
+                                    .prepend('<div style="display: inline-block;width: 15%;padding: 10px;overflow: auto;float: left;">' +
+                                        '<ul id="freemarker_ul"></ul></div>');
+                                engine.tree({
+                                    elem: '#freemarker_ul'
+                                    , skin: 'templateTree'
+                                    , click: function (item) {
+                                        if(item.children == undefined && typeof item.params == "string"){
+                                            var params = item.params;
+                                            contentUrl = contentUrl.replace(new RegExp("templatePath=[A-Za-z0-9_/]+.ftl"),"templatePath="+params);
+                                            engine.jquery(layero).find('#templateIfream iframe').attr("src",contentUrl);
+                                        }
                                     }
-                                }
-                                , nodes: treeDatas
-                            });
-                            console.log("加载成功");
+                                    , nodes: treeDatas
+                                });
+                            }
                         }
                         , end : function(){
                             layer.close(index);
