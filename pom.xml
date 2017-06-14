@@ -136,12 +136,12 @@
             </activation>
             <properties>
                 <db.driverClassName>com.mysql.jdbc.Driver</db.driverClassName>
-                <!--<db.url>jdbc:mysql://127.0.0.1:3306/movie?characterEncoding=utf8</db.url>
+                <db.url>jdbc:mysql://127.0.0.1:3306/movie?characterEncoding=utf8</db.url>
                 <db.username>movie</db.username>
-                <db.password>452D29A6639B42C8896C6660E97E6E47</db.password>-->
-                <db.url>jdbc:mysql://127.0.0.1:3306/front_musik?characterEncoding=utf8</db.url>
+                <db.password>YJ04051711</db.password>
+                <!-- <db.url>jdbc:mysql://127.0.0.1:3306/front_musik?characterEncoding=utf8</db.url>
                 <db.username>musik</db.username>
-                <db.password>123456</db.password>
+                <db.password>123456</db.password> -->
                 <log.moduleName>FrontMusik</log.moduleName>
                 <log.base>frontMusiKLogs</log.base>
                 <log.other.level>DEBUG</log.other.level>

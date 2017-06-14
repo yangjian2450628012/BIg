@@ -1,6 +1,7 @@
 package tech.yobbo.engine.support.http;
 
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -17,6 +18,7 @@ public class EngineDataService extends EngineDataServiceHelp {
     private static  EngineDataService instance                      = null;
     private DataSource dataSource                                   = null;
     private String dataSource_className                             = null;
+    private Date startTime											= null;
     private static EngineDataManagerFacade engineDataManagerFacade  = EngineDataManagerFacade.getInstance(); //获取具体数据操作类
 
     private EngineDataService(){}
@@ -79,17 +81,20 @@ public class EngineDataService extends EngineDataServiceHelp {
 			Class<?> _class = Class.forName("org.springframework.web.context.support.WebApplicationContextUtils");
 			Method method  = _class.getMethod("getRequiredWebApplicationContext", ServletContext.class);
             Object ctx = method.invoke(method.getReturnType(), context);
-            Method m;
+           
             if(EngineViewServlet.getDataSource().contains(".")){
-                m = ctx.getClass().getMethod("getBean", Class.class);
+            	Method m = ctx.getClass().getMethod("getBean", Class.class);
                 dataSource = (DataSource) m.invoke(ctx
                         , Class.forName(EngineViewServlet.getDataSource()));
                 dataSource_className = EngineViewServlet.getDataSource();
             }else{
-                m = ctx.getClass().getMethod("getBean",String.class);
+            	Method m = ctx.getClass().getMethod("getBean",String.class);
                 dataSource = (DataSource) m.invoke(ctx, EngineViewServlet.getDataSource());
                 dataSource_className = dataSource.getClass().getName();
             }
+            Method m = ctx.getClass().getMethod("getStartupDate", null);
+            Long statupDate = (Long)m.invoke(ctx, null);
+            startTime = new Date(statupDate);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -100,5 +105,8 @@ public class EngineDataService extends EngineDataServiceHelp {
     }
     public String getDataSource_className() {
         return dataSource_className;
+    }
+    public Date getStartTime(){
+    	return startTime;
     }
 }

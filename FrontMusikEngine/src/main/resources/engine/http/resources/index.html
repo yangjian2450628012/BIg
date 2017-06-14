@@ -117,17 +117,19 @@
         </tr>
         </thead>
         <tbody>
+        <#if (historyData?size>0) >
         <#list historyData as history>
             <tr>
-                <td><a class="template" href="#">${history.MODULE_NAME}</a></td>
-                <td>${history.TABLE_NAME}</td>
-                <td>${history.DB_TYPE}</td>
-                <td>${history.FRAME_TYPE}</td>
+                <td><a class="template" href="#"><#if history.MODULE_NAME ??>${history.MODULE_NAME}</#if></a></td>
+                <td><#if history.TABLE_NAME ??>${history.TABLE_NAME}</#if></td>
+                <td><#if history.DB_TYPE ??>${history.DB_TYPE}</#if></td>
+                <td><#if history.FRAME_TYPE ??>${history.FRAME_TYPE}</#if></td>
                 <td><a class="template" href="#">egnine-1.0.0.jar\engine\http\resources\template\myBatis</a></td>
                 <td><a class="template" href="#">E:\电影网站模板\FrontMusik\FrontMusik-Admin\src\main\java\tech\yobbo</a></td>
-                <td>${history.REMARK}</td>
+                <td><#if history.REMARK ??>${history.REMARK}</#if></td>
             </tr>
         </#list>
+        </#if>
         </tbody>
     </table>
 </div>

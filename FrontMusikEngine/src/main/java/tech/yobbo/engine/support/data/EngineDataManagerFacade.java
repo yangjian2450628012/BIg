@@ -35,8 +35,10 @@ public class EngineDataManagerFacade {
 
     /**
      * 获取code中的数据
-     * jar_path engine-1.0.0.jar 在磁盘的绝对位置
-     * templatePath 为资源文件在engine-1.0.0.jar 的相对位置
+     * 需要参数: 
+     * 		1) jar_path-->engine-1.0.0.jar在磁盘的位置
+     * 		2) templatePath-->在engine-1.0.0.jar中相对目录 
+     * 		3) prefix-->目录前缀 
      * * @param parameters
      * @return
      */
@@ -53,9 +55,10 @@ public class EngineDataManagerFacade {
                 String text = Utils.read(in);
                 data.put("code",text);
                 data.put("readOnly",parameters.get("readOnly"));
+                jar.close();
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            } 
         }
         return data;
     }
@@ -81,7 +84,7 @@ public class EngineDataManagerFacade {
         dataMap.put("Drivers", params.get("dataSource"));
         dataMap.put("JavaVMName", System.getProperty("java.vm.name"));
         dataMap.put("JavaVersion", System.getProperty("java.version"));
-        dataMap.put("StartTime", Utils.getStartTime());
+        dataMap.put("StartTime", EngineDataService.getInstance().getStartTime());
         if(EngineDataService.getInstance().getDataSource() != null){
             dataMap.put("historyData",this.getIndexList());
         }
@@ -90,6 +93,9 @@ public class EngineDataManagerFacade {
 
     /**
      * 获取模板中树形菜单
+     * 需要参数:
+     *  1) template_path-->
+     *  2) prefix-->
      * @param parameters
      * @return
      */

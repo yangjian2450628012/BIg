@@ -5,5 +5,6 @@ CREATE TABLE IF NOT EXISTS `ENGINE_BULID_HISTORY`(
 `db_type` VARCHAR(10) NOT NULL COMMENT 'db type',
 `frame_type` VARCHAR(20) NOT NULL COMMENT 'frame type',
 `remark` VARCHAR(50) NOT NULL COMMENT 'remark',
+`create_time` timestamp default CURRENT_TIMESTAMP COMMENT 'create time',
 PRIMARY KEY (`id`)
 );
