@@ -24,6 +24,7 @@ import tech.yobbo.engine.support.util.Utils;
 import tech.yobbo.engine.support.util.VERSION;
 
 /**
+ * engine业务功能实现类
  * Created by xiaoJ on 2017/6/13.
  */
 public class EngineDataManagerFacade {
@@ -67,7 +68,7 @@ public class EngineDataManagerFacade {
      * 获取首页基础数据
      */
     public Map getBasicInfo(Map<String,String> params){
-        Map<String,Object> dataMap = new LinkedHashMap();
+        Map<String,Object> dataMap = new LinkedHashMap<String,Object>();
         dataMap.put("Version", VERSION.getVersionNumber());
         dataMap.put("template_path", "file:/D:/engineJar/engine-1.0.0.jar!/engine/http/resources/template");
 //  jar       file:/E:/公司项目源码/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/das/WEB-INF/lib/engine-1.0.0.jar!/engine/http/resources/template

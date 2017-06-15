@@ -1,13 +1,14 @@
 package tech.yobbo.engine.support.http;
 
-import java.lang.reflect.Method;
-import java.util.Date;
-import java.util.Map;
+import tech.yobbo.engine.support.data.EngineDataManagerFacade;
 
 import javax.servlet.ServletContext;
 import javax.sql.DataSource;
-
-import tech.yobbo.engine.support.data.EngineDataManagerFacade;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.sql.Driver;
+import java.util.Date;
+import java.util.Map;
 
 /** 
  * engine业务逻辑处理类，主要包括数据库连接池的获取和转发前端发送请求到业务实现类
@@ -27,6 +28,20 @@ public class EngineDataService extends EngineDataServiceHelp {
             instance = new EngineDataService();
         }
         return instance;
+    }
+
+    /**
+     * 初始化engine
+     */
+    protected  void init(){
+        // 获取连接池信息，判断数据库类型
+        try {
+            for(Method m : dataSource.getClass().getMethods()){
+                System.out.println(m);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 	/**
@@ -73,7 +88,7 @@ public class EngineDataService extends EngineDataServiceHelp {
      * 避免没导包，导致运行报错
      * @param context
      */
-    private void setDataSource(ServletContext context){
+    protected void setDataSource(ServletContext context){
     	if(EngineViewServlet.getDataSource() == null) return;
         System.out.println("初始化数据库连接池！");
         try {
@@ -92,9 +107,9 @@ public class EngineDataService extends EngineDataServiceHelp {
                 dataSource = (DataSource) m.invoke(ctx, EngineViewServlet.getDataSource());
                 dataSource_className = dataSource.getClass().getName();
             }
-            Method m = ctx.getClass().getMethod("getStartupDate", null);
-            Long statupDate = (Long)m.invoke(ctx, null);
-            startTime = new Date(statupDate);
+            Method m = ctx.getClass().getMethod("getStartupDate");
+            Long startUpDate = (Long)m.invoke(ctx);
+            startTime = new Date(startUpDate);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -130,7 +130,7 @@
     <!-- start 配置数据库多环境 -->
     <profiles>
         <profile>
-            <id>mysql-local</id>
+            <id>home</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -139,9 +139,6 @@
                 <db.url>jdbc:mysql://127.0.0.1:3306/movie?characterEncoding=utf8</db.url>
                 <db.username>movie</db.username>
                 <db.password>YJ04051711</db.password>
-                <!-- <db.url>jdbc:mysql://127.0.0.1:3306/front_musik?characterEncoding=utf8</db.url>
-                <db.username>musik</db.username>
-                <db.password>123456</db.password> -->
                 <log.moduleName>FrontMusik</log.moduleName>
                 <log.base>frontMusiKLogs</log.base>
                 <log.other.level>DEBUG</log.other.level>
@@ -156,12 +153,12 @@
             </build>-->
         </profile>
         <profile>
-            <id>linux-200</id>
+            <id>company</id>
             <properties>
                 <db.driverClassName>com.mysql.jdbc.Driver</db.driverClassName>
-                <db.url>jdbc:mysql://192.168.1.200:3306/test</db.url>
-                <db.username>test</db.username>
-                <db.password >test2011</db.password >
+                <db.url>jdbc:mysql://127.0.0.1:3306/front_musik?characterEncoding=utf8</db.url>
+                <db.username>musik</db.username>
+                <db.password>123456</db.password>
                 <log.moduleName>FrontMusik</log.moduleName>
                 <log.base>FrontMusikLogs</log.base>
                 <log.other.level>DEBUG</log.other.level>

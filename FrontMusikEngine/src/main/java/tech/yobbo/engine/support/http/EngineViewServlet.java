@@ -50,6 +50,9 @@ public class EngineViewServlet extends HttpServlet{
         package_name = config.getInitParameter("package_name");
         configuration = new Configuration(Configuration.getVersion()); // 创建模板
         webappPath = config.getServletContext().getRealPath("/");
+        EngineDataService engineDataService = EngineDataService.getInstance();
+        engineDataService.setDataSource(config.getServletContext()); //设置数据库连接池初始化
+        engineDataService.init(); //初始化engine
         try {
             configuration.setDefaultEncoding("UTF-8");
             configuration.setClassForTemplateLoading(this.getClass(),"/");
@@ -173,7 +176,7 @@ public class EngineViewServlet extends HttpServlet{
      * @param response
      * @throws IOException
      */
-	public void returnTemplateHtml(String path, String url, ServletContext servletContext, HttpServletResponse response)
+	protected void returnTemplateHtml(String path, String url, ServletContext servletContext, HttpServletResponse response)
             throws IOException {
 		String filePath = getFilePath(path);
         try {
