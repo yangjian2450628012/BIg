@@ -29,9 +29,9 @@ public class EngineViewServlet extends HttpServlet{
 	private static final Logger LOG = Logger.getLogger(EngineViewServlet.class.getName());
 
     private static String RESOURCE_PATH     = "engine/http/resources";
-    protected static String webappPath				= "";
-    private String base_path						= "";
-    private String package_name 					= "";
+    protected static String webappPath				= null;
+    private String base_path						= null;
+    private String package_name 					= null;
     private static String dataSource 				= null;
     private Configuration configuration             = null;
     

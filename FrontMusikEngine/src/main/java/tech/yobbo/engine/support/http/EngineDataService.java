@@ -1,12 +1,11 @@
 package tech.yobbo.engine.support.http;
 
 import tech.yobbo.engine.support.data.EngineDataManagerFacade;
+import tech.yobbo.engine.support.util.JdbcUtils;
 
 import javax.servlet.ServletContext;
 import javax.sql.DataSource;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.sql.Driver;
 import java.util.Date;
 import java.util.Map;
 
@@ -31,21 +30,22 @@ public class EngineDataService extends EngineDataServiceHelp {
     }
 
     /**
-     * 初始化engine
+     * 初始化自动化引擎，包括创建相应依赖表
      */
     protected  void init(){
+        if(this.dataSource == null) throw new RuntimeException("没有可用的连接池!");
         // 获取连接池信息，判断数据库类型
         try {
-            for(Method m : dataSource.getClass().getMethods()){
-                System.out.println(m);
-            }
+            JdbcUtils jdbcUtils = JdbcUtils.getInstance();
+            jdbcUtils.getConnection(this.dataSource); //获取连接
+            jdbcUtils.getDataBySql(null);  //查询数据库类型
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 	/**
-	 * 获取模板中数据
+	 * 获取模板中数据,返回给模板
 	 * @param url 前端发送的请求
 	 * @param parameters URL中的参数列表
 	 * @param context ServletContext上下文
@@ -64,7 +64,7 @@ public class EngineDataService extends EngineDataServiceHelp {
 	}
 
 	/**
-     * 调用服务
+     * 调用服务，ajax异步相关的，只要师ajax请求都会走process这个方法去处理
      * @param url
      * @param context 上下文
      * @return
@@ -86,7 +86,7 @@ public class EngineDataService extends EngineDataServiceHelp {
     /**
      * 通过反射获取spring中dataSource连接池bean
      * 避免没导包，导致运行报错
-     * @param context
+     * @param context servletContext上下文
      */
     protected void setDataSource(ServletContext context){
     	if(EngineViewServlet.getDataSource() == null) return;

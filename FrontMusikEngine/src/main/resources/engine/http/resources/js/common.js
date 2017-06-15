@@ -20,6 +20,7 @@ var engine = layui.use(['layer','tree'],function(){
                     contentUrl = options.url + "?v=1.0.0";
                     data.firstTemplate?contentUrl = contentUrl + "&templatePath="+data.firstTemplate : null;
                     data.jar_path?contentUrl = contentUrl+"&jar_path="+data.jar_path : null;
+                    data.prefix?contentUrl = contentUrl+"&prefix="+data.prefix : null;
                     options.readOnly?contentUrl=contentUrl+"&readOnly=true":null;
 
                     var index = engine.layer.open({
@@ -55,8 +56,9 @@ var engine = layui.use(['layer','tree'],function(){
                                     , skin: 'templateTree'
                                     , click: function (item) {
                                         if(item.children == undefined && typeof item.params == "string"){
-                                            var params = item.params;
+                                            var params = item.params,prefix = item.prefix;
                                             contentUrl = contentUrl.replace(new RegExp("templatePath=[A-Za-z0-9_/]+.ftl"),"templatePath="+params);
+                                            contentUrl = contentUrl.replace(new RegExp("prefix=[A-Za-z0-9/]+"),"prefix="+prefix);
                                             engine.jquery(layero).find('#templateIfream iframe').attr("src",contentUrl);
                                         }
                                     }

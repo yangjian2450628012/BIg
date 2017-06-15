@@ -8,6 +8,7 @@ import tech.yobbo.engine.support.json.JSONUtils;
 import tech.yobbo.engine.support.util.StringUtils;
 
 /**
+ * engine业务处理相关帮助类
  * Created by xiaoJ on 6/1/2017.
  */
 public abstract class EngineDataServiceHelp {
@@ -17,6 +18,7 @@ public abstract class EngineDataServiceHelp {
 
     /**
      * 获取url路径中的参数，放到map中
+     * 如果url中参数为空，直接返回空集合
      * @param url
      * @return
      */
@@ -46,6 +48,12 @@ public abstract class EngineDataServiceHelp {
         return parameters;
     }
 
+    /**
+     * 返回ajax结果，前端统一以这种格式来解析
+     * @param resultCode 返回处理结果的状态，1：成功,2：失败
+     * @param content 返回的内容，可以是任意类型的对象
+     * @return
+     */
     public static String returnJSONResult(int resultCode, Object content) {
         Map<String, Object> dataMap = new LinkedHashMap<String, Object>();
         dataMap.put("ResultCode", resultCode);

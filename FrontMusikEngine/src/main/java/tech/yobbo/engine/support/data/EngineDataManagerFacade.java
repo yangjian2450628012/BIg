@@ -45,11 +45,11 @@ public class EngineDataManagerFacade {
      */
     public Map getCodeInfo(Map<String, String> parameters) {
         String jar_path = parameters.get("jar_path") !=null ? parameters.get("jar_path") : "";
-        String templatePath = parameters.get("templatePath") != null ? parameters.get("templatePath") : "";
+        String prefix = parameters.get("prefix") != null ? parameters.get("prefix") : "";
         Map<String,Object> data = new HashMap<String, Object>();
-        if(!"".equals(jar_path)){
+        if(!"".equals(jar_path) && !"".equals(prefix)){
             try {
-                String prefix = EngineViewServlet.getResourcePath() + "/template";
+                String templatePath = parameters.get("templatePath") != null ? parameters.get("templatePath") : "";
                 JarFile jar = new JarFile(jar_path);
                 ZipEntry entry =  jar.getEntry(prefix+templatePath);
                 InputStream in = jar.getInputStream(entry);
@@ -59,7 +59,7 @@ public class EngineDataManagerFacade {
                 jar.close();
             } catch (IOException e) {
                 e.printStackTrace();
-            } 
+            }
         }
         return data;
     }
@@ -78,7 +78,7 @@ public class EngineDataManagerFacade {
 //  类        file:/E:/电影网站模板/FrontMusik/FrontMusikEngine/target/FrontMusik-Engine/WEB-INF/classes/engine/http/resources/template/
 
         dataMap.put("common_path", "");
-        dataMap.put("treeUrl","tree.json?template_path="+dataMap.get("template_path"));
+        dataMap.put("treeUrl","tree.json?template_path="+dataMap.get("template_path")+"&prefix="+EngineViewServlet.getResourcePath()+"/template");
         dataMap.put("base_path",params.get("base_path"));
         dataMap.put("package_name",params.get("package_name"));
         dataMap.put("dataSource", EngineDataService.getInstance().getDataSource_className());
@@ -95,14 +95,14 @@ public class EngineDataManagerFacade {
     /**
      * 获取模板中树形菜单
      * 需要参数:
-     *  1) template_path-->
-     *  2) prefix-->
+     *  1) template_path--> engine-1.0.0.jar在磁盘中的位置
+     *  2) prefix-->目录前缀，从指定目录开始筛选
      * @param parameters
      * @return
      */
     public String getTemplateTree(Map<String, String> parameters) {
         String jar_path = parameters.get("template_path");
-        String prefix = EngineViewServlet.getResourcePath() + "/template";
+        String prefix = parameters.get("prefix");
 
         if (jar_path.startsWith("file:") && jar_path.indexOf("file:") != -1) {
             jar_path = jar_path.substring(5,jar_path.length());
@@ -125,11 +125,12 @@ public class EngineDataManagerFacade {
                     }
                 }
             }
-            List list = recursionDirectory(data, "/");
+            List list = recursionDirectory(data, "/",prefix);
             StringBuilder _data = new StringBuilder();
             _data.append("{\"tree\":").append(JSONUtils.toJSONString(list))
                     .append(",\"firstTemplate\":\"").append(firstTemplate)
                     .append("\",\"jar_path\":\"").append(jar_path)
+                    .append("\",\"prefix\":\"").append(prefix)
                     .append("\"}");
             return _data.toString();
         } catch (IOException e) {
@@ -145,7 +146,7 @@ public class EngineDataManagerFacade {
      * @param start 筛选起点位置
      * @return
      */
-    private static List<Map<String,Object>> recursionDirectory(List<String> data,String start){
+    private static List<Map<String,Object>> recursionDirectory(List<String> data,String start,String prefix){
         List<Map<String,Object>> _d = new ArrayList<Map<String,Object>>();
         for(int i=1;i<data.size();i++){
             String pattern = "^"+start+"[A-Za-z0-9_]+/$";
@@ -155,7 +156,7 @@ public class EngineDataManagerFacade {
             Map<String,Object> map = new HashMap<String, Object>();
             if(r.matcher(data.get(i)).find()){
                 map.put("name", data.get(i).replaceFirst(start,"").replace("/",""));
-                List<Map<String,Object>> _d_child = recursionDirectory(data,data.get(i));
+                List<Map<String,Object>> _d_child = recursionDirectory(data,data.get(i),prefix);
                 if(_d_child !=null && _d_child.size() > 0){
                     map.put("children",_d_child);
                 }
@@ -163,6 +164,7 @@ public class EngineDataManagerFacade {
             }else if(ftl_r.matcher(data.get(i)).find()){
                 map.put("name", data.get(i).replaceFirst(start,""));
                 map.put("params",data.get(i));
+                map.put("prefix",prefix);
                 _d.add(map);
 //                return _d;
             }
