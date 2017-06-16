@@ -46,10 +46,10 @@ var engine = layui.use(['layer','tree'],function(){
                         , success: function(layero){
                             // 此success回调方法，每次加载ifream都会执行一次
                             //getTree.call(layero,options);
-                            engine.jquery(layero).find('#templateIfream iframe').css({width:'83%'});
+                            engine.jquery(layero).find('#templateIfream iframe').css({width:'84%'});
                             if(engine.jquery("#freemarker_ul").html() == undefined){
                                 engine.jquery(layero).find('#templateIfream')
-                                    .prepend('<div style="display: inline-block;width: 15%;padding: 10px;overflow: auto;float: left;">' +
+                                    .prepend('<div style="display: inline-block;width: 14%;padding: 10px;overflow: auto;float: left;">' +
                                         '<ul id="freemarker_ul"></ul></div>');
                                 engine.tree({
                                     elem: '#freemarker_ul'

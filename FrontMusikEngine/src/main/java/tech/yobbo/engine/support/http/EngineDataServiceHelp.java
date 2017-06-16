@@ -14,7 +14,7 @@ import tech.yobbo.engine.support.util.StringUtils;
 public abstract class EngineDataServiceHelp {
     public static final int  RESULT_CODE_SUCCESS        = 1;
     public static final int  RESULT_CODE_ERROR          = -1;
-    public static final String INDEX_SQL                = "select id,module_name,table_name,db_type,frame_type,remark from engine_bulid_history limit ?,?";
+    public static final String INDEX_SQL                = "select id,module_name,table_name,db_type,frame_type,common_template,remark from engine_bulid_history limit ?,?";
 
     /**
      * 获取url路径中的参数，放到map中

@@ -111,7 +111,7 @@
             <th>实体表名</th>
             <th>数据库类型</th>
             <th>数据库框架</th>
-            <th>公共模板路径</th>
+            <th>模板路径</th>
             <th>JAVA代码路径</th>
             <th>备注</th>
         </tr>
@@ -120,11 +120,13 @@
         <#if (historyData?size>0) >
         <#list historyData as history>
             <tr>
-                <td><a class="template" href="#"><#if history.MODULE_NAME ??>${history.MODULE_NAME}</#if></a></td>
-                <td><#if history.TABLE_NAME ??>${history.TABLE_NAME}</#if></td>
-                <td><#if history.DB_TYPE ??>${history.DB_TYPE}</#if></td>
-                <td><#if history.FRAME_TYPE ??>${history.FRAME_TYPE}</#if></td>
-                <td><a class="template" href="#">egnine-1.0.0.jar\engine\http\resources\template\myBatis</a></td>
+                <td><a class="template" href="#">${history.MODULE_NAME}</a></td>
+                <td>${history.TABLE_NAME}</td>
+                <td>${history.DB_TYPE}</td>
+                <td>${history.FRAME_TYPE}</td>
+                <td><a data-options="readOnly:true,windowTitle:'功能模板',method:'openTemplate',treeUrl:'${history.treeUrl}',url:'code.html',callback:'callbackTemplateYes'"
+                       class="template openTemplate-a" href="javascript:void(0);">${history.COMMON_TEMPLATE}</a>
+                </td>
                 <td><a class="template" href="#">E:\电影网站模板\FrontMusik\FrontMusik-Admin\src\main\java\tech\yobbo</a></td>
                 <td><#if history.REMARK ??>${history.REMARK}</#if></td>
             </tr>

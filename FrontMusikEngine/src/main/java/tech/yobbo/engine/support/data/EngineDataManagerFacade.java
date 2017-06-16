@@ -1,20 +1,5 @@
 package tech.yobbo.engine.support.data;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-
 import tech.yobbo.engine.support.http.EngineDataService;
 import tech.yobbo.engine.support.http.EngineDataServiceHelp;
 import tech.yobbo.engine.support.http.EngineViewServlet;
@@ -22,6 +7,14 @@ import tech.yobbo.engine.support.json.JSONUtils;
 import tech.yobbo.engine.support.util.JdbcUtils;
 import tech.yobbo.engine.support.util.Utils;
 import tech.yobbo.engine.support.util.VERSION;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
 
 /**
  * engine业务功能实现类
@@ -177,7 +170,13 @@ public class EngineDataManagerFacade {
         try {
             JdbcUtils jdbcUtils = JdbcUtils.getInstance();
             jdbcUtils.getConnection(EngineDataService.getInstance().getDataSource());
-            List data = jdbcUtils.getDataBySql(EngineDataServiceHelp.INDEX_SQL,new Object[]{0,50});
+            List<Map<String,Object>> data = jdbcUtils.getDataBySql(EngineDataServiceHelp.INDEX_SQL,new Object[]{0,50});
+            for(int i=0;i<data.size();i++){
+                Map<String,Object> map = data.get(i);
+                String common_template = map.get("COMMON_TEMPLATE").toString();
+                map.put("COMMON_TEMPLATE",jar_path+"/"+common_template);
+                map.put("treeUrl","tree.json?prefix="+common_template);
+            }
             return data;
         } catch (Exception e) {
             e.printStackTrace();
@@ -186,30 +185,6 @@ public class EngineDataManagerFacade {
     }
 
     public static void main(String[] args) {
-    	//读取内容
-        String path = "file:/D:/engineJar/engine-1.0.0.jar!/engine/http/resources/template";
-        if (path.startsWith("file:") && path.indexOf("file:") != -1) {
-            path = path.substring(5,path.length());
-        }
-        if (path.indexOf(".jar") != -1) {
-            path = path.substring(0,path.indexOf(".jar")+4);
-        }
-        try {
-			JarFile jar = new JarFile(path);
-			ZipEntry entry =  jar.getEntry("engine/http/resources/template/mysql/hibernate/service.ftl");
-			InputStream in = jar.getInputStream(entry);
-			InputStreamReader reader = new InputStreamReader(in, "utf-8");
-			StringWriter stringW = new StringWriter();
-			char[] b = new char[1024];
-			int i = 0;
-			while((i = reader.read(b)) != -1){
-				stringW.write(b, 0, i);
-			}
-			String text = stringW.toString();
-			System.out.println(text);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        
+
 	}
 }
