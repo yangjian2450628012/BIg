@@ -194,4 +194,7 @@ public class EngineDataManagerFacade {
     public static void main(String[] args) {
 
 	}
+    public String getJar_path() {
+        return jar_path;
+    }
 }

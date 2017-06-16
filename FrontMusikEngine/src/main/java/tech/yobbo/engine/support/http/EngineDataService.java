@@ -9,6 +9,8 @@ import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Map;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 /** 
  * engine业务逻辑处理类，主要包括数据库连接池的获取和转发前端发送请求到业务实现类
@@ -21,6 +23,7 @@ public class EngineDataService extends EngineDataServiceHelp {
     private String dataSource_className                             = null;
     private Date startTime											= null;
     private String db_type                                          = null;
+    private String jar_path                                         = null;
     private static EngineDataManagerFacade engineDataManagerFacade  = EngineDataManagerFacade.getInstance(); //获取具体数据操作类
 
     private EngineDataService(){}
@@ -35,7 +38,7 @@ public class EngineDataService extends EngineDataServiceHelp {
      * 初始化自动化引擎，包括创建相应依赖表
      */
     protected  void init(){
-        if(this.dataSource == null) throw new RuntimeException("没有可用的连接池!");
+        if(this.dataSource == null) return;
         // 获取连接池信息，判断数据库类型
         JdbcUtils jdbcUtils = JdbcUtils.getInstance();
         try {
@@ -46,6 +49,10 @@ public class EngineDataService extends EngineDataServiceHelp {
                 db_type = "oracle";
             }else if(jdbcUtils.getDataBySql(sql_version).size() > 0){
                 db_type = "mysql";
+            }
+            if (db_type != null) {
+                String path = Thread.currentThread().getContextClassLoader().getResource("/").getPath();
+                System.out.println(path);
             }
         } catch (Exception e) {
             e.printStackTrace();
