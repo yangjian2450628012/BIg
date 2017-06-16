@@ -6,6 +6,7 @@ import tech.yobbo.engine.support.util.JdbcUtils;
 import javax.servlet.ServletContext;
 import javax.sql.DataSource;
 import java.lang.reflect.Method;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ public class EngineDataService extends EngineDataServiceHelp {
     private DataSource dataSource                                   = null;
     private String dataSource_className                             = null;
     private Date startTime											= null;
+    private String db_type                                          = null;
     private static EngineDataManagerFacade engineDataManagerFacade  = EngineDataManagerFacade.getInstance(); //获取具体数据操作类
 
     private EngineDataService(){}
@@ -35,12 +37,24 @@ public class EngineDataService extends EngineDataServiceHelp {
     protected  void init(){
         if(this.dataSource == null) throw new RuntimeException("没有可用的连接池!");
         // 获取连接池信息，判断数据库类型
+        JdbcUtils jdbcUtils = JdbcUtils.getInstance();
         try {
-            JdbcUtils jdbcUtils = JdbcUtils.getInstance();
-            jdbcUtils.getConnection(this.dataSource); //获取连接
-            jdbcUtils.getDataBySql(null);  //查询数据库类型
+            jdbcUtils.getConnection(this.dataSource);
+            String sql_version = "select version() from dual";
+            String oracle_version = "select * from v$version";
+            if(jdbcUtils.getDataBySql(oracle_version).size() > 0){
+                db_type = "oracle";
+            }else if(jdbcUtils.getDataBySql(sql_version).size() > 0){
+                db_type = "mysql";
+            }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                jdbcUtils.closeDb();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

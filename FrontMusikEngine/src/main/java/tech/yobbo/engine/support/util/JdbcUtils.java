@@ -87,12 +87,6 @@ public class JdbcUtils {
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
-        } finally {
-            try {
-                closeDb();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return 0;
     }
@@ -145,8 +139,6 @@ public class JdbcUtils {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            closeDb();
         }
         return data;
     }

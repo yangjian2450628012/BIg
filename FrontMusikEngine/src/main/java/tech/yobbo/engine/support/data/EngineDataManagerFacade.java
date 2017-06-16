@@ -10,6 +10,7 @@ import tech.yobbo.engine.support.util.VERSION;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -167,8 +168,8 @@ public class EngineDataManagerFacade {
      *  获取首页列表
      */
     public List getIndexList() {
+        JdbcUtils jdbcUtils = JdbcUtils.getInstance();
         try {
-            JdbcUtils jdbcUtils = JdbcUtils.getInstance();
             jdbcUtils.getConnection(EngineDataService.getInstance().getDataSource());
             List<Map<String,Object>> data = jdbcUtils.getDataBySql(EngineDataServiceHelp.INDEX_SQL,new Object[]{0,50});
             for(int i=0;i<data.size();i++){
@@ -180,6 +181,12 @@ public class EngineDataManagerFacade {
             return data;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                jdbcUtils.closeDb();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
