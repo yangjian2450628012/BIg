@@ -49,6 +49,16 @@ public class JdbcUtils {
         }
     }
 
+    // 关闭流
+    private void closeStatme() throws SQLException {
+        if (this.resultSet != null) {
+            this.resultSet.close();
+        }
+        if (this.statement != null) {
+            this.statement.close();
+        }
+    }
+
     /********************start 执行提交**************************************************/
 
     // 创建表
@@ -61,6 +71,12 @@ public class JdbcUtils {
             return statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                this.closeStatme();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         return false;
@@ -86,6 +102,12 @@ public class JdbcUtils {
                 conn.rollback();
             } catch (SQLException e1) {
                 e1.printStackTrace();
+            }
+        } finally {
+            try {
+                this.closeStatme();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
         return 0;
@@ -139,6 +161,8 @@ public class JdbcUtils {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            this.closeStatme();
         }
         return data;
     }
