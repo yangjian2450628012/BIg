@@ -28,8 +28,9 @@ import tech.yobbo.engine.support.util.VERSION;
  * Created by xiaoJ on 2017/6/13.
  */
 public class EngineDataManagerFacade {
+    private String jar_path                                     = null;
     private EngineDataManagerFacade(){}
-    private final static EngineDataManagerFacade instance    = new EngineDataManagerFacade();
+    private final static EngineDataManagerFacade instance       = new EngineDataManagerFacade();
     public static EngineDataManagerFacade getInstance(){
         return instance;
     }
@@ -37,14 +38,13 @@ public class EngineDataManagerFacade {
     /**
      * 获取code中的数据
      * 需要参数: 
-     * 		1) jar_path-->engine-1.0.0.jar在磁盘的位置
-     * 		2) templatePath-->在engine-1.0.0.jar中相对目录 
-     * 		3) prefix-->目录前缀 
+     * 		1) templatePath --> 比如 ：templatePath=/oracle/hibernate/entity.ftl，对应ftl在模板中的位置
+     * 		2) prefix--> 比如：prefix=engine/http/resources/template，模板在 jar包中的位置
      * * @param parameters
      * @return
      */
     public Map getCodeInfo(Map<String, String> parameters) {
-        String jar_path = parameters.get("jar_path") !=null ? parameters.get("jar_path") : "";
+        //String jar_path = parameters.get("jar_path") !=null ? parameters.get("jar_path") : "";
         String prefix = parameters.get("prefix") != null ? parameters.get("prefix") : "";
         Map<String,Object> data = new HashMap<String, Object>();
         if(!"".equals(jar_path) && !"".equals(prefix)){
@@ -78,7 +78,7 @@ public class EngineDataManagerFacade {
 //  类        file:/E:/电影网站模板/FrontMusik/FrontMusikEngine/target/FrontMusik-Engine/WEB-INF/classes/engine/http/resources/template/
 
         dataMap.put("common_path", "");
-        dataMap.put("treeUrl","tree.json?template_path="+dataMap.get("template_path")+"&prefix="+EngineViewServlet.getResourcePath()+"/template");
+        dataMap.put("treeUrl","tree.json?prefix="+EngineViewServlet.getResourcePath()+"/template");
         dataMap.put("base_path",params.get("base_path"));
         dataMap.put("package_name",params.get("package_name"));
         dataMap.put("dataSource", EngineDataService.getInstance().getDataSource_className());
@@ -89,27 +89,25 @@ public class EngineDataManagerFacade {
         if(EngineDataService.getInstance().getDataSource() != null){
             dataMap.put("historyData",this.getIndexList());
         }
-        return dataMap;
-    }
-
-    /**
-     * 获取模板中树形菜单
-     * 需要参数:
-     *  1) template_path--> engine-1.0.0.jar在磁盘中的位置
-     *  2) prefix-->目录前缀，从指定目录开始筛选
-     * @param parameters
-     * @return
-     */
-    public String getTemplateTree(Map<String, String> parameters) {
-        String jar_path = parameters.get("template_path");
-        String prefix = parameters.get("prefix");
-
+        jar_path = dataMap.get("template_path").toString();
         if (jar_path.startsWith("file:") && jar_path.indexOf("file:") != -1) {
             jar_path = jar_path.substring(5,jar_path.length());
         }
         if (jar_path.indexOf(".jar") != -1) {
             jar_path = jar_path.substring(0,jar_path.indexOf(".jar")+4);
         }
+        return dataMap;
+    }
+
+    /**
+     * 获取模板中树形菜单
+     * 需要参数:
+     *  1) prefix-->比如：prefix=engine/http/resources/template
+     * @param parameters
+     * @return
+     */
+    public String getTemplateTree(Map<String, String> parameters) {
+        String prefix = parameters.get("prefix");
         try {
             // 获取jar中的列表
             List<String> data = new ArrayList<String>();
@@ -129,7 +127,7 @@ public class EngineDataManagerFacade {
             StringBuilder _data = new StringBuilder();
             _data.append("{\"tree\":").append(JSONUtils.toJSONString(list))
                     .append(",\"firstTemplate\":\"").append(firstTemplate)
-                    .append("\",\"jar_path\":\"").append(jar_path)
+                    //.append("\",\"jar_path\":\"").append(jar_path)
                     .append("\",\"prefix\":\"").append(prefix)
                     .append("\"}");
             return _data.toString();
@@ -189,7 +187,6 @@ public class EngineDataManagerFacade {
 
     public static void main(String[] args) {
     	//读取内容
-    	String prefix = EngineViewServlet.getResourcePath() + "/template";
         String path = "file:/D:/engineJar/engine-1.0.0.jar!/engine/http/resources/template";
         if (path.startsWith("file:") && path.indexOf("file:") != -1) {
             path = path.substring(5,path.length());

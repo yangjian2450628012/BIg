@@ -19,7 +19,7 @@ var engine = layui.use(['layer','tree'],function(){
 					treeDatas = data.tree;
                     contentUrl = options.url + "?v=1.0.0";
                     data.firstTemplate?contentUrl = contentUrl + "&templatePath="+data.firstTemplate : null;
-                    data.jar_path?contentUrl = contentUrl+"&jar_path="+data.jar_path : null;
+                    //data.jar_path?contentUrl = contentUrl+"&jar_path="+data.jar_path : null;
                     data.prefix?contentUrl = contentUrl+"&prefix="+data.prefix : null;
                     options.readOnly?contentUrl=contentUrl+"&readOnly=true":null;
 
