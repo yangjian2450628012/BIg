@@ -2,13 +2,19 @@ package tech.yobbo.engine.support.http;
 
 import tech.yobbo.engine.support.data.EngineDataManagerFacade;
 import tech.yobbo.engine.support.util.JdbcUtils;
+import tech.yobbo.engine.support.util.Utils;
 
 import javax.servlet.ServletContext;
 import javax.sql.DataSource;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
@@ -55,7 +61,14 @@ public class EngineDataService extends EngineDataServiceHelp {
                 db_type = "mysql";
             }
             if (db_type != null) {
-
+                JarFile jarFile = new JarFile(jar_path);
+                String path = EngineViewServlet.getResourcePath()+"/dbbase/"+db_type+"_base.sql";
+                ZipEntry db_entry = jarFile.getEntry(path);
+                InputStream in = jarFile.getInputStream(db_entry);
+                List<String> sqlS = loadSql(Utils.read(in));
+                jdbcUtils.execute(sqlS);
+                in.close();
+                jarFile.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,7 +81,30 @@ public class EngineDataService extends EngineDataServiceHelp {
         }
     }
 
-	/**
+    /**
+     *
+     * @param sqls sql脚本内容
+     * @return sql列表
+     * @throws Exception
+     */
+    private List<String> loadSql(String sqls) throws Exception {
+        List<String> sqlList = new ArrayList<String>();
+        try {
+            // Windows 下换行是 /r/n, Linux 下是 /n
+            String[] sqlArr = sqls.toString().split("(;//s*//r//n)|(;//s*//n)");
+            for (int i = 0; i < sqlArr.length; i++) {
+                String sql = sqlArr[i].replaceAll("--.*", "").trim();
+                if (!sql.equals("")) {
+                    sqlList.add(sql);
+                }
+            }
+            return sqlList;
+        } catch (Exception ex) {
+            throw new Exception(ex.getMessage());
+        }
+    }
+
+    /**
 	 * 获取模板中数据,返回给模板
 	 * @param url 前端发送的请求
 	 * @param parameters URL中的参数列表

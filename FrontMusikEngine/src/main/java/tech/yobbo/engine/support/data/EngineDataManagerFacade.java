@@ -48,6 +48,7 @@ public class EngineDataManagerFacade {
                 String text = Utils.read(in);
                 data.put("code",text);
                 data.put("readOnly",parameters.get("readOnly"));
+                in.close();
                 jar.close();
             } catch (IOException e) {
                 e.printStackTrace();

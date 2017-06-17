@@ -61,6 +61,33 @@ public class JdbcUtils {
 
     /********************start 执行提交**************************************************/
 
+    /**
+     * 提交sql列表
+     * @param sqls
+     * @return
+     */
+    public boolean execute(List<String> sqls){
+        if(conn == null){
+            throw  new RuntimeException("没有可用的连接");
+        }
+        try {
+            for(int i=0;i<sqls.size();i++){
+                statement = conn.prepareStatement(sqls.get(i));
+                statement.execute();
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                this.closeStatme();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+
     // 创建表
     public  boolean execute(String sql){
         if (conn == null) {
@@ -78,7 +105,6 @@ public class JdbcUtils {
                 e.printStackTrace();
             }
         }
-
         return false;
     }
 
