@@ -43,39 +43,15 @@
                 </excludes>
             </resource>
         </resources>
-<!--        <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>-->
-        <outputDirectory>d:/</outputDirectory>
-        <plugins>  
-		    <plugin>  
-		        <groupId>org.apache.maven.plugins</groupId>  
-		        <artifactId>maven-resources-plugin</artifactId>  
-		        <configuration>  
-		            <encoding>UTF-8</encoding>  
-		        </configuration>  
+        <plugins>
+		    <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-resources-plugin</artifactId>
+		        <configuration>
+		            <encoding>UTF-8</encoding>
+		        </configuration>
 		    </plugin>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-lib-src-webapps</id>
-                        <phase>package</phase>
-                        <configuration>
-                            <tasks>
-                                <!-- <delete dir="src/main/webapp/WEB-INF/lib" />-->
-                                <!--<copy todir="${project.web-common.lib-targetPath}">
-                                    <fileset dir="${project.commonmodule.lib-source.directory}">
-                                        <include name="*" />
-                                    </fileset>
-                                </copy>-->
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-         </plugins>
+        </plugins>
 
     </build>
 </project>

@@ -22,7 +22,6 @@ import java.util.zip.ZipEntry;
  * Created by xiaoJ on 2017/6/13.
  */
 public class EngineDataManagerFacade {
-    private String jar_path                                     = null;
     private EngineDataManagerFacade(){}
     private final static EngineDataManagerFacade instance       = new EngineDataManagerFacade();
     public static EngineDataManagerFacade getInstance(){
@@ -38,13 +37,12 @@ public class EngineDataManagerFacade {
      * @return
      */
     public Map getCodeInfo(Map<String, String> parameters) {
-        //String jar_path = parameters.get("jar_path") !=null ? parameters.get("jar_path") : "";
         String prefix = parameters.get("prefix") != null ? parameters.get("prefix") : "";
         Map<String,Object> data = new HashMap<String, Object>();
-        if(!"".equals(jar_path) && !"".equals(prefix)){
+        if(!"".equals(EngineDataService.getInstance().getJar_path()) && !"".equals(prefix)){
             try {
                 String templatePath = parameters.get("templatePath") != null ? parameters.get("templatePath") : "";
-                JarFile jar = new JarFile(jar_path);
+                JarFile jar = new JarFile(EngineDataService.getInstance().getJar_path());
                 ZipEntry entry =  jar.getEntry(prefix+templatePath);
                 InputStream in = jar.getInputStream(entry);
                 String text = Utils.read(in);
@@ -64,13 +62,7 @@ public class EngineDataManagerFacade {
     public Map getBasicInfo(Map<String,String> params){
         Map<String,Object> dataMap = new LinkedHashMap<String,Object>();
         dataMap.put("Version", VERSION.getVersionNumber());
-        dataMap.put("template_path", "file:/D:/engineJar/engine-1.0.0.jar!/engine/http/resources/template");
-//  jar       file:/E:/公司项目源码/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/das/WEB-INF/lib/engine-1.0.0.jar!/engine/http/resources/template
-//  类        /E:/电影网站模板/FrontMusik/FrontMusikEngine/target/FrontMusik-Engine/WEB-INF/classes/engine/http/resources/template/
-//        dataMap.put("template_path", Thread.currentThread().getContextClassLoader().getResource(EngineViewServlet.getResourcePath() +"/template").getPath());
-//  jar       jar:file:/E:/公司项目源码/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/das/WEB-INF/lib/engine-1.0.0.jar!/engine/http/resources/template
-//  类        file:/E:/电影网站模板/FrontMusik/FrontMusikEngine/target/FrontMusik-Engine/WEB-INF/classes/engine/http/resources/template/
-
+        dataMap.put("template_path", EngineDataService.getInstance().getJar_path()+"/engine/http/resources/template");
         dataMap.put("common_path", "");
         dataMap.put("treeUrl","tree.json?prefix="+EngineViewServlet.getResourcePath()+"/template");
         dataMap.put("base_path",params.get("base_path"));
@@ -79,16 +71,9 @@ public class EngineDataManagerFacade {
         dataMap.put("Drivers", params.get("dataSource"));
         dataMap.put("JavaVMName", System.getProperty("java.vm.name"));
         dataMap.put("JavaVersion", System.getProperty("java.version"));
-        dataMap.put("StartTime", EngineDataService.getInstance().getStartTime());
+        dataMap.put("StartTime", EngineDataService.getInstance().getStartTime()!=null ? EngineDataService.getInstance().getStartTime() : new Date());
         if(EngineDataService.getInstance().getDataSource() != null){
             dataMap.put("historyData",this.getIndexList());
-        }
-        jar_path = dataMap.get("template_path").toString();
-        if (jar_path.startsWith("file:") && jar_path.indexOf("file:") != -1) {
-            jar_path = jar_path.substring(5,jar_path.length());
-        }
-        if (jar_path.indexOf(".jar") != -1) {
-            jar_path = jar_path.substring(0,jar_path.indexOf(".jar")+4);
         }
         return dataMap;
     }
@@ -105,7 +90,7 @@ public class EngineDataManagerFacade {
         try {
             // 获取jar中的列表
             List<String> data = new ArrayList<String>();
-            JarFile jar = new JarFile(jar_path);
+            JarFile jar = new JarFile(EngineDataService.getInstance().getJar_path());
             Enumeration enums = jar.entries();
             String firstTemplate = "";
             while(enums.hasMoreElements()){
@@ -175,7 +160,7 @@ public class EngineDataManagerFacade {
             for(int i=0;i<data.size();i++){
                 Map<String,Object> map = data.get(i);
                 String common_template = map.get("COMMON_TEMPLATE").toString();
-                map.put("COMMON_TEMPLATE",jar_path+"/"+common_template);
+                map.put("COMMON_TEMPLATE",EngineDataService.getInstance().getJar_path()+"/"+common_template);
                 map.put("treeUrl","tree.json?prefix="+common_template);
             }
             return data;
@@ -194,7 +179,4 @@ public class EngineDataManagerFacade {
     public static void main(String[] args) {
 
 	}
-    public String getJar_path() {
-        return jar_path;
-    }
 }

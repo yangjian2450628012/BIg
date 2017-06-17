@@ -37,7 +37,11 @@ public class EngineDataService extends EngineDataServiceHelp {
     /**
      * 初始化自动化引擎，包括创建相应依赖表
      */
-    protected  void init(){
+    protected void init(){
+        if(EngineViewServlet.webappPath != null){
+//            jar_path = EngineViewServlet.webappPath + "WEB-INF/lib/engine-1.0.0.jar"; // 最终版
+            jar_path = "/D:/engineJar/engine-1.0.0.jar";
+        }
         if(this.dataSource == null) return;
         // 获取连接池信息，判断数据库类型
         JdbcUtils jdbcUtils = JdbcUtils.getInstance();
@@ -51,8 +55,7 @@ public class EngineDataService extends EngineDataServiceHelp {
                 db_type = "mysql";
             }
             if (db_type != null) {
-                String path = Thread.currentThread().getContextClassLoader().getResource("/").getPath();
-                System.out.println(path);
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -144,5 +147,9 @@ public class EngineDataService extends EngineDataServiceHelp {
     }
     public Date getStartTime(){
     	return startTime;
+    }
+
+    public String getJar_path() {
+        return jar_path;
     }
 }
