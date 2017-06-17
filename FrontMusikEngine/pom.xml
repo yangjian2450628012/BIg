@@ -43,6 +43,8 @@
                 </excludes>
             </resource>
         </resources>
+<!--        <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>-->
+        <outputDirectory>d:/</outputDirectory>
         <plugins>  
 		    <plugin>  
 		        <groupId>org.apache.maven.plugins</groupId>  
@@ -51,26 +53,28 @@
 		            <encoding>UTF-8</encoding>  
 		        </configuration>  
 		    </plugin>
-            <!-- <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>class</id>
-                        <goals><goal>jar</goal></goals>
+                        <id>copy-lib-src-webapps</id>
                         <phase>package</phase>
                         <configuration>
-                            <classesDirectory>target/classes</classesDirectory>
-                            <outputDirectory>d:/engineJar/</outputDirectory>
-                            <classifier>class</classifier>
-                            <useDefaultManifestFile>false</useDefaultManifestFile>
-                            <includes>
-                                <include>tech/yobbo/engine/*</include>
-                                <include>engine/http/resources/*</include>
-                            </includes>
+                            <tasks>
+                                <!-- <delete dir="src/main/webapp/WEB-INF/lib" />-->
+                                <!--<copy todir="${project.web-common.lib-targetPath}">
+                                    <fileset dir="${project.commonmodule.lib-source.directory}">
+                                        <include name="*" />
+                                    </fileset>
+                                </copy>-->
+                            </tasks>
                         </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
                     </execution>
                 </executions>
-            </plugin> -->
+            </plugin>
          </plugins>
 
     </build>

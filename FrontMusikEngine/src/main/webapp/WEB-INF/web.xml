@@ -10,7 +10,7 @@
     <servlet-class>tech.yobbo.engine.support.http.EngineViewServlet</servlet-class>
     <init-param>
       <param-name>dataSource</param-name>
-      <param-value>dataSource</param-value>
+      <param-value>com.alibaba.druid.pool.DruidDataSource</param-value>
     </init-param>
     <init-param>
     	<param-name>base_path</param-name>

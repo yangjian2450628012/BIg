@@ -25,7 +25,11 @@
         }
     </style> 
 </head>
-<body <#if readOnly=="false">contenteditable="true" spellcheck="false"</#if> >
+<#if !readOnly?exists || readOnly="false">
+<body contenteditable="true" spellcheck="false">
+<#elseif readOnly="true">
+<body>
+</#if>
 <script type="syntaxhighlighter" class="brush: c-sharp;">
 <![CDATA[${code}]]>
 </script>
