@@ -31,26 +31,42 @@ public class EngineDataManagerFacade {
     /**
      * 获取code中的数据
      * 需要参数: 
-     * 		1) templatePath --> 比如 ：templatePath=/oracle/hibernate/entity.ftl，对应ftl在模板中的位置
-     * 		2) prefix--> 比如：prefix=engine/http/resources/template，模板在 jar包中的位置
+     * 		1) templatePath >> 比如 ：templatePath=/oracle/hibernate/entity.ftl，对应ftl在模板中的位置
+     * 		2) prefix >> 比如：prefix=engine/http/resources/template，模板在 jar包中的位置
+     * 	    3) 不是模板情况 java_base_path >> 比如：E:/电影网站模板/FrontMusik/FrontMusikEngine/src/main/java/tech/yobbo/index/service/IndexService.java
      * * @param parameters
      * @return
      */
     public Map getCodeInfo(Map<String, String> parameters) {
-        String prefix = parameters.get("prefix") != null ? parameters.get("prefix") : "";
         Map<String,Object> data = new HashMap<String, Object>();
-        if(!"".equals(EngineDataService.getInstance().getJar_path()) && !"".equals(prefix)){
+        if(parameters.containsKey("prefix") && parameters.containsKey("templatePath")){
+            String prefix = parameters.get("prefix") != null ? parameters.get("prefix") : "";
+            if(!"".equals(EngineDataService.getInstance().getJar_path()) && !"".equals(prefix)){
+                try {
+                    String templatePath = parameters.get("templatePath") != null ? parameters.get("templatePath") : "";
+                    JarFile jar = new JarFile(EngineDataService.getInstance().getJar_path());
+                    ZipEntry entry =  jar.getEntry(prefix+templatePath);
+                    InputStream in = jar.getInputStream(entry);
+                    String text = Utils.read(in);
+                    data.put("code",text);
+                    data.put("readOnly",parameters.get("readOnly"));
+                    in.close();
+                    jar.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }else if(parameters.containsKey("java_base_path")){
+            String filepath = parameters.get("java_base_path");
             try {
-                String templatePath = parameters.get("templatePath") != null ? parameters.get("templatePath") : "";
-                JarFile jar = new JarFile(EngineDataService.getInstance().getJar_path());
-                ZipEntry entry =  jar.getEntry(prefix+templatePath);
-                InputStream in = jar.getInputStream(entry);
+                filepath = URLDecoder.decode(filepath,"utf-8");
+                File file = new File(filepath);
+                InputStream in = new FileInputStream(file);
                 String text = Utils.read(in);
                 data.put("code",text);
                 data.put("readOnly",parameters.get("readOnly"));
                 in.close();
-                jar.close();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -107,9 +123,9 @@ public class EngineDataManagerFacade {
             List list = recursionDirectory(data, "/",prefix);
             StringBuilder _data = new StringBuilder();
             _data.append("{\"tree\":").append(JSONUtils.toJSONString(list))
-                    .append(",\"firstTemplate\":\"").append(firstTemplate)
-                    .append("\",\"prefix\":\"").append(prefix)
-                    .append("\"}");
+                    .append(",\"firstTemplate\":\"").append(firstTemplate).append("\"")
+                    .append(",\"prefix\":\"").append(prefix).append("\"")
+                    .append("}");
             return _data.toString();
         } catch (IOException e) {
             e.printStackTrace();
@@ -157,7 +173,7 @@ public class EngineDataManagerFacade {
      * @param parameters
      * @return
      */
-    public String getJavaBaseTree(Map<String, String> parameters) {
+    public String getJavaBaseTree(final Map<String, String> parameters) {
         String path = parameters.get("path");
         try {
             path = URLDecoder.decode(path,"utf-8");
@@ -169,26 +185,65 @@ public class EngineDataManagerFacade {
 
         FileFilter fileFilter = new FileFilter() {
             public boolean accept(File file) {
-                if(file.getName().matches("tech|yobbo|index|web|service|dao|pojo|([A-Za-z]+.java)")){
+                StringBuilder ex = new StringBuilder();
+                ex.append(EngineViewServlet.getPackage_name()!=null?EngineViewServlet.getPackage_name().replaceAll("\\.","|")+"|":"")
+                        .append(parameters.get("module"))
+                        .append("|web|service|dao|pojo|([A-Za-z]+.java)");
+                if(file.getName().matches(ex.toString())){
                     return true;
                 }
                 return false;
             }
         };
         List<String> files = new ArrayList<String>();
+        files.add(path+"/");
+        String firstJavaBase = "";
         EngineDataManagerFacade.getInstance().getDirList(file,fileFilter,files);
         for(int i=0;i<files.size();i++){
             if(files.get(i).startsWith(path)){
-                System.out.println(files.get(i).replaceAll(path,""));
+                if("".equals(firstJavaBase) && files.get(i).endsWith(".java")){
+                    firstJavaBase = files.get(i);
+                }
+                files.set(i,files.get(i).replaceAll(path,""));
             }
         }
-        System.out.println(files.size());
-        return null;
+        List list = recursionJavaBaseDirectory(files,"/",path);
+        StringBuilder v = new StringBuilder();
+        v.append("{\"tree\":").append(JSONUtils.toJSONString(list))
+                .append(",\"firstJavaBase\":\"").append(firstJavaBase).append("\"")
+                .append("}");
+        return v.toString();
     }
 
-    private static List<Map<String,Object>> recursionJavaBaseDirectory(){
-
-        return null;
+    /**
+     * 递归遍历java代码树形菜单
+     * @param files
+     * @param start
+     * @param prefix
+     * @return
+     */
+    private static List<Map<String,Object>> recursionJavaBaseDirectory(List<String> files,String start,String prefix){
+        List<Map<String,Object>> _d = new ArrayList<Map<String,Object>>();
+        for(int i=1;i<files.size();i++){
+            String pattern = "^"+start+"[A-Za-z0-9_]+$";
+            String ftlPattern = "^"+start+"([A-Za-z0-9_]+).java$";
+            Pattern r = Pattern.compile(pattern);
+            Pattern ftl_r = Pattern.compile(ftlPattern);
+            Map<String,Object> map = new HashMap<String, Object>();
+            if(r.matcher(files.get(i)).find()){
+                map.put("name", files.get(i).replaceFirst(start,"").replace("/",""));
+                List<Map<String,Object>> _d_child = recursionJavaBaseDirectory(files,files.get(i)+"/",prefix);
+                if(_d_child !=null && _d_child.size() > 0){
+                    map.put("children",_d_child);
+                }
+                _d.add(map);
+            }else if(ftl_r.matcher(files.get(i)).find()){
+                map.put("name", files.get(i).replaceFirst(start,""));
+                map.put("path",prefix+files.get(i));
+                _d.add(map);
+            }
+        }
+        return _d;
     }
 
     /**
@@ -205,7 +260,7 @@ public class EngineDataManagerFacade {
                 String java_base = map.get("BASE_PATH").toString();
                 map.put("COMMON_TEMPLATE",EngineDataService.getInstance().getJar_path()+"/"+common_template);
                 map.put("treeUrl","tree.json?prefix="+common_template);
-                map.put("treeUrl_javaBase","treeJavaBase.json?path="+java_base);
+                map.put("treeUrl_javaBase","treeJavaBase.json?path="+java_base+"&module="+map.get("MODULE"));
             }
             return data;
         } catch (Exception e) {
@@ -220,26 +275,6 @@ public class EngineDataManagerFacade {
         return null;
     }
 
-    public static void main(String[] args) {
-        String path = "E:/电影网站模板/FrontMusik/FrontMusikEngine/src/main/java";
-        File file = new File(path+"/");
-        FileFilter fileFilter = new FileFilter() {
-            public boolean accept(File file) {
-                if(file.getName().matches("tech|yobbo|index|web|service|dao|pojo|([A-Za-z]+.java)")){
-                    return true;
-                }
-                return false;
-            }
-        };
-        List<String> files = new ArrayList<String>();
-        EngineDataManagerFacade.getInstance().getDirList(file,fileFilter,files);
-        for(int i=0;i<files.size();i++){
-            if(files.get(i).startsWith(path)){
-                System.out.println(files.get(i).replaceAll(path,""));
-            }
-        }
-	}
-
 	// 递归获取目录和文件
 	private void getDirList(File file,FileFilter fileFilter,List<String> files){
         File[] f = file.listFiles(fileFilter);
@@ -249,5 +284,9 @@ public class EngineDataManagerFacade {
                 this.getDirList(f[i],fileFilter,files);
             }
         }
+    }
+
+    public static void main(String[] args) {
+
     }
 }

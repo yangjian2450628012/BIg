@@ -31,10 +31,14 @@ public class EngineViewServlet extends HttpServlet{
     private static String RESOURCE_PATH     = "engine/http/resources";
     protected static String webAppPath				= null;
     private String base_path						= null;
-    private String package_name 					= null;
+    private static String package_name 					= null;
     private static String dataSource 				= null;
     private Configuration configuration             = null;
-    
+
+    public static String getPackage_name() {
+        return package_name;
+    }
+
     public static String getDataSource() {
         return dataSource;
     }

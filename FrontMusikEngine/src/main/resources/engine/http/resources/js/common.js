@@ -71,15 +71,61 @@ var engine = layui.use(['layer','tree'],function(){
                         }
                     });
                 });
-			}
-			,openJavaBase : function (options) {
+			},
+            openJavaBase : function (options) {
                 var treeDatas,contentUrl;
                 engine.jquery.getJSON(options.treeUrl,function (r) {
                     if(r.ResultCode !=1 )return;
-                    console.log(r.Content);
+                    var data = JSON.parse(r.Content);
+                    treeDatas = data.tree;
+                    contentUrl = options.url + "?v=1.0.0";
+                    data.firstJavaBase?contentUrl=contentUrl + "&java_base_path="+data.firstJavaBase:null;
+                    options.readOnly?contentUrl=contentUrl+"&readOnly=true":null;
 
+                    var index = engine.layer.open({
+                        type: 2
+                        , id: 'javaBaseIfream'
+                        , title: options['windowTitle'] ? options['windowTitle'] : '窗口'
+                        , area: ['1200px', '500px']
+                        , shade: 0
+                        , maxmin: true
+                        , offset: 'auto'
+                        , content: contentUrl
+                        , btn: ['确认生成', '全部关闭']
+                        , yes: function(){
+                            // TODO 获取IFREAM中的内容，回调
+                            var callback = options['callback'];
+                            callback ? engine[callback].call(this,options) : null;
+                            alert("确认生成");
+                        }
+                        , btn2: function(){
+                            layer.close(index);
+                        }
+                        , zIndex: layer.zIndex
+                        , success: function(layero){
+                            engine.jquery(layero).find('#javaBaseIfream iframe').css({width:'81%'});
+                            if(engine.jquery("#javaBaseTree_ul").html() == undefined){
+                                engine.jquery(layero).find('#javaBaseIfream')
+                                    .prepend('<div style="display: inline-block;width: 17%;padding: 10px;overflow: auto;float: left;">' +
+                                        '<ul id="javaBaseTree_ul"></ul></div>');
+                                engine.tree({
+                                    elem: '#javaBaseTree_ul'
+                                    , skin: 'templateTree'
+                                    , click: function (item) {
+                                        if(item.children == undefined && typeof item.path == "string"){
+                                            contentUrl = contentUrl.replace(new RegExp("java_base_path=[A-Za-z0-9_/:\u4E00-\u9FA5]+.java"),"java_base_path="+item.path);
+                                            engine.jquery(layero).find('#javaBaseIfream iframe').attr("src",contentUrl);
+                                        }
+                                    }
+                                    , nodes: treeDatas
+                                });
+                            }
+                        }
+                        , end : function(){
+                            layer.close(index);
+                        }
+                    });
                 });
-			    console.log(options);
             }
 		}
 }();
