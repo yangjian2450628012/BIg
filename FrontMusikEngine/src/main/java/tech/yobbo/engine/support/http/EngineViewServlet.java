@@ -29,7 +29,7 @@ public class EngineViewServlet extends HttpServlet{
 	private static final Logger LOG = Logger.getLogger(EngineViewServlet.class.getName());
 
     private static String RESOURCE_PATH     = "engine/http/resources";
-    protected static String webappPath				= null;
+    protected static String webAppPath				= null;
     private String base_path						= null;
     private String package_name 					= null;
     private static String dataSource 				= null;
@@ -49,7 +49,7 @@ public class EngineViewServlet extends HttpServlet{
         base_path = config.getInitParameter("base_path");
         package_name = config.getInitParameter("package_name");
         configuration = new Configuration(Configuration.getVersion()); // 创建模板
-        webappPath = config.getServletContext().getRealPath("/");
+        webAppPath = config.getServletContext().getRealPath("/");
         EngineDataService engineDataService = EngineDataService.getInstance();
         engineDataService.setDataSource(config.getServletContext()); //设置数据库连接池初始化
         engineDataService.init(); //初始化engine

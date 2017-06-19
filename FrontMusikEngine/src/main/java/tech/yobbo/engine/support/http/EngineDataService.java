@@ -45,7 +45,7 @@ public class EngineDataService extends EngineDataServiceHelp {
      * 初始化自动化引擎，包括创建相应依赖表
      */
     protected void init(){
-        if(EngineViewServlet.webappPath != null){
+        if(EngineViewServlet.webAppPath != null){
 //            jar_path = EngineViewServlet.webappPath + "WEB-INF/lib/engine-1.0.0.jar"; // 最终版
             jar_path = "/D:/engineJar/engine-1.0.0.jar";
         }
