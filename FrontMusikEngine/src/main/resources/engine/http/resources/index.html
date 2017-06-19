@@ -48,12 +48,16 @@
                 </td>
             </tr>
             <tr>
-                <td class="td_lable">java版本</td>
-                <td >${JavaVersion}</td>
+                <td class="td_lable">数据版本</td>
+                <td>
+                    <#if db_version ??>
+                        ${db_version}
+                    </#if>
+                </td>
             </tr>
             <tr>
-                <td class="td_lable">JVM名称</td>
-                <td>${JavaVMName}</td>
+                <td class="td_lable">java版本</td>
+                <td >${JavaVersion}</td>
             </tr>
             <tr>
                 <td class="td_lable">公共模板路径</td>
@@ -127,7 +131,7 @@
                 <td><a data-options="readOnly:false,windowTitle:'功能模板',method:'openTemplate',treeUrl:'${history.treeUrl}',url:'code.html',callback:'callbackTemplateYes'"
                        class="template openTemplate-a" href="javascript:void(0);">${history.COMMON_TEMPLATE}</a>
                 </td>
-                <td><a class="template" href="#">E:\电影网站模板\FrontMusik\FrontMusik-Admin\src\main\java\tech\yobbo</a></td>
+                <td><a class="template" href="#">${history.BASE_PATH}</a></td>
                 <td><#if history.REMARK ??>${history.REMARK}</#if></td>
             </tr>
         </#list>

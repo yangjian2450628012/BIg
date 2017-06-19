@@ -70,7 +70,8 @@ public class EngineDataManagerFacade {
         dataMap.put("package_name",params.get("package_name"));
         dataMap.put("dataSource", EngineDataService.getInstance().getDataSource_className());
         dataMap.put("Drivers", params.get("dataSource"));
-        dataMap.put("JavaVMName", System.getProperty("java.vm.name"));
+//        dataMap.put("JavaVMName", System.getProperty("java.vm.name"));
+        dataMap.put("db_version",EngineDataService.getInstance().getDb_version());
         dataMap.put("JavaVersion", System.getProperty("java.version"));
         dataMap.put("StartTime", EngineDataService.getInstance().getStartTime()!=null ? EngineDataService.getInstance().getStartTime() : new Date());
         if(EngineDataService.getInstance().getDataSource() != null){

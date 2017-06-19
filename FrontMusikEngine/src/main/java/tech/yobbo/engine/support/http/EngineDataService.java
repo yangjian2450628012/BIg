@@ -29,6 +29,7 @@ public class EngineDataService extends EngineDataServiceHelp {
     private String dataSource_className                             = null;
     private Date startTime											= null;
     private String db_type                                          = null;
+    private String db_version                                       = null;
     private String jar_path                                         = null;
     private static EngineDataManagerFacade engineDataManagerFacade  = EngineDataManagerFacade.getInstance(); //获取具体数据操作类
 
@@ -53,12 +54,16 @@ public class EngineDataService extends EngineDataServiceHelp {
         JdbcUtils jdbcUtils = JdbcUtils.getInstance();
         try {
             jdbcUtils.getConnection(this.dataSource);
-            String sql_version = "select version() from dual";
+            String mysql_version = "select CONCAT('mysql_',version()) as version from dual";
             String oracle_version = "select * from v$version";
-            if(jdbcUtils.getDataBySql(oracle_version).size() > 0){
+            Object d_oracle = jdbcUtils.getOneData(oracle_version);
+            Object d_mysql = jdbcUtils.getOneData(mysql_version);
+            if(d_oracle != null){
                 db_type = "oracle";
-            }else if(jdbcUtils.getDataBySql(sql_version).size() > 0){
+                db_version = d_oracle.toString();
+            }else if(d_mysql != null){
                 db_type = "mysql";
+                db_version = d_mysql.toString();
             }
             if (db_type != null) {
                 JarFile jarFile = new JarFile(jar_path);
@@ -187,5 +192,8 @@ public class EngineDataService extends EngineDataServiceHelp {
 
     public String getJar_path() {
         return jar_path;
+    }
+    public String getDb_version() {
+        return db_version;
     }
 }

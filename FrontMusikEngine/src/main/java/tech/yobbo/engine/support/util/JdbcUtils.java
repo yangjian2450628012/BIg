@@ -156,6 +156,22 @@ public class JdbcUtils {
         return resultSet;
     }
 
+    //获取一个字段值
+    public Object getOneData(String sql,Object ... params) throws Exception {
+        if(null == conn) throw new Exception("没有可用的连接");
+        try{
+            resultSet = queryData(sql, params);
+            while(resultSet.next()){
+                return resultSet.getObject(1);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            this.closeStatme();
+        }
+        return null;
+    }
+
     // 通过sql查询数据
     public List getDataBySql(String sql,Object... params) throws Exception {
         if (null == conn) {
