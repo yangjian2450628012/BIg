@@ -1,9 +1,9 @@
 /* engine-v1.0.0 MIT License By http://www.yobbo.tech */
 var engine = layui.use(['layer','tree'],function(){
-	engine.jquery('.openTemplate-a').on('click',function(){
+	engine.jquery('.openTemplate-a,.openJavaBase-a').on('click',function(){
 		var othis = engine.jquery(this),options = othis.data();
 		if(typeof options.options == "string"){
-			var _v = "{"+options.options+"}",options = eval('('+ _v +')');
+			var v = "{"+options.options+"}",options = eval('('+ v +')');
 		}
 		engine.commonMethod[options.method] ? engine.commonMethod[options.method].call(this,options) : null;
 	});
@@ -71,31 +71,15 @@ var engine = layui.use(['layer','tree'],function(){
                         }
                     });
                 });
-				/* build template left tree*/
-				function getTree(options){
-					if(!options.treeUrl) return;
-					var clazz = this;
-					engine.jquery.getJSON(options.treeUrl,function(r){
-						if(r.ResultCode !=1 )return;
-						var ifream = engine.jquery(clazz).find('.layui-layer-content iframe');
-						var ifreamId = ifream.attr("id");
-						ifream.css({width:'83%'});
-						engine.jquery(clazz).find('.layui-layer-content')
-						.prepend('<div style="display: inline-block;width: 15%;padding: 10px;overflow: auto;float: left;"><ul id="freemarker_ul"></ul></div>');
-						engine.tree({
-                            elem: '#freemarker_ul'
-                            //, target: '_blank'
-                            , skin: 'templateTree'
-                            , click: function (item) {
-                            	if(item.children == undefined && typeof item.params == "string"){
-                            		var params = item.params;
-                            		console.log(ifream);
-                            	}
-                            }
-                            , nodes: JSON.parse(r.Content)
-                        });
-					});
-				}
 			}
+			,openJavaBase : function (options) {
+                var treeDatas,contentUrl;
+                engine.jquery.getJSON(options.treeUrl,function (r) {
+                    if(r.ResultCode !=1 )return;
+                    console.log(r.Content);
+
+                });
+			    console.log(options);
+            }
 		}
 }();

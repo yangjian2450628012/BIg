@@ -8,8 +8,8 @@ import tech.yobbo.engine.support.util.JdbcUtils;
 import tech.yobbo.engine.support.util.Utils;
 import tech.yobbo.engine.support.util.VERSION;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.URLDecoder;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.jar.JarEntry;
@@ -108,7 +108,6 @@ public class EngineDataManagerFacade {
             StringBuilder _data = new StringBuilder();
             _data.append("{\"tree\":").append(JSONUtils.toJSONString(list))
                     .append(",\"firstTemplate\":\"").append(firstTemplate)
-                    //.append("\",\"jar_path\":\"").append(jar_path)
                     .append("\",\"prefix\":\"").append(prefix)
                     .append("\"}");
             return _data.toString();
@@ -152,6 +151,47 @@ public class EngineDataManagerFacade {
     }
 
     /**
+     * 获取java代码中的树形菜单结构
+     * 需要参数：
+     * 1) path --> E:/电影网站模板/FrontMusik/FrontMusikEngine/src/main/java
+     * @param parameters
+     * @return
+     */
+    public String getJavaBaseTree(Map<String, String> parameters) {
+        String path = parameters.get("path");
+        try {
+            path = URLDecoder.decode(path,"utf-8");
+        } catch (UnsupportedEncodingException e) {}
+        if(!parameters.containsKey("path") || path == null) return null;
+
+        File file = new File(path);
+        if(!file.exists()) return null;
+
+        FileFilter fileFilter = new FileFilter() {
+            public boolean accept(File file) {
+                if(file.getName().matches("tech|yobbo|index|web|service|dao|pojo|([A-Za-z]+.java)")){
+                    return true;
+                }
+                return false;
+            }
+        };
+        List<String> files = new ArrayList<String>();
+        EngineDataManagerFacade.getInstance().getDirList(file,fileFilter,files);
+        for(int i=0;i<files.size();i++){
+            if(files.get(i).startsWith(path)){
+                System.out.println(files.get(i).replaceAll(path,""));
+            }
+        }
+        System.out.println(files.size());
+        return null;
+    }
+
+    private static List<Map<String,Object>> recursionJavaBaseDirectory(){
+
+        return null;
+    }
+
+    /**
      *  获取首页列表
      */
     public List getIndexList() {
@@ -162,8 +202,10 @@ public class EngineDataManagerFacade {
             for(int i=0;i<data.size();i++){
                 Map<String,Object> map = data.get(i);
                 String common_template = map.get("COMMON_TEMPLATE").toString();
+                String java_base = map.get("BASE_PATH").toString();
                 map.put("COMMON_TEMPLATE",EngineDataService.getInstance().getJar_path()+"/"+common_template);
                 map.put("treeUrl","tree.json?prefix="+common_template);
+                map.put("treeUrl_javaBase","treeJavaBase.json?path="+java_base);
             }
             return data;
         } catch (Exception e) {
@@ -179,6 +221,33 @@ public class EngineDataManagerFacade {
     }
 
     public static void main(String[] args) {
-
+        String path = "E:/电影网站模板/FrontMusik/FrontMusikEngine/src/main/java";
+        File file = new File(path+"/");
+        FileFilter fileFilter = new FileFilter() {
+            public boolean accept(File file) {
+                if(file.getName().matches("tech|yobbo|index|web|service|dao|pojo|([A-Za-z]+.java)")){
+                    return true;
+                }
+                return false;
+            }
+        };
+        List<String> files = new ArrayList<String>();
+        EngineDataManagerFacade.getInstance().getDirList(file,fileFilter,files);
+        for(int i=0;i<files.size();i++){
+            if(files.get(i).startsWith(path)){
+                System.out.println(files.get(i).replaceAll(path,""));
+            }
+        }
 	}
+
+	// 递归获取目录和文件
+	private void getDirList(File file,FileFilter fileFilter,List<String> files){
+        File[] f = file.listFiles(fileFilter);
+        if(f != null && f.length >= 1){
+            for(int i=0;i<f.length;i++){
+                files.add(f[i].getPath().replaceAll("\\\\","/"));
+                this.getDirList(f[i],fileFilter,files);
+            }
+        }
+    }
 }

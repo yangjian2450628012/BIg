@@ -8,7 +8,9 @@ import javax.servlet.ServletContext;
 import javax.sql.DataSource;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
+import java.net.URLDecoder;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -143,6 +145,8 @@ public class EngineDataService extends EngineDataServiceHelp {
             return returnJSONResult(RESULT_CODE_SUCCESS, engineDataManagerFacade.getIndexList());
         } else if(url.startsWith("/tree.json")){
             return returnJSONResult(RESULT_CODE_SUCCESS,engineDataManagerFacade.getTemplateTree(parameters));
+        } else if(url.startsWith("/treeJavaBase.json")){
+            return  returnJSONResult(RESULT_CODE_SUCCESS,engineDataManagerFacade.getJavaBaseTree(parameters));
         }
         return returnJSONResult(RESULT_CODE_ERROR, "Do not support this request, please contact with administrator.");
     }

@@ -131,7 +131,8 @@
                 <td><a data-options="readOnly:false,windowTitle:'功能模板',method:'openTemplate',treeUrl:'${history.treeUrl}',url:'code.html',callback:'callbackTemplateYes'"
                        class="template openTemplate-a" href="javascript:void(0);">${history.COMMON_TEMPLATE}</a>
                 </td>
-                <td><a class="template" href="#">${history.BASE_PATH}</a></td>
+                <td><a data-options="windowTitle:'代码详情',method:'openJavaBase',treeUrl:'${history.treeUrl_javaBase}',url:'code.html',callback:'callbackTemplateYes'"
+                       class="template openJavaBase-a" href="javascript:void(0);">${history.BASE_PATH}</a></td>
                 <td><#if history.REMARK ??>${history.REMARK}</#if></td>
             </tr>
         </#list>
