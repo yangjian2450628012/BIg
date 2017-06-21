@@ -34,7 +34,6 @@ var engine = layui.use(['layer','tree'],function(){
                         , content: contentUrl
                         , btn: ['确认生成', '全部关闭']
                         , yes: function(){
-                            // TODO 获取IFREAM中的内容，回调
                             var callback = options['callback'];
                             callback ? engine[callback].call(this,options) : null;
                             alert("确认生成");

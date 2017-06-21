@@ -237,4 +237,16 @@ public class StringUtils {
         // found digit it to make sure weird stuff like '.' and '1E-' doesn't pass
         return !allowSigns && foundDigit;
     }
+
+    public static boolean isNotEmpty(String schema) {
+        return false;
+    }
+
+    public static String getCamelCaseString(String columnName, boolean b) {
+        return null;
+    }
+
+    public static String toUnicodeString(String remarks) {
+        return  null;
+    }
 }

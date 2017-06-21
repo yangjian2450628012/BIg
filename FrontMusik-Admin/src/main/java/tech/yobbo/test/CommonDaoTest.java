@@ -7,7 +7,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import tech.yobbo.bean.Order;
 import tech.yobbo.dao.BaseDao;
 
-import javax.xml.transform.stream.StreamSource;
 import java.util.List;
 import java.util.Map;
 

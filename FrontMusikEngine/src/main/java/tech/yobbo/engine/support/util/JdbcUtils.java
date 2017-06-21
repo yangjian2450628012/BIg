@@ -27,13 +27,14 @@ public class JdbcUtils {
     }
 
     // 获取连接
-    public void getConnection(DataSource dataSource) throws Exception {
+    public Connection getConnection(DataSource dataSource) throws Exception {
         if (dataSource == null) throw  new Exception("没有连接池");
         try {
             conn = dataSource.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return conn;
     }
 
     // 关闭数据库
